@@ -1,0 +1,79 @@
+main {
+  margin-bottom: 24px; }
+
+button {
+  border: none;
+  border-radius: 2.5px;
+  padding: 4px 8px; }
+
+table {
+  border: 1px solid #d6d6d6;
+  width: 100%; }
+  table th, table td {
+    border: 1px solid #d6d6d6;
+    padding: 4px 8px; }
+
+h1, h2, h3, h4, h5 {
+  line-height: 1.5em;
+  margin-top: .5em;
+  margin-bottom: .25em; }
+
+button.primary {
+  background-color: #49A669;
+  color: #FFFFFF;
+  transition: all 200ms ease; }
+
+button.primary:hover, button.primary:active {
+  background-color: #2B633F; }
+
+button.default {
+  background-color: #FBFBFB;
+  border: 1px solid #d6d6d6; }
+
+button.default:hover, button.default:active {
+  background-color: #d6d6d6; }
+
+.navigation-container, .search-container {
+  border-bottom: 1px solid #d6d6d6;
+  padding: 16px; }
+  .navigation-container:after, .search-container:after {
+    content: '';
+    display: table;
+    clear: both; }
+
+h1, h2, h3, h4, h5 {
+  color: #2F736C; }
+
+.create-dropdown {
+  float: right;
+  position: relative;
+  z-index: 2; }
+  .create-dropdown .create-button .icon-dropdown {
+    padding: 4px;
+    position: relative;
+    right: -4px;
+    top: -3px; }
+  .create-dropdown .create-items {
+    background-color: #FBFBFB;
+    border: 1px solid #d6d6d6;
+    display: none;
+    position: absolute;
+    width: 100%; }
+    .create-dropdown .create-items a {
+      border-top: 1px solid #d6d6d6;
+      color: #49A669;
+      display: block;
+      padding: 4px 8px;
+      transition: all 200ms ease; }
+    .create-dropdown .create-items a:first-child {
+      border-top: none; }
+    .create-dropdown .create-items a:hover {
+      background-color: #49A669;
+      color: #FFFFFF;
+      text-decoration: none; }
+  .create-dropdown:hover .create-items {
+    display: block; }
+
+.ticket-search, .client-search {
+  float: left;
+  margin-right: 24px; }

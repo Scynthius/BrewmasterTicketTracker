@@ -1,0 +1,52 @@
+.create-dropdown {
+    float: right;
+    position: relative;
+    z-index: 2;
+
+    .create-button {
+        .icon-dropdown {
+            padding: 4px;
+            position: relative;
+            right: -4px;
+            top: -3px;
+        }
+    }
+
+    .create-items {
+        background-color: $light-gray;
+        border: 1px solid $gray;
+        display: none;
+        position: absolute;
+        width: 100%;
+
+        a {
+            border-top: 1px solid $gray;
+            color: $green;
+            display: block;
+            padding: 4px 8px;
+            
+            @include transition(all);
+        }
+
+        a:first-child {
+            border-top: none;
+        }
+
+        a:hover {
+            background-color: $green;
+            color: $white;
+            text-decoration: none;
+        }
+    }
+
+    &:hover {
+        .create-items {
+            display: block;
+        }
+    }
+}
+
+.ticket-search, .client-search {
+    float: left;
+    margin-right: 24px;
+}

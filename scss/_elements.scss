@@ -1,0 +1,27 @@
+main {
+    margin-bottom: 24px;
+}
+
+button {
+    border: none;
+    border-radius: 2.5px;
+    padding: 4px 8px;
+}
+
+table {
+    border: 1px solid $gray;
+    width: 100%;
+
+    th, td {
+        border: 1px solid $gray;
+        padding: 4px 8px;
+    }
+}
+
+// Headings
+
+h1, h2, h3, h4, h5 {
+    line-height: 1.5em;
+    margin-top: .5em;
+    margin-bottom: .25em;
+}
