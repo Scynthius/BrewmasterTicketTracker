@@ -1,7 +1,22 @@
+main {
+  margin-bottom: 24px; }
+
 button {
   border: none;
   border-radius: 2.5px;
   padding: 4px 8px; }
+
+table {
+  border: 1px solid #d6d6d6;
+  width: 100%; }
+  table th, table td {
+    border: 1px solid #d6d6d6;
+    padding: 4px 8px; }
+
+h1, h2, h3, h4, h5 {
+  line-height: 1.5em;
+  margin-top: .5em;
+  margin-bottom: .25em; }
 
 button.primary {
   background-color: #49A669;
@@ -11,6 +26,13 @@ button.primary {
 button.primary:hover, button.primary:active {
   background-color: #2B633F; }
 
+button.default {
+  background-color: #FBFBFB;
+  border: 1px solid #d6d6d6; }
+
+button.default:hover, button.default:active {
+  background-color: #d6d6d6; }
+
 .navigation-container, .search-container {
   border-bottom: 1px solid #d6d6d6;
   padding: 16px; }
@@ -18,6 +40,9 @@ button.primary:hover, button.primary:active {
     content: '';
     display: table;
     clear: both; }
+
+h1, h2, h3, h4, h5 {
+  color: #2F736C; }
 
 .create-dropdown {
   float: right;
