@@ -12,20 +12,33 @@
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
-    <link rel="stylesheet" href="/style.css">
+    <link rel="stylesheet" href="/styles/style.css">
 
     <title>Brewmasters Ticket Tracker</title>
 </head>
 
 <body>
   <header>
-    <a href="/">Brewmasters Ticket Tracker</a>
-    <div class="create-dropdown">
-      <button class="create-new">Create New <span class="icon-dropdown"><i class="fas fa-sort-down"></i></span></button>
-      <div class="create-items">
-        <a href="javascript:void(0)">Tickets</a>
-        <a href="/tickets">Employees</a>
-        <a href="/tickets">Companies</a>
+    <div class="navigation-container">
+      <a href="/">Brewmasters Ticket Tracker</a>
+      <div class="create-dropdown">
+        <button class="create-button primary">Create New <span class="icon-dropdown"><i class="fas fa-sort-down"></i></span></button>
+        <div class="create-items">
+          <a href="javascript:void(0)">Ticket</a>
+          <a href="javascript:void(0)">Client</a>
+          <a href="javascript:void(0)">Employee</a>
+          <a href="javascript:void(0)">Category</a>
+        </div>
+      </div>
+    </div>
+    <div class="search-container">
+      <div class="ticket-search">
+        <input type="text" placeholder="Search for Ticket #">
+        <button class="ticket-search__button">Search</button>
+      </div>
+      <div class="client-search">
+        <input type="text" placeholder="Search Clients">
+        <button class="client-search__button">Search</button>
       </div>
     </div>
   </header>

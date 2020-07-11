@@ -18,7 +18,7 @@ app.set('port', process.argv[2]);
 
 
 app.get('/',function(req,res){
-  res.render('landing');
+  res.render('dashboard');
 });
 
 app.get('/sign_in',function(req,res){

@@ -1,0 +1,11 @@
+@mixin transition($property) {
+    transition: $property 200ms ease;
+}
+
+@mixin clearfix() {
+    &:after {
+        content: '';
+        display: table;
+        clear: both;
+    }
+}
