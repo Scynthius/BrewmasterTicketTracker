@@ -1,0 +1,52 @@
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <h2>Edit Ticket Information</h2>
+            <form>
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label for="title">Title</label>
+                        <input type="text" class="form-control" id="title" placeholder="Ticket Title">
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="category">Category</label>
+                        <select id="category" class="form-control">
+                            <option selected>Test ticket</option>
+                            <option>Order Issue</option>
+                            <option>Request for New Services</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-12">
+                        <label for="description">Description</label>
+                        <textarea class="form-control" id="description" rows="10">Add as much detailed information as possible.</textarea>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label for="clientName">Client</label>
+                        <input type="text" class="form-control" id="clientName" placeholder="John Doe Brewery">
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="status">Status</label>
+                        <select id="status" class="form-control">
+                            <option selected>Unassigned</option>
+                            <option>Assigned</option>
+                            <option>Closed</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-12">
+                        <label for="resolution">Resolution</label>
+                        <textarea class="form-control" id="resolution" rows="10">Closing remarks on how the ticket was closed.</textarea>
+                    </div>
+                </div>
+                
+                <button type="submit" class="btn btn-primary">Save Changes</button>
+                <button type="button" class="btn btn-danger">Discard Changes</button>
+            </form>
+        </div>
+    </div>
+</div>
