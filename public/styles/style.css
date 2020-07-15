@@ -18,6 +18,13 @@ h1, h2, h3, h4, h5 {
   margin-top: .5em;
   margin-bottom: .25em; }
 
+label {
+  display: block; }
+
+input, select, textarea {
+  padding: 2.5px 5px;
+  width: 100%; }
+
 button.primary {
   background-color: #49A669;
   color: #FFFFFF;
@@ -77,3 +84,5 @@ h1, h2, h3, h4, h5 {
 .ticket-search, .client-search {
   float: left;
   margin-right: 24px; }
+  .ticket-search input, .ticket-search select, .ticket-search textarea, .client-search input, .client-search select, .client-search textarea {
+    width: auto; }

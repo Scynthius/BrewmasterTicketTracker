@@ -49,4 +49,8 @@
 .ticket-search, .client-search {
     float: left;
     margin-right: 24px;
+    
+    input, select, textarea {
+        width: auto;
+    }
 }
