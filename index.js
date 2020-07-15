@@ -10,7 +10,6 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
 app.use(express.static(path.join(__dirname, '/public')));
-app.use(express.static(path.join(__dirname, '/imgs')));
 
 app.engine('handlebars', handlebars.engine);
 app.set('view engine', 'handlebars');

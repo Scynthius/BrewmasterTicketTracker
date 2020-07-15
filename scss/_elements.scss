@@ -25,3 +25,12 @@ h1, h2, h3, h4, h5 {
     margin-top: .5em;
     margin-bottom: .25em;
 }
+
+label {
+    display: block;
+}
+
+input, select, textarea {
+    padding: 2.5px 5px;
+    width: 100%;
+}
