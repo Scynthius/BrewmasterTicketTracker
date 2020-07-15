@@ -21,8 +21,8 @@ app.get('/',function(req,res){
   res.render('dashboard');
 });
 
-app.get('/sign_in',function(req,res){
-  res.render('sign_in', {layout:'login.handlebars'});
+app.get('/login',function(req,res){
+  res.render('login', {layout:'login.handlebars'});
 });
 
 app.get('/employee_details',function(req,res){
