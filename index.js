@@ -22,21 +22,33 @@ app.get('/',function(req,res){
 });
 
 app.get('/sign_in',function(req,res){
-  res.render('sign_in');
+  res.render('sign_in', {layout:'login.handlebars'});
 });
 
-/*app.get('/eagle',function(req,res){
+app.get('/employee_details',function(req,res){
+  res.render('employees');
+});
+
+app.get('/ticket_details',function(req,res){
+  res.render('tickets');
+});
+
+app.get('/client_details',function(req,res){
+  res.render('clients');
+});
+
+app.get('/businesses',function(req,res){
   var context = {};
   var tableResults = [];
-  var queryString = "SELECT * FROM ShipSpecs WHERE Model = 'Eagle'";
+  var queryString = "SELECT * FROM ShipSpecs WHERE Model = 'Sidewinder'";
   mysql.pool.query(queryString, function(err, rows, fields){
     for (var entry in rows){
       tableResults.push({'Spec': rows[entry]["Spec"], 'Value': rows[entry]["Value"]});
     }
     context.specTableResult = tableResults;
-    res.render('eagle', context);
+    res.render('sidewinder', context);
   });
-});*/
+});
 
 app.use(function(req,res){
   res.status(404);
