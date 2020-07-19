@@ -24,6 +24,7 @@ label {
 input, select, textarea {
   padding: 2.5px 5px;
   width: 100%; }
+
 button.primary {
   background-color: #49A669;
   color: #FFFFFF;
@@ -49,6 +50,13 @@ button.default:hover, button.default:active {
 
 h1, h2, h3, h4, h5 {
   color: #2F736C; }
+
+.logo {
+  color: #333333;
+  font-size: 21px; }
+  .logo:hover, .logo:active {
+    color: inherit;
+    text-decoration: none; }
 
 .create-dropdown {
   float: right;
@@ -85,3 +93,24 @@ h1, h2, h3, h4, h5 {
   margin-right: 24px; }
   .ticket-search input, .ticket-search select, .ticket-search textarea, .client-search input, .client-search select, .client-search textarea {
     width: auto; }
+
+.ticket-table {
+  table-layout: fixed; }
+  .ticket-table td {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap; }
+  .ticket-table .ticket-title, .ticket-table .ticket-description {
+    width: 350px; }
+  .ticket-table .ticket-category {
+    width: 150px; }
+  .ticket-table .ticket-status {
+    width: 150px; }
+  .ticket-table .ticket-client {
+    width: 350px; }
+  .ticket-table .ticket-employee {
+    width: 350px; }
+  .ticket-table .ticket-date {
+    width: 110px; }
+  .ticket-table .ticket-assign {
+    width: 70px; }

@@ -2,80 +2,90 @@
     <div class="row">
         <div class="col-12">
             <h2>New Tickets</h2>
-            <table>
+            <table class="ticket-table">
                 <thead>
                     <tr>
-                        <th>Title</th>
-                        <th>Description</th>
-                        <th>Category</th>
-                        <th>Status</th>
-                        <th>Client</th>
-                        <th>Submitted</th>
-                        <th></th>
+                        <th class="ticket-title">Title</th>
+                        <th class="ticket-description">Description</th>
+                        <th class="ticket-category">Category</th>
+                        <th class="ticket-status">Status</th>
+                        <th class="ticket-client">Client</th>
+                        <th class="ticket-date">Submitted</th>
+                        <th class="ticket-assign"></th>
                     </tr>
                 </thead>
                 <tbody>
+                    {{!--{{#each this.tickets.new}}--}}
                     <tr>
-                        <td>(Non-DB) Test Title</td>
-                        <td>(Non-DB) Test Description</td>
-                        <td>(Non-DB) Test Category</td>
-                        <td>(Non-DB) Test Status</td>
-                        <td>(Non-DB) Test Client</td>
+                        <td><a href="/ticket_details/{{!--{{this.TicketId}}--}}">Test Title</a></td>
+                        <td>Test Description</td>
+                        <td>Test Category</td>
+                        <td>Unassigned</td>
+                        <td><a href="/client_details/{{!--{{this.ClientId}}--}}">Test Client</a></td>
                         <td>01/01/1970</td>
                         <td>
                             <button class="default" data-toggle="modal" data-target="#assignModal">Assign</button>
                         </td>
                     </tr>
+                    {{!--{{/each}}--}}
                 </tbody>
             </table>
         </div>
     </div>
-</div>
-<div class="container-fluid">
     <div class="row">
-        <div class="col-xl-7">
+        <div class="col-12">
             <h2>Tickets In-Progress</h2>
-            <table>
+            <table class="ticket-table">
                 <thead>
                     <tr>
-                        <th>Title</th>
-                        <th>Category</th>
-                        <th>Status</th>
-                        <th>Client</th>
-                        <th>Submitted</th>
-                        <th>Last Updated</th>
+                        <th class="ticket-title">Title</th>
+                        <th class="ticket-category">Category</th>
+                        <th class="ticket-status">Status</th>
+                        <th class="ticket-client">Client</th>
+                        <th class="ticket-employee">Assigned Employees</th>
+                        <th class="ticket-date">Submitted</th>
+                        <th class="ticket-date">Last Updated</th>
                     </tr>
                 </thead>
                 <tbody>
+                    {{!--{{#each this.tickets.inprogress}}--}}
                     <tr>
-                        <td>(Non-DB) Test Title</td>
-                        <td>(Non-DB) Test Category</td>
-                        <td>(Non-DB) Test Status</td>
-                        <td>(Non-DB) Test Client</td>
+                        <td><a href="/ticket_details/{{!--{{this.TicketId}}--}}">Test Title</a></td>
+                        <td>Test Category</td>
+                        <td>Assigned</td>
+                        <td><a href="/client_details/{{!--{{this.ClientId}}--}}">Test Client</a></td>
+                        <td><a href="/employee_details/">Test Employee</a></td>
                         <td>01/01/1970</td>
                         <td>01/01/1970</td>
                     </tr>
+                    {{!-- {{/each}} --}}
                 </tbody>
             </table>
         </div>
-        <div class="col-xl-5">
+    </div>
+    <div class="row">
+        <div class="col-12">
             <h2>Closed Tickets</h2>
-            <table>
+            <table class="ticket-table">
                 <thead>
                     <tr>
-                        <th>Title</th>
-                        <th>Client</th>
-                        <th>Date Closed</th>
+                        <th class="ticket-title">Title</th>
+                        <th class="ticket-description">Description</th>
+                        <th class="ticket-client">Client</th>
+                        <th class="ticket-date">Date Closed</th>
                         <th>Resolution</th>
                     </tr>
                 </thead>
                 <tbody>
+                    {{!--{{#each this.tickets.closed}}--}}
                     <tr>
-                        <td>(Non-DB) Test Title</td>
-                        <td>(Non-DB) Test Client</td>
+                        <td><a href="/ticket_details/{{!--{{this.TicketId}}--}}">Test Title</a></td>
+                        <td>Test Description</td>
+                        <td><a href="/client_details/{{!--{{this.ClientId}}--}}">Test Client</a></td>
                         <td>01/01/1970</td>
-                        <td>(Non-DB) Test Resolution</td>
+                        <td>Test Resolution</td>
                     </tr>
+                    {{!--{{/each}}--}}
                 </tbody>
             </table>
         </div>
@@ -95,9 +105,9 @@
                 <div class="col-12">
                 <label for="assign_employee_name">Name</label>
                 <select name="assign_employee_name" id="assign_employee_name">
-                  <option value="1">Employee #1</option>
-                  <option value="2">Employee #2</option>
-                  <option value="3">Employee #3</option>
+                    {{!--{{#each this.employees}}--}}
+                    <option value="1">Employee #1</option>
+                    {{!--{{/each}}--}}
                 </select>
                 </div>
         </div>

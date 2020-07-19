@@ -1,3 +1,13 @@
+.logo {
+    color: $dark-gray;
+    font-size: 21px;
+
+    &:hover, &:active {
+        color: inherit;
+        text-decoration: none;
+    }
+}
+
 .create-dropdown {
     float: right;
     position: relative;
@@ -52,5 +62,43 @@
     
     input, select, textarea {
         width: auto;
+    }
+}
+
+.ticket-table {
+    table-layout: fixed;
+
+    td {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+    .ticket-title, .ticket-description {
+        width: 350px;
+    }
+
+    .ticket-category {
+        width: 150px;
+    }
+
+    .ticket-status {
+        width: 150px;
+    }
+
+    .ticket-client {
+        width: 350px;
+    }
+
+    .ticket-employee {
+        width: 350px;
+    }
+
+    .ticket-date {
+        width: 110px;
+    }
+
+    .ticket-assign {
+        width: 70px;
     }
 }
