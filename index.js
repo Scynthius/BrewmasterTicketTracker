@@ -21,6 +21,33 @@ app.get('/',function(req,res){
   res.render('dashboard');
 });
 
+app.post('/', function (req, res, next) {
+  var requestType = req.body.requestType;
+  var sqlPool = mysql.pool;
+  switch (requestType) {
+    case "New Category":
+      sqlPool.query('INSERT INTO Categories (`Name`, `CreatedDate`) VALUES (?, ?)',
+      [req.body.name, req.body.date], function (err, result) {
+        if (err) {
+          next(err);
+          return;
+        }
+        res.sendStatus(200);
+      });
+      break;
+    case "New Client":
+      sqlPool.query('INSERT INTO Clients (`ClientName`, `PrimaryContact`, `Email`, `Phone`) VALUES (?,?,?,?)',
+      [req.body.ClientName, req.body.PrimaryContact, req.body.Email, req.body.Phone], function (err, result) {
+        if (err) {
+          next(err);
+          return;
+        }
+        res.sendStatus(200);
+      });
+      break;
+  }
+});
+
 app.get('/login',function(req,res){
   res.render('login', {layout:'login.handlebars'});
 });
