@@ -117,7 +117,6 @@ function createFields(entity) {
             `
     }
 }*/
-
 (function () {
     var createTicketButton = document.getElementById('createTicket');
     createTicketButton.addEventListener('click', function () {

@@ -19,7 +19,7 @@
 
 <body>
   <header>
-    <div class="navigation-container">
+    <div class="navigation-container navbar-light bg-light">
       <a class="logo" href="/">
         <img src="/images/beer_glass.ico" width="30" height="30" class="d-inline-block align-top">
         Brewmasters Ticket Tracker</a>
@@ -112,6 +112,16 @@
               <div class="col-12">
                 <label for="client_name">Client Name</label>
                 <input type="text" name="client_name" id="client_name">
+              </div>
+              <div class="col-12">
+                <!-- TODO: Add functionality for multiple client types -->
+                <label for="client_type">Client Type</label>
+                <select name="client_type" id="client_type">
+                  <option value="1">Brewery</option>
+                  <option value="2">Bar</option>
+                  <option value="2">Restaurant</option>
+                  <option value="3">Distributor</option>
+                </select>
               </div>
               <div class="col-12">
                 <label for="client_contact">Primary Contact</label>
