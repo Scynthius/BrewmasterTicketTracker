@@ -26,7 +26,7 @@
       <div id="createNew" class="create-dropdown">
         <button class="create-button primary">Create New <span class="icon-dropdown"><i class="fas fa-sort-down"></i></span></button>
         <div id="newEntityList" class="create-items">
-          <a href="javascript:void(0)" data-toggle="modal" data-target="#ticketModal">Ticket</a>
+          <a id="newTicket" href="javascript:void(0)" data-toggle="modal" data-target="#ticketModal">Ticket</a>
           <a href="javascript:void(0)" data-toggle="modal" data-target="#clientModal">Client</a>
           <a href="javascript:void(0)" data-toggle="modal" data-target="#employeeModal">Employee</a>
           <a href="javascript:void(0)" data-toggle="modal" data-target="#categoryModal">Category</a>
@@ -61,6 +61,7 @@
         </div>
         <div id="entityModalBody" class="modal-body">
           <div class="row">
+            <form id="add_ticket">
               <div class="col-12">
                 <label for="ticket_title">Title</label>
                 <input type="text" name="ticket_title" id="ticket_title">
@@ -72,19 +73,20 @@
               <div class="col-12">
                 <label for="ticket_client">Client</label>
                 <select name="ticket_client" id="ticket_client">
-                  <option value="1">Sample Client #1</option>
-                  <option value="2">Sample Client #2</option>
-                  <option value="3">Sample Client #3</option>
+                  {{#each clients}}
+                    <option value="{{this.CID}}">{{this.Client}}</option>
+                  {{/each}}
                 </select>
               </div>
               <div class="col-12">
                 <label for="ticket_category">Category</label>
                 <select name="ticket_client" id="ticket_client">
-                  <option value="1">Category #1</option>
-                  <option value="2">Category #2</option>
-                  <option value="3">Category #3</option>
+                  {{#each categories}}
+                  <option value="{{this.CatID}}">{{this.Category}}</option>
+                  {{/each}}
                 </select>
               </div>
+            </form>
           </div>
         </div>
         <div class="modal-footer">

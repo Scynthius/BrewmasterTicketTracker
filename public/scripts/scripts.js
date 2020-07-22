@@ -1,4 +1,3 @@
-
 (function () {
     function createCategory() {
         var categoryName = document.getElementById('category_name');
@@ -119,16 +118,40 @@ function createFields(entity) {
     }
 }*/
 
-/*(function () {
-    function createTicket() {
-
-    }
-
+(function () {
     var createTicketButton = document.getElementById('createTicket');
-    createTicketButton.on('click', function () {
+    createTicketButton.addEventListener('click', function () {
         createTicket();
     });
-})();*/
+})();
+
+function createTicket() {
+    var ticketFormFields = document.getElementById('add_ticket').children;
+    var currentDate = getCurrentDate();
+    var data = {
+        "requestType"   : "New Ticket",
+        "Title"         : ticketFormFields[0].children[1].value,
+        "Description"   : ticketFormFields[1].children[1].value,
+        "ClientID"      : ticketFormFields[2].children[1].value,
+        "CategoryID"    : ticketFormFields[3].children[1].value,
+        "Status"        : "Unassigned",
+        "SubmitDate"    : currentDate
+    }
+
+    var request = new XMLHttpRequest();
+    request.open('POST', '/', true);
+    request.setRequestHeader('Content-Type', 'application/json');
+    request.addEventListener('load', function () {
+        if (request.status >= 200 && request.status < 400) {
+            $('#ticketModal').modal('hide');
+            resetForm(ticketFormFields);
+        } else {
+            console.log('Error');
+        }
+    });
+
+    request.send(JSON.stringify(data));
+};
 function getCurrentDate() {
     var fullDate = new Date();
     var year = String(fullDate.getFullYear());
@@ -138,4 +161,9 @@ function getCurrentDate() {
     fullDate = year + '-' + month + '-' + day;
 
     return fullDate;
+}
+function resetForm(formElement) {
+    for (var i = 0; i < formElement.length; i++) {
+        formElement[i].children[1].value = '';
+    }
 }
