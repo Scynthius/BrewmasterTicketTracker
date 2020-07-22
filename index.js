@@ -18,7 +18,62 @@ app.set('port', process.argv[2]);
 
 
 app.get('/',function(req,res){
-  res.render('dashboard');
+  var context = {};
+  var sqlPool = mysql.pool;
+
+  sqlPool.query('SELECT Clients.ClientId as CID, Clients.ClientName as Client FROM Clients', function (err, rows, fields) {
+    if (err) {
+      next(err);
+      return;
+    }
+    context.clients = rows;
+    sqlPool.query('SELECT Categories.CategoryId as CatID, Categories.Name as Category FROM Categories', function (err, rows, fields) {
+      if (err) {
+        next(err);
+        return;
+      }
+      context.categories = rows;
+      res.render('dashboard', context);
+    });
+  });
+
+});
+
+app.post('/', function (req, res, next) {
+  var requestType = req.body.requestType;
+  var sqlPool = mysql.pool;
+  switch (requestType) {
+    case "New Category":
+      sqlPool.query('INSERT INTO Categories (`Name`, `CreatedDate`) VALUES (?, ?)',
+      [req.body.name, req.body.date], function (err, result) {
+        if (err) {
+          next(err);
+          return;
+        }
+        res.sendStatus(200);
+      });
+      break;
+    case "New Client":
+      sqlPool.query('INSERT INTO Clients (`ClientName`, `PrimaryContact`, `Email`, `Phone`) VALUES (?,?,?,?)',
+      [req.body.ClientName, req.body.PrimaryContact, req.body.Email, req.body.Phone], function (err, result) {
+        if (err) {
+          next(err);
+          return;
+        }
+        res.sendStatus(200);
+      });
+      break;
+    case "New Ticket":
+      sqlPool.query('INSERT INTO Tickets (`Description`, `ClientID`, `CategoryID`, `Status`, `SubmitDate`) VALUES (?,?,?,?,?)',
+      [req.body.Description, req.body.ClientID, req.body.CategoryID, req.body.Status, req.body.SubmitDate], function (err, result) {
+        if (err) {
+          next(err);
+          return;
+        }
+        res.sendStatus(200);
+      });
+      break;
+  }
 });
 
 app.post('/', function (req, res, next) {
