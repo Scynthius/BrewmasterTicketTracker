@@ -5,6 +5,10 @@ var path = require('path');
 var app = express();
 var handlebars = require('express-handlebars').create({defaultLayout:'main'});
 var bodyParser = require('body-parser');
+const { resolve } = require('path');
+
+const SELECT_CLIENTS = 'SELECT Clients.ClientId, Clients.ClientName as Client FROM Clients';
+const SELECT_CATEGORIES = 'SELECT Categories.CategoryId, Categories.Name as Category FROM Categories';
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
@@ -21,23 +25,29 @@ app.get('/',function(req,res){
   var context = {};
   var sqlPool = mysql.pool;
 
-  sqlPool.query('SELECT Clients.ClientId as CID, Clients.ClientName as Client FROM Clients', function (err, rows, fields) {
-    if (err) {
-      next(err);
-      return;
-    }
+  getQuery(sqlPool, SELECT_CLIENTS)
+  .then((rows) => { 
     context.clients = rows;
-    sqlPool.query('SELECT Categories.CategoryId as CatID, Categories.Name as Category FROM Categories', function (err, rows, fields) {
-      if (err) {
-        next(err);
-        return;
-      }
-      context.categories = rows;
-      res.render('dashboard', context);
-    });
+    return getQuery(sqlPool, SELECT_CATEGORIES);
+  })
+  .then((rows) => {
+    context.categories = rows;
+    console.log(context);
+    res.render('dashboard', context);
   });
-
 });
+
+function getQuery(pool, query) {
+  return new Promise((resolve, reject) => {
+    pool.query(query, function (err, rows, fields) {
+      if (err) {
+        return reject(err);
+      }
+      resolve(rows);
+    })
+  })
+  
+}
 
 app.post('/', function (req, res, next) {
   var requestType = req.body.requestType;
