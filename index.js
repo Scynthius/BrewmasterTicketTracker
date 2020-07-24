@@ -9,6 +9,9 @@ const { resolve } = require('path');
 
 const SELECT_CLIENTS = 'SELECT Clients.ClientId, Clients.ClientName as Client FROM Clients';
 const SELECT_CATEGORIES = 'SELECT Categories.CategoryId, Categories.Name as Category FROM Categories';
+const SELECT_UNASSIGNED = 'SELECT Tickets.Title, Tickets.Description, Tickets.Status, Tickets.ClientID, Clients.ClientName, Categories.Name as Category, DATE_FORMAT(Tickets.SubmitDate, "%m/%d/%Y") AS Submitted FROM Tickets JOIN Clients as Clients ON Tickets.ClientID = Clients.ClientID JOIN Categories as Categories ON Tickets.CategoryID = Categories.CategoryID WHERE Tickets.Status = "Unassigned"';
+const SELECT_ASSIGNED = 'SELECT Tickets.TicketID, Tickets.Title, Tickets.Description, Categories.Name as Category, Tickets.Status, Clients.ClientId, Clients.ClientName, GROUP_CONCAT(CONCAT(Employees.EmployeeID, ":", Employees.FirstName, " ", Employees.LastName) SEPARATOR ",") AS AssignedEmployees, DATE_FORMAT(Tickets.SubmitDate, "%m/%d/%Y") AS Submitted, DATE_FORMAT(Tickets.ModifiedDate, "%m/%d/%Y") AS LastUpdated FROM Tickets JOIN Assignments ON Tickets.TicketID = Assignments.TicketID JOIN Employees ON Assignments.EmployeeID = Employees.EmployeeID JOIN Categories ON Tickets.CategoryID = Categories.CategoryID JOIN Clients ON Tickets.ClientID = Clients.ClientID WHERE Tickets.Status = "Assigned" GROUP BY Tickets.TicketID';
+const SELECT_CLOSED = 'SELECT Tickets.Title, Tickets.Description, Categories.Name as Category, Clients.ClientID, Clients.ClientName, DATE_FORMAT(Tickets.CloseDate, "%m/%d/%Y") AS Closed, Tickets.Resolution FROM Tickets JOIN Categories ON Tickets.CategoryID = Categories.CategoryID JOIN Clients ON Tickets.ClientID = Clients.ClientID WHERE Tickets.Status = "Closed"'
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
@@ -23,23 +26,45 @@ app.set('port', process.argv[2]);
 
 app.get('/',function(req,res){
   var context = {};
-  var sqlPool = mysql.pool;
 
-  getQuery(sqlPool, SELECT_CLIENTS)
+  getQuery(SELECT_CLIENTS)
   .then((rows) => { 
     context.clients = rows;
-    return getQuery(sqlPool, SELECT_CATEGORIES);
+    return getQuery(SELECT_CATEGORIES);
   })
   .then((rows) => {
     context.categories = rows;
-    console.log(context);
+    return getQuery(SELECT_UNASSIGNED);
+  })
+  .then((rows) => {
+    context.unassigned = rows;
+    return getQuery(SELECT_ASSIGNED);
+  })
+  .then((rows) => {
+    context.assigned = rows;
+    for (var i = 0; i < context.assigned.length; i++) {
+      var assigned = context.assigned[i].AssignedEmployees;
+      var result = assigned.split(/,|:/);
+      var employees = [];
+      for (var j = 0; j < result.length; j += 2) {
+        employees.push({
+          "id" : result[j],
+          "name" : result[j+1]
+        });
+      }
+      context.assigned[i].AssignedEmployees = employees;
+    }
+    return getQuery(SELECT_CLOSED);
+  })
+  .then((rows) => {
+    context.closed = rows;
     res.render('dashboard', context);
   });
 });
 
-function getQuery(pool, query) {
+function getQuery(query) {
   return new Promise((resolve, reject) => {
-    pool.query(query, function (err, rows, fields) {
+    mysql.pool.query(query, function (err, rows, fields) {
       if (err) {
         return reject(err);
       }

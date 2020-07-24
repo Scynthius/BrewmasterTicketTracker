@@ -1,39 +1,48 @@
 // Buttons
 
 button {
+    color: $dark-gray;
+
     &.primary {
-        background-color: $green;
-        color: $white;
+        background: verticalGradient(tint($gold, 40%), $gold);
+        border: 1px solid shade($gold, 10%);
 
         @include transition(all);
     }
 
     &.primary:hover, &.primary:active {
-        background-color: $dark-green;
+        background: verticalGradient($gold, $gold);
     }
 
     &.default {
-        background-color: $light-gray;
-        border: 1px solid $gray;
+        background: verticalGradient($white, $light-gray);
+        border: 1px solid shade($light-gray, 10%);
     }
 
     &.default:hover, &.default:active {
-        background-color: $gray;
+        background: verticalGradient($light-gray, $light-gray);
+    }
+
+    &.text {
+        background-color: transparent;
+        font-weight: bold;
     }
 }
 
 // Containers
 
 .navigation-container, .search-container {
-    border-bottom: 1px solid $gray;
     padding: 16px;
-
     @include clearfix;
+}
+
+.navigation-container {
+    background-color: $light-gray;
 }
 
 // Headings
 
 h1, h2, h3, h4, h5 {
-    color: $teal;
+    color: $orange;
 }
 
