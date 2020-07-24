@@ -9,3 +9,15 @@
         clear: both;
     }
 }
+
+@function tint($color, $percentage) {
+    @return mix(white, $color, $percentage);
+}
+
+@function shade($color, $percentage) {
+    @return mix(black, $color, $percentage);
+}
+
+@function verticalGradient($start, $end) {
+    @return linear-gradient($start, $end);
+}

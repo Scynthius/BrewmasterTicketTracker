@@ -1,3 +1,4 @@
+
 (function () {
     function createCategory() {
         var categoryName = document.getElementById('category_name');
@@ -117,6 +118,7 @@ function createFields(entity) {
             `
     }
 }*/
+
 (function () {
     var createTicketButton = document.getElementById('createTicket');
     createTicketButton.addEventListener('click', function () {
@@ -151,6 +153,7 @@ function createTicket() {
 
     request.send(JSON.stringify(data));
 };
+
 function getCurrentDate() {
     var fullDate = new Date();
     var year = String(fullDate.getFullYear());
@@ -165,4 +168,19 @@ function resetForm(formElement) {
     for (var i = 0; i < formElement.length; i++) {
         formElement[i].children[1].value = '';
     }
+}
+(function () {
+    var ticketDetailButtons = document.getElementsByClassName('ticket-show-details');
+
+    for (var i = 0; i < ticketDetailButtons.length; i++) {
+        ticketDetailButtons[i].addEventListener('click', function () {
+            showDetails(this);
+        })
+    }
+})();
+
+function showDetails(elem) {
+    var ticketDetails = elem.closest('.row').nextElementSibling;
+    elem.classList.toggle('active');
+    ticketDetails.classList.toggle('shown');
 }
