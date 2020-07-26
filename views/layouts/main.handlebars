@@ -19,12 +19,12 @@
 
 <body>
   <header>
-    <div class="navigation-container">
+    <div class="navigation-container navbar-light bg-light">
       <a class="logo" href="/">
         <img src="/images/beer_glass.ico" width="30" height="30" class="d-inline-block align-top">
         Brewmasters Ticket Tracker</a>
       <div id="createNew" class="create-dropdown">
-        <button class="create-button primary">Create New<span class="icon-dropdown"><i class="fas fa-sort-down"></i></span></button>
+        <button class="create-button primary">Create New <span class="icon-dropdown"><i class="fas fa-sort-down"></i></span></button>
         <div id="newEntityList" class="create-items">
           <a id="newTicket" href="javascript:void(0)" data-toggle="modal" data-target="#ticketModal">Ticket</a>
           <a href="javascript:void(0)" data-toggle="modal" data-target="#clientModal">Client</a>
@@ -80,7 +80,7 @@
               </div>
               <div class="col-12">
                 <label for="ticket_category">Category</label>
-                <select name="ticket_category" id="ticket_category">
+                <select name="ticket_client" id="ticket_client">
                   {{#each categories}}
                   <option value="{{this.CatID}}">{{this.Category}}</option>
                   {{/each}}

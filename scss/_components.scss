@@ -1,8 +1,6 @@
 .logo {
     color: $dark-gray;
     font-size: 21px;
-    font-weight: bold;
-    text-decoration: none;
 
     &:hover, &:active {
         color: inherit;
@@ -17,7 +15,7 @@
 
     .create-button {
         .icon-dropdown {
-            padding: 0 4px;
+            padding: 4px;
             position: relative;
             right: -4px;
             top: -3px;
@@ -25,15 +23,15 @@
     }
 
     .create-items {
-        background-color: $white;
-        border: 1px solid $light-gray;
+        background-color: $light-gray;
+        border: 1px solid $gray;
         display: none;
         position: absolute;
         width: 100%;
 
         a {
-            border-top: 1px solid $light-gray;
-            color: $dark-gray;
+            border-top: 1px solid $gray;
+            color: $green;
             display: block;
             padding: 4px 8px;
             
@@ -45,7 +43,8 @@
         }
 
         a:hover {
-            background-color: shade($light-gray, 0.5%);
+            background-color: $green;
+            color: $white;
             text-decoration: none;
         }
     }
@@ -66,47 +65,40 @@
     }
 }
 
-.ticket {
-    border: 1px solid $light-gray;
-    margin-bottom: 8px;
-    padding: 8px;
-    width: 100%;
+.ticket-table {
+    table-layout: fixed;
 
-    .ticket-show-details {
-        position: relative;
-        height: 100%;
-        width: 100%;
-
-        &::before {
-            content: '+';
-            position: absolute;
-            left: 25%;
-            top: 25%;
-        }
-
-        &.active::before {
-            content: '−';
-        }
+    td {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
     }
 
-    .ticket-title {
-        display: block;
+    .ticket-title, .ticket-description {
+        width: 350px;
     }
 
     .ticket-category {
-        font-size: 0.75em;
-        line-height: 1em;
+        width: 150px;
     }
 
-    .ticket-submitted {
-        font-size: 0.75em;
+    .ticket-status {
+        width: 150px;
     }
 
-    .ticket-details {
-        display: none;
+    .ticket-client {
+        width: 350px;
     }
 
-    .ticket-details.shown {
-        display: block;
+    .ticket-employee {
+        width: 350px;
+    }
+
+    .ticket-date {
+        width: 110px;
+    }
+
+    .ticket-assign {
+        width: 70px;
     }
 }

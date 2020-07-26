@@ -2,13 +2,6 @@ main {
     margin-bottom: 24px;
 }
 
-footer {
-    position: fixed;
-    left: 0;
-    bottom: 0;
-    width: 100%;
-}
-
 button {
     border: none;
     border-radius: 2.5px;
@@ -31,16 +24,6 @@ h1, h2, h3, h4, h5 {
     line-height: 1.5em;
     margin-top: .5em;
     margin-bottom: .25em;
-}
-
-a {
-    color: $orange;
-    text-decoration: underline;
-    @include transition(all);
-
-    &:hover {
-        color: $amber;
-    }
 }
 
 form {

@@ -1,117 +1,91 @@
 <div class="container-fluid">
     <div class="row">
-        <div class="col-4">
+        <div class="col-12">
             <h2>New Tickets</h2>
-            {{#each unassigned}}
-            <div class="ticket">
-                <div class="row">
-                    <div class="col-1">
-                        <button class="ticket-show-details text"></button>
-                    </div>
-                    <div class="col-9">
-                        <a class="ticket-title" href="/ticket_details/{{this.TicketId}}">{{this.Title}}</a>
-                        <a class="ticket-category" href="/category/{{this.CategoryID}}">{{this.Category}}</a>
-                        &bull;
-                        <span class="ticket-submitted">Submitted: {{this.Submitted}}</span>
-                    </div>
-                    <div class="col-2"><button class="default" data-toggle="modal" data-target="#assignModal">Assign</button></div>
-                </div>
-                <div class="ticket-details">
-                    <div class="row">
-                        <div class="col-12">
-                            <h5>Client</h5>
-                            <p><a href="/client_details/{{this.ClientId}}">{{this.ClientName}}</a></p>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-12">
-                            <h5>Problem Description:</h5>
-                            <p>{{this.Description}}</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            {{/each}}
+            <table class="ticket-table">
+                <thead>
+                    <tr>
+                        <th class="ticket-title">Title</th>
+                        <th class="ticket-description">Description</th>
+                        <th class="ticket-category">Category</th>
+                        <th class="ticket-client">Client</th>
+                        <th class="ticket-date">Submitted</th>
+                        <th class="ticket-assign"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {{!--{{#each this.tickets.new}}--}}
+                    <tr>
+                        <td><a href="/ticket_details/{{!--{{this.TicketId}}--}}">Test Title</a></td>
+                        <td>Test Description</td>
+                        <td>Test Category</td>
+                        <td><a href="/client_details/{{!--{{this.ClientId}}--}}">Test Client</a></td>
+                        <td>01/01/1970</td>
+                        <td>
+                            <button class="default" data-toggle="modal" data-target="#assignModal">Assign</button>
+                        </td>
+                    </tr>
+                    {{!--{{/each}}--}}
+                </tbody>
+            </table>
         </div>
-        <div class="col-4">
-            <h2>Assigned Tickets</h2>
-            {{#each assigned}}
-            <div class="ticket">
-                <div class="row">
-                    <div class="col-1">
-                        <button class="ticket-show-details text"></button>
-                    </div>
-                    <div class="col-11">
-                        <a class="ticket-title" href="/ticket_details/{{this.TicketId}}">{{this.Title}}</a>
-                        <a class="ticket-category" href="/category/{{this.CategoryID}}">{{this.Category}}</a>
-                        &bull;
-                        <span class="ticket-submitted">Submitted: {{this.Submitted}}</span>
-                        &bull;
-                        <span class="ticket-submitted">Last Updated: {{this.LastUpdated}}</span>
-                    </div>
-                </div>
-                <div class="ticket-details">
-                    <div class="row">
-                        <div class="col-12">
-                            <h5>Client</h5>
-                            <p><a href="/client_details/{{this.ClientId}}">{{this.ClientName}}</a></p>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-12">
-                            <h5>Problem Description:</h5>
-                            <p>{{this.Description}}</p>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-12">
-                            <h5>Assigned Employee(s):</h5>
-                            {{#each this.AssignedEmployees}}
-                            <a href="/employee_details/{{this.id}}">{{this.name}}</a>
-                            {{/each}}
-                        </div>
-                    </div>
-                </div>
-            </div>
-            {{/each}}
+    </div>
+    <div class="row">
+        <div class="col-12">
+            <h2>Tickets In-Progress</h2>
+            <table class="ticket-table">
+                <thead>
+                    <tr>
+                        <th class="ticket-title">Title</th>
+                        <th class="ticket-category">Category</th>
+                        <th class="ticket-status">Status</th>
+                        <th class="ticket-client">Client</th>
+                        <th class="ticket-employee">Assigned Employees</th>
+                        <th class="ticket-date">Submitted</th>
+                        <th class="ticket-date">Last Updated</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {{!--{{#each this.tickets.inprogress}}--}}
+                    <tr>
+                        <td><a href="/ticket_details/{{!--{{this.TicketId}}--}}">Test Title</a></td>
+                        <td>Test Category</td>
+                        <td>Assigned</td>
+                        <td><a href="/client_details/{{!--{{this.ClientId}}--}}">Test Client</a></td>
+                        <td><a href="/employee_details/">Test Employee</a></td>
+                        <td>01/01/1970</td>
+                        <td>01/01/1970</td>
+                    </tr>
+                    {{!-- {{/each}} --}}
+                </tbody>
+            </table>
         </div>
-        <div class="col-4">
+    </div>
+    <div class="row">
+        <div class="col-12">
             <h2>Closed Tickets</h2>
-            {{#each closed}}
-            <div class="ticket">
-                <div class="row">
-                    <div class="col-1">
-                        <button class="ticket-show-details text"></button>
-                    </div>
-                    <div class="col-11">
-                        <a class="ticket-title" href="/ticket_details/{{this.TicketId}}">{{this.Title}}</a>
-                        <a class="ticket-category" href="/category/{{this.CategoryID}}">{{this.Category}}</a>
-                        &bull;
-                        <span class="ticket-submitted">Closed: {{this.Closed}}</span>
-                    </div>
-                </div>
-                <div class="ticket-details">
-                    <div class="row">
-                        <div class="col-12">
-                            <h5>Client</h5>
-                            <p><a href="/client_details/{{this.ClientId}}">{{this.ClientName}}</a></p>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-12">
-                            <h5>Problem Description:</h5>
-                            <p>{{this.Description}}</p>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-12">
-                            <h5>Resolution:</h5>
-                            <p>{{this.Resolution}}</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            {{/each}}
+            <table class="ticket-table">
+                <thead>
+                    <tr>
+                        <th class="ticket-title">Title</th>
+                        <th class="ticket-description">Description</th>
+                        <th class="ticket-client">Client</th>
+                        <th class="ticket-date">Date Closed</th>
+                        <th>Resolution</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {{!--{{#each this.tickets.closed}}--}}
+                    <tr>
+                        <td><a href="/ticket_details/{{!--{{this.TicketId}}--}}">Test Title</a></td>
+                        <td>Test Description</td>
+                        <td><a href="/client_details/{{!--{{this.ClientId}}--}}">Test Client</a></td>
+                        <td>01/01/1970</td>
+                        <td>Test Resolution</td>
+                    </tr>
+                    {{!--{{/each}}--}}
+                </tbody>
+            </table>
         </div>
     </div>
 </div>
@@ -119,7 +93,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
         <div class="modal-header">
-            <h5 class="modal-title">Assign Employee to Ticket</h5>
+            <h5 class="modal-title">Assign Employee to Ticket {ticket #}</h5>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
             </button>
