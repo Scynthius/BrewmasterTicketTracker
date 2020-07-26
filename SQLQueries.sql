@@ -1,3 +1,62 @@
+--Insert test data into BusinessTypes
+
+INSERT INTO BusinessTypes (Name, CreatedDate) VALUES
+    ( 'Brewery',  GETDATE() ),
+    ( 'Retailer', GETDATE() ),
+	( 'Distributor', GETDATE() );
+
+--Insert test data in Clients
+INSERT INTO Clients (ClientName, PrimaryContact, Email, Phone) VALUES
+    ( 'Last Whistle Brewing', 'Mike Hunt', 'mike.hunt@lastwhistle.com', '555-253-1212' ),
+    ( 'Steel Beam Brewing', 'Jerry Smith', 'picklerick@steelbeam.com', '555-253-9455' ),
+    ( 'Dominion Beverage Co', 'Tom Green', 'greent@dominion.com', '555-221-2343' ),
+    ( 'Bertie Botts Every Flavor Beer', 'Carl Sugarplum', 'urawzrd@bbotts.com', '555-233-5555' ),
+    ( 'Bluegrass Beverage Barn', 'Ben Price', 'ben.price@bbbarn.com', '555-555-1111' ),
+    ( 'Barrage Fermentary', 'Margaret Lewis', 'mlewis@barrage.com', '555-121-5554' ),
+	( 'The Hop of the Hour Brewing Company', 'Henrietta Thompson', 'thompsh@hophour.com', '555-253-4324');
+
+--Insert test data into ClientTypes
+INSERT INTO ClientTypes (ClientID, TypeID) VALUES
+    ( (SELECT ClientID from Clients WHERE ClientName='Bluegrass Beverage Barn'), (SELECT TypeID from BusinessTypes WHERE Name='Retailer') ),
+   ( (SELECT ClientID from Clients WHERE ClientName='Bluegrass Beverage Barn'), (SELECT TypeID from BusinessTypes WHERE Name='Distributor') ),
+   ( (SELECT ClientID from Clients WHERE ClientName='Last Whistle Brewing'), (SELECT TypeID from BusinessTypes WHERE Name='Brewery') ),
+   ( (SELECT ClientID from Clients WHERE ClientName='Steel Beam Brewing'), (SELECT TypeID from BusinessTypes WHERE Name='Brewery') ),
+   ( (SELECT ClientID from Clients WHERE ClientName='Dominion Beverage Company'), (SELECT TypeID from BusinessTypes WHERE Name='Brewery') ),
+   ( (SELECT ClientID from Clients WHERE ClientName='Dominion Beverage Company'), (SELECT TypeID from BusinessTypes WHERE Name='Distributor') ),
+   ( (SELECT ClientID from Clients WHERE ClientName='Bertie Botts Every Flavor Beer'), (SELECT TypeID from BusinessTypes WHERE Name='Brewery') ),
+   ( (SELECT ClientID from Clients WHERE ClientName='Barrage Fermentary'), (SELECT TypeID from BusinessTypes WHERE Name='Brewery') ),
+   ( (SELECT ClientID from Clients WHERE ClientName='Bertie Botts Every Flavor Beer'), (SELECT TypeID from BusinessTypes WHERE Name='Retailer') ),
+   ( (SELECT ClientID from Clients WHERE ClientName='Barrage Fermentary'), (SELECT TypeID from BusinessTypes WHERE Name='Retailer') ),
+   ( (SELECT ClientID from Clients WHERE ClientName='The Hop of the Hour Brewing Company'), (SELECT TypeID from BusinessTypes WHERE Name='Brewery') ),
+   ( (SELECT ClientID from Clients WHERE ClientName='The Hop of the Hour Brewing Company'), (SELECT TypeID from BusinessTypes WHERE Name='Retailer') );
+
+--Insert test data into Employees
+INSERT INTO Employees (FirstName, LastName, Email, AccessLevel) VALUES
+    ( 'Jon', 'Spears', 'jon.spears@brewmasters.com', 1 ),
+    ( 'Sarah', 'Brown', 'sarah.brown@brewmasters.com', 1 ),
+    ( 'Erin', 'Potts', 'erin.potts@brewmasters.com', 2 ),
+    ( 'Jing', 'Yu', 'jing.yu@brewmasters.com', 2 ),
+    ( 'Thomas', 'Cobbler', 'thomas.cobbler@brewmasters.com', 3 ),
+    ( 'Georgia', 'Young', 'georgia.young@brewmasters.com', 3 );
+
+--Insert test data into Tickets
+INSERT INTO Tickets (TicketID, Description, ClientID, CategoryID, `Status`, SubmitDate) VALUES
+    ( 'New product - Two Hearted', 'Client has requested a shipment of Two Hearted Beer from Bells Brewery.', (SELECT ClientID from Clients WHERE ClientName='Bluegrass Beverage Barn'), (SELECT CategoryID from Categories WHERE Name='New Product Request'), 'Unassigned', GETDATE() ),
+    ( 'Late Shipment to Last Whistle', 'A shipment was delayed and arrived 2 days late. Partial refund is requested.', (SELECT ClientID from Clients WHERE ClientName='Last Whistle Brewing'), (SELECT CategoryID from Categories WHERE Name='Late Shipment'), 'Assigned', TO_DATE('17/3/2020', 'DD/MM/YYYY')),
+    ( 'Damaged Product - Barrage Fermentary', 'A case of RockBuster Ale arrived with 10 broken bottles. Inspection of the packaging seems to indicate forklift damage. Refund for the damaged products plus replacement is requested.', (SELECT ClientID from Clients WHERE ClientName='Barrage Fermentary'), (SELECT CategoryID from Categories WHERE Name='Mishandled Product'), 'Assigned', TO_DATE('1/5/2020', 'DD/MM/YYYY')),
+    ( 'Excess items in shipment - Steel Beam', 'Client received an additional case of LeafLover Pilsner with their monthly order.', (SELECT ClientID from Clients WHERE ClientName='Steel Beam Brewing'), (SELECT CategoryID from Categories WHERE Name='Incorrect Shipment'), 'Closed', TO_DATE('21/6/2020', 'DD/MM/YYYY'));
+
+--Insert test data into Assignments
+INSERT INTO Assignments (EmployeeID, TicketID) VALUES
+    ( (SELECT EmployeeID from Employees WHERE LastName='Spears'), 2 ),
+    ( (SELECT EmployeeID from Employees WHERE LastName='Yu'), 2 ),
+	( (SELECT EmployeeID from Employees WHERE LastName='Cobbler'), 3 ),
+    ( (SELECT EmployeeID from Employees WHERE LastName='Young'), 3 ),
+    ( (SELECT EmployeeID from Employees WHERE LastName='Potts'), 4 ),
+	( (SELECT EmployeeID from Employees WHERE LastName='Brown'), 4 ),
+    ( (SELECT EmployeeID from Employees WHERE LastName='Spears'), 4 );
+
+
 --Select Client Names and IDs for Create Ticket
 SELECT ClientId, ClientName as Client FROM Clients
 
@@ -64,7 +123,7 @@ JOIN BusinessTypes ON ClientTypes.TypeID = BusinessTypes.TypeID
 WHERE Clients.ClientName = "req.query.ClientName"
 GROUP BY Clients.ClientID
 
---Select All Tickets
+--Select All Tickets for Tickets Page (Limited to 10 with paginated offset)
 SELECT Tickets.TicketID, Tickets.Title, Tickets.Description, Categories.Name as Category, Tickets.Status, 
 Clients.ClientId, Clients.ClientName, DATE_FORMAT(Tickets.SubmitDate, "%m/%d/%Y") AS Submitted,
 DATE_FORMAT(Tickets.ModifiedDate, "%m/%d/%Y") AS LastUpdated, DATE_FORMAT(Tickets.CloseDate, "%m/%d/%Y") AS Closed
@@ -73,15 +132,26 @@ JOIN Categories ON Tickets.CategoryID = Categories.CategoryID
 JOIN Clients ON Tickets.ClientID = Clients.ClientID
 LIMIT 10 OFFSET (req.query.page * 10)
 
---Select All Clients
+--Select All Clients for Client Page (Limited to 10 with paginated offset)
 SELECT Clients.ClientID, Clients.ClientName
 FROM Clients
 LIMIT 10 OFFSET (req.query.page * 10)
 
---Select All Employees
+--Select All Employees for Employees Page (Limited to 10 with paginated offset)
 SELECT Employees.EmployeeID, CONCAT(FirstName, " ", LastName) as EmployeeName
 FROM Employees
 LIMIT 10 OFFSET (req.query.page * 10)
+
+--Select All Categories for Categories Page (Limited to 10 with paginated offset)
+SELECT Categories.CategoryID, Categories.Name AS Category
+FROM Categories
+LIMIT 10 OFFSET (req.query.page * 10)
+
+--Select All BusinessTypes for Business Types Page (Limited to 10 with paginated offset)
+SELECT BusinessTypes.TypeID, BusinessTypes.Name AS BusinessType
+FROM BusinessTypes
+LIMIT 10 OFFSET (req.query.page * 10)
+
 
 --Insert New Category
 INSERT INTO Categories (`Name`, `CreatedDate`) VALUES (req.body.name, req.body.date)
