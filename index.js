@@ -99,35 +99,8 @@ app.post('/', function (req, res, next) {
       });
       break;
     case "New Ticket":
-      sqlPool.query('INSERT INTO Tickets (`Description`, `ClientID`, `CategoryID`, `Status`, `SubmitDate`) VALUES (?,?,?,?,?)',
-      [req.body.Description, req.body.ClientID, req.body.CategoryID, req.body.Status, req.body.SubmitDate], function (err, result) {
-        if (err) {
-          next(err);
-          return;
-        }
-        res.sendStatus(200);
-      });
-      break;
-  }
-});
-
-app.post('/', function (req, res, next) {
-  var requestType = req.body.requestType;
-  var sqlPool = mysql.pool;
-  switch (requestType) {
-    case "New Category":
-      sqlPool.query('INSERT INTO Categories (`Name`, `CreatedDate`) VALUES (?, ?)',
-      [req.body.name, req.body.date], function (err, result) {
-        if (err) {
-          next(err);
-          return;
-        }
-        res.sendStatus(200);
-      });
-      break;
-    case "New Client":
-      sqlPool.query('INSERT INTO Clients (`ClientName`, `PrimaryContact`, `Email`, `Phone`) VALUES (?,?,?,?)',
-      [req.body.ClientName, req.body.PrimaryContact, req.body.Email, req.body.Phone], function (err, result) {
+      sqlPool.query('INSERT INTO Tickets (`Title`, `Description`, `ClientID`, `CategoryID`, `Status`, `SubmitDate`) VALUES (?,?,?,?,?,?)',
+      [req.body.Title, req.body.Description, req.body.ClientID, req.body.CategoryID, req.body.Status, req.body.SubmitDate], function (err, result) {
         if (err) {
           next(err);
           return;
