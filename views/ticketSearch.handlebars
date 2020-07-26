@@ -1,0 +1,46 @@
+<div class="container-fluid">
+    <div class="row">
+        {{#each tickets}}
+        <div class="col-12">
+            <div class="ticket">
+                <div class="row">
+                    <div class="col-1">
+                        <button class="ticket-show-details text"></button>
+                    </div>
+                    <div class="col-11">
+                        <a class="ticket-title" href="/ticket_details/{{this.TicketId}}">{{this.Title}}  (#{{this.TicketID}})</a>
+                        <a class="ticket-category" href="/category/{{this.CategoryID}}">{{this.Category}}</a>
+                        <span class="ticket-status">{{this.Status}}</span>
+                        &bull;
+                        <span class="ticket-submitted">Submitted: {{this.Submitted}}</span>
+                        &bull;
+                        <span class="ticket-submitted">Last Updated: {{this.LastUpdated}}</span>
+                    </div>
+                </div>
+                <div class="ticket-details">
+                    <div class="row">
+                        <div class="col-12">
+                            <h5>Client</h5>
+                            <p><a href="/client_details/{{this.ClientId}}">{{this.ClientName}}</a></p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <h5>Problem Description:</h5>
+                            <p>{{this.Description}}</p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <h5>Assigned Employee(s):</h5>
+                            {{#each this.AssignedEmployees}}
+                            <a href="/employee_details/{{this.id}}">{{this.name}}</a>
+                            {{/each}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {{/each}}
+    </div>
+</div>

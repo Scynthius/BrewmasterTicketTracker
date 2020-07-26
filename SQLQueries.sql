@@ -1,11 +1,14 @@
 --Select Client Names and IDs for Create Ticket
-SELECT Clients.ClientId, Clients.ClientName as Client FROM Clients
+SELECT ClientId, ClientName as Client FROM Clients
 
 --Select Category Names and IDs for Create Ticket
-SELECT Categories.CategoryId, Categories.Name as Category FROM Categories
+SELECT CategoryId, Name as Category FROM Categories
 
 --Select Employee Names and IDs for Assign Ticket
-SELECT Employees.EmployeeID, CONCAT(Employees.FirstName, " ", Employees.LastName) as EmployeeName FROM Employees
+SELECT EmployeeID, CONCAT(FirstName, " ", LastName) as EmployeeName FROM Employees
+
+--Select Business Types for Create Client
+SELECT TypeID, Name AS BusinessType FROM BusinessTypes
 
 --Select Unassigned Tickets for Dashboard
 SELECT Tickets.TicketID, Tickets.Title, Tickets.Description, Tickets.Status,
@@ -29,10 +32,23 @@ WHERE Tickets.Status = "Assigned"
 GROUP BY Tickets.TicketID
 
 --Select Closed Tickets for Dashboard
-SELECT Tickets.Title, Tickets.Description, Categories.Name AS Category, Clients.ClientID, Clients.ClientName,
+SELECT Tickets.TicketID, Tickets.Title, Tickets.Description, Categories.Name AS Category, Clients.ClientID, Clients.ClientName,
 DATE_FORMAT(Tickets.CloseDate, "%m/%d/%Y") AS Closed, Tickets.Resolution FROM Tickets
 JOIN Categories ON Tickets.CategoryID = Categories.CategoryID
 JOIN Clients ON Tickets.ClientID = Clients.ClientID
+
+--Select Search by Ticket Number
+SELECT Tickets.TicketID, Tickets.Title, Tickets.Description, Categories.Name as Category, Tickets.Status,
+Clients.ClientId, Clients.ClientName, Tickets.Resolution
+GROUP_CONCAT(CONCAT(Employees.EmployeeID, ":", Employees.FirstName, " ", Employees.LastName) SEPARATOR ",") AS AssignedEmployees,
+DATE_FORMAT(Tickets.SubmitDate, "%m/%d/%Y") AS Submitted, DATE_FORMAT(Tickets.ModifiedDate, "%m/%d/%Y") AS LastUpdated,
+DATE_FORMAT(Tickets.CloseDate, "%m/%d/%Y") AS Closed, 
+FROM Tickets
+JOIN Assignments ON Tickets.TicketID = Assignments.TicketID
+JOIN Employees ON Assignments.EmployeeID = Employees.EmployeeID
+JOIN Categories ON Tickets.CategoryID = Categories.CategoryID
+JOIN Clients ON Tickets.ClientID = Clients.ClientID
+WHERE Tickets.Status = "req.query.TicketID"
 
 --Insert New Category
 INSERT INTO Categories (`Name`, `CreatedDate`) VALUES (req.body.name, req.body.date)

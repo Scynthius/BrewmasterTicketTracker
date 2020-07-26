@@ -36,11 +36,11 @@
     </div>
     <div class="search-container">
       <div class="ticket-search">
-        <input type="text" placeholder="Search for Ticket #">
+        <input type="text" placeholder="Search by Ticket #">
         <button class="default">Search</button>
       </div>
       <div class="client-search">
-        <input type="text" placeholder="Search Clients">
+        <input type="text" placeholder="Search for a Client">
         <button class="default">Search</button>
       </div>
     </div>
@@ -117,10 +117,11 @@
               <div class="col-12">
                 <label for="client_type">Client Type</label>
                 <select name="client_type" id="client_type">
-                  <option value="1">Brewery</option>
-                  <option value="2">Retailer</option>
-                  <option value="3">Distributor</option>
+                  {{#each types}}
+                  <option value="{{this.TypeID}}">{{this.BusinessType}}</option>
+                  {{/each}}
                 </select>
+                <button href="javacript:void(0)" class="default">Add another type</button>
               </div>
               <div class="col-12">
                 <label for="client_contact">Primary Contact</label>

@@ -9,7 +9,7 @@
                         <button class="ticket-show-details text"></button>
                     </div>
                     <div class="col-9">
-                        <a class="ticket-title" href="/ticket_details/{{this.TicketId}}">{{this.Title}}</a>
+                        <a class="ticket-title" href="/ticket_details/{{this.TicketID}}">{{this.Title}}  (#{{this.TicketID}})</a>
                         <a class="ticket-category" href="/category/{{this.CategoryID}}">{{this.Category}}</a>
                         &bull;
                         <span class="ticket-submitted">Submitted: {{this.Submitted}}</span>
@@ -42,7 +42,7 @@
                         <button class="ticket-show-details text"></button>
                     </div>
                     <div class="col-11">
-                        <a class="ticket-title" href="/ticket_details/{{this.TicketId}}">{{this.Title}}</a>
+                        <a class="ticket-title" href="/ticket_details/{{this.TicketId}}">{{this.Title}}  (#{{this.TicketID}})</a>
                         <a class="ticket-category" href="/category/{{this.CategoryID}}">{{this.Category}}</a>
                         &bull;
                         <span class="ticket-submitted">Submitted: {{this.Submitted}}</span>
@@ -84,7 +84,7 @@
                         <button class="ticket-show-details text"></button>
                     </div>
                     <div class="col-11">
-                        <a class="ticket-title" href="/ticket_details/{{this.TicketId}}">{{this.Title}}</a>
+                        <a class="ticket-title" href="/ticket_details/{{this.TicketId}}">{{this.Title}}  (#{{this.TicketID}})</a>
                         <a class="ticket-category" href="/category/{{this.CategoryID}}">{{this.Category}}</a>
                         &bull;
                         <span class="ticket-submitted">Closed: {{this.Closed}}</span>
@@ -129,9 +129,9 @@
                 <div class="col-12">
                     <label for="assign_employee_name">Name</label>
                     <select name="assign_employee_name" id="assign_employee_name">
-                        {{!--{{#each this.employees}}--}}
-                        <option value="1">Employee #1</option>
-                        {{!--{{/each}}--}}
+                        {{#each employees}}
+                        <option value="{{this.EmployeeID}}">{{this.EmployeeName}}</option>
+                        {{/each}}
                     </select>
                     <button href="javacript:void(0)" class="default">Add another employee</button>
                 </div>

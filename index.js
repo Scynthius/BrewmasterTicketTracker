@@ -9,9 +9,11 @@ const { resolve } = require('path');
 
 const SELECT_CLIENTS = 'SELECT Clients.ClientId, Clients.ClientName as Client FROM Clients';
 const SELECT_CATEGORIES = 'SELECT Categories.CategoryId, Categories.Name as Category FROM Categories';
-const SELECT_UNASSIGNED = 'SELECT Tickets.Title, Tickets.Description, Tickets.Status, Tickets.ClientID, Clients.ClientName, Categories.Name as Category, DATE_FORMAT(Tickets.SubmitDate, "%m/%d/%Y") AS Submitted FROM Tickets JOIN Clients as Clients ON Tickets.ClientID = Clients.ClientID JOIN Categories as Categories ON Tickets.CategoryID = Categories.CategoryID WHERE Tickets.Status = "Unassigned"';
+const SELECT_BUSINESSTYPES = 'SELECT TypeID, Name AS BusinessType FROM BusinessTypes';
+const SELECT_ASSIGNEMPLOYEES = 'SELECT EmployeeID, CONCAT(FirstName, " ", LastName) as EmployeeName FROM Employees';
+const SELECT_UNASSIGNED = 'SELECT Tickets.TicketID, Tickets.Title, Tickets.Description, Tickets.Status, Tickets.ClientID, Clients.ClientName, Categories.Name as Category, DATE_FORMAT(Tickets.SubmitDate, "%m/%d/%Y") AS Submitted FROM Tickets JOIN Clients as Clients ON Tickets.ClientID = Clients.ClientID JOIN Categories as Categories ON Tickets.CategoryID = Categories.CategoryID WHERE Tickets.Status = "Unassigned"';
 const SELECT_ASSIGNED = 'SELECT Tickets.TicketID, Tickets.Title, Tickets.Description, Categories.Name as Category, Tickets.Status, Clients.ClientId, Clients.ClientName, GROUP_CONCAT(CONCAT(Employees.EmployeeID, ":", Employees.FirstName, " ", Employees.LastName) SEPARATOR ",") AS AssignedEmployees, DATE_FORMAT(Tickets.SubmitDate, "%m/%d/%Y") AS Submitted, DATE_FORMAT(Tickets.ModifiedDate, "%m/%d/%Y") AS LastUpdated FROM Tickets JOIN Assignments ON Tickets.TicketID = Assignments.TicketID JOIN Employees ON Assignments.EmployeeID = Employees.EmployeeID JOIN Categories ON Tickets.CategoryID = Categories.CategoryID JOIN Clients ON Tickets.ClientID = Clients.ClientID WHERE Tickets.Status = "Assigned" GROUP BY Tickets.TicketID';
-const SELECT_CLOSED = 'SELECT Tickets.Title, Tickets.Description, Categories.Name as Category, Clients.ClientID, Clients.ClientName, DATE_FORMAT(Tickets.CloseDate, "%m/%d/%Y") AS Closed, Tickets.Resolution FROM Tickets JOIN Categories ON Tickets.CategoryID = Categories.CategoryID JOIN Clients ON Tickets.ClientID = Clients.ClientID WHERE Tickets.Status = "Closed"'
+const SELECT_CLOSED = 'SELECT Tickets.TicketID, Tickets.Title, Tickets.Description, Categories.Name as Category, Clients.ClientID, Clients.ClientName, DATE_FORMAT(Tickets.CloseDate, "%m/%d/%Y") AS Closed, Tickets.Resolution FROM Tickets JOIN Categories ON Tickets.CategoryID = Categories.CategoryID JOIN Clients ON Tickets.ClientID = Clients.ClientID WHERE Tickets.Status = "Closed"'
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
@@ -23,20 +25,13 @@ app.set('view engine', 'handlebars');
 
 app.set('port', process.argv[2]);
 
-
 app.get('/',function(req,res){
   var context = {};
 
-  getQuery(SELECT_CLIENTS)
-  .then((rows) => { 
-    context.clients = rows;
-    return getQuery(SELECT_CATEGORIES);
-  })
-  .then((rows) => {
-    context.categories = rows;
-    return getQuery(SELECT_UNASSIGNED);
-  })
-  .then((rows) => {
+  globalQueries(context)
+  .then(() => {
+    return getQuery(SELECT_ASSIGNEMPLOYEES);
+  }).then((rows) => {
     context.unassigned = rows;
     return getQuery(SELECT_ASSIGNED);
   })
@@ -61,18 +56,6 @@ app.get('/',function(req,res){
     res.render('dashboard', context);
   });
 });
-
-function getQuery(query) {
-  return new Promise((resolve, reject) => {
-    mysql.pool.query(query, function (err, rows, fields) {
-      if (err) {
-        return reject(err);
-      }
-      resolve(rows);
-    })
-  })
-  
-}
 
 app.post('/', function (req, res, next) {
   var requestType = req.body.requestType;
@@ -127,19 +110,6 @@ app.get('/client_details',function(req,res){
   res.render('clients');
 });
 
-app.get('/businesses',function(req,res){
-  var context = {};
-  var tableResults = [];
-  var queryString = "SELECT * FROM ShipSpecs WHERE Model = 'Sidewinder'";
-  mysql.pool.query(queryString, function(err, rows, fields){
-    for (var entry in rows){
-      tableResults.push({'Spec': rows[entry]["Spec"], 'Value': rows[entry]["Value"]});
-    }
-    context.specTableResult = tableResults;
-    res.render('sidewinder', context);
-  });
-});
-
 app.use(function(req,res){
   res.status(404);
   res.render('404');
@@ -155,3 +125,31 @@ app.use(function(err, req, res, next){
 app.listen(app.get('port'), function(){
   console.log('Express started on http://localhost:' + app.get('port') + '; press Ctrl-C to terminate.');
 });
+
+function getQuery(query) {
+  return new Promise((resolve, reject) => {
+    mysql.pool.query(query, function (err, rows, fields) {
+      if (err) {
+        return reject(err);
+      }
+      resolve(rows);
+    })
+  })
+}
+
+function globalQueries(context) {
+  return new Promise((resolve) => {
+    getQuery(SELECT_CLIENTS)
+    .then((rows) => { 
+      context.clients = rows;
+      return getQuery(SELECT_CATEGORIES);
+    })
+    .then((rows) => {
+      context.categories = rows;
+      return getQuery(SELECT_BUSINESSTYPES);
+    }).then((rows) => {
+      context.types = rows;
+      resolve();
+    });
+  });
+}
