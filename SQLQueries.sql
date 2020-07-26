@@ -30,7 +30,6 @@ SELECT Tickets.Title, Tickets.Description, Categories.Name AS Category, Clients.
 DATE_FORMAT(Tickets.CloseDate, "%m/%d/%Y") AS Closed, Tickets.Resolution FROM Tickets
 JOIN Categories ON Tickets.CategoryID = Categories.CategoryID
 JOIN Clients ON Tickets.ClientID = Clients.ClientID
-WHERE Tickets.Status = "Closed"
 
 --Insert New Category
 INSERT INTO Categories (`Name`, `CreatedDate`) VALUES (req.body.name, req.body.date)

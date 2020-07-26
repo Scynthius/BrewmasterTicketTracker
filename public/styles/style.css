@@ -1,5 +1,15 @@
+@charset "UTF-8";
+html, body {
+  background-color: #F8F8F8; }
+
 main {
   margin-bottom: 24px; }
+
+footer {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%; }
 
 button {
   border: none;
@@ -7,16 +17,23 @@ button {
   padding: 4px 8px; }
 
 table {
-  border: 1px solid #d6d6d6;
+  border: 1px solid #737373;
   width: 100%; }
   table th, table td {
-    border: 1px solid #d6d6d6;
+    border: 1px solid #737373;
     padding: 4px 8px; }
 
 h1, h2, h3, h4, h5 {
   line-height: 1.5em;
   margin-top: .5em;
   margin-bottom: .25em; }
+
+a {
+  color: #F28705;
+  text-decoration: underline;
+  transition: all 200ms ease; }
+  a:hover {
+    color: #BF3604; }
 
 form {
   width: 100%; }
@@ -29,35 +46,41 @@ input, select, textarea {
   padding: 2.5px 5px;
   width: 100%; }
 
-button.primary {
-  background-color: #49A669;
-  color: #FFFFFF;
-  transition: all 200ms ease; }
-
-button.primary:hover, button.primary:active {
-  background-color: #2B633F; }
-
-button.default {
-  background-color: #FBFBFB;
-  border: 1px solid #d6d6d6; }
-
-button.default:hover, button.default:active {
-  background-color: #d6d6d6; }
+button {
+  color: #262626; }
+  button.primary {
+    background: linear-gradient(#f7c569, #F29F05);
+    border: 1px solid #da8f05;
+    transition: all 200ms ease; }
+  button.primary:hover, button.primary:active {
+    background: linear-gradient(#F29F05, #F29F05); }
+  button.default {
+    background: linear-gradient(#F8F8F8, #D9D9D9);
+    border: 1px solid #c3c3c3; }
+  button.default:hover, button.default:active {
+    background: linear-gradient(#D9D9D9, #D9D9D9); }
+  button.text {
+    background-color: transparent;
+    font-weight: bold; }
 
 .navigation-container, .search-container {
-  border-bottom: 1px solid #d6d6d6;
   padding: 16px; }
   .navigation-container:after, .search-container:after {
     content: '';
     display: table;
     clear: both; }
 
+.navigation-container {
+  background-color: #D9D9D9; }
+
 h1, h2, h3, h4, h5 {
-  color: #2F736C; }
+  color: #F28705; }
 
 .logo {
-  color: #333333;
-  font-size: 21px; }
+  color: #262626;
+  font-size: 21px;
+  font-weight: bold;
+  text-decoration: none; }
   .logo:hover, .logo:active {
     color: inherit;
     text-decoration: none; }
@@ -67,27 +90,26 @@ h1, h2, h3, h4, h5 {
   position: relative;
   z-index: 2; }
   .create-dropdown .create-button .icon-dropdown {
-    padding: 4px;
+    padding: 0 4px;
     position: relative;
     right: -4px;
     top: -3px; }
   .create-dropdown .create-items {
-    background-color: #FBFBFB;
-    border: 1px solid #d6d6d6;
+    background-color: #F8F8F8;
+    border: 1px solid #D9D9D9;
     display: none;
     position: absolute;
     width: 100%; }
     .create-dropdown .create-items a {
-      border-top: 1px solid #d6d6d6;
-      color: #49A669;
+      border-top: 1px solid #D9D9D9;
+      color: #262626;
       display: block;
       padding: 4px 8px;
       transition: all 200ms ease; }
     .create-dropdown .create-items a:first-child {
       border-top: none; }
     .create-dropdown .create-items a:hover {
-      background-color: #49A669;
-      color: #FFFFFF;
+      background-color: #d8d8d8;
       text-decoration: none; }
   .create-dropdown:hover .create-items {
     display: block; }
@@ -98,23 +120,30 @@ h1, h2, h3, h4, h5 {
   .ticket-search input, .ticket-search select, .ticket-search textarea, .client-search input, .client-search select, .client-search textarea {
     width: auto; }
 
-.ticket-table {
-  table-layout: fixed; }
-  .ticket-table td {
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap; }
-  .ticket-table .ticket-title, .ticket-table .ticket-description {
-    width: 350px; }
-  .ticket-table .ticket-category {
-    width: 150px; }
-  .ticket-table .ticket-status {
-    width: 150px; }
-  .ticket-table .ticket-client {
-    width: 350px; }
-  .ticket-table .ticket-employee {
-    width: 350px; }
-  .ticket-table .ticket-date {
-    width: 110px; }
-  .ticket-table .ticket-assign {
-    width: 70px; }
+.ticket {
+  border: 1px solid #D9D9D9;
+  margin-bottom: 8px;
+  padding: 8px;
+  width: 100%; }
+  .ticket .ticket-show-details {
+    position: relative;
+    height: 100%;
+    width: 100%; }
+    .ticket .ticket-show-details::before {
+      content: '+';
+      position: absolute;
+      left: 25%;
+      top: 25%; }
+    .ticket .ticket-show-details.active::before {
+      content: '−'; }
+  .ticket .ticket-title {
+    display: block; }
+  .ticket .ticket-category {
+    font-size: 0.75em;
+    line-height: 1em; }
+  .ticket .ticket-submitted {
+    font-size: 0.75em; }
+  .ticket .ticket-details {
+    display: none; }
+  .ticket .ticket-details.shown {
+    display: block; }
