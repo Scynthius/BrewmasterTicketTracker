@@ -33,25 +33,25 @@ JOIN Clients ON Tickets.ClientID = Clients.ClientID
 WHERE Tickets.Status = "Closed"
 
 --Insert New Category
-INSERT INTO Categories (`Name`, `CreatedDate`) VALUES (?, ?)
+INSERT INTO Categories (`Name`, `CreatedDate`) VALUES (req.body.name, req.body.date)
 
 --Insert New Client
-INSERT INTO Clients (`ClientName`, `PrimaryContact`, `Email`, `Phone`) VALUES (?,?,?,?)
+INSERT INTO Clients (`ClientName`, `PrimaryContact`, `Email`, `Phone`) VALUES (req.body.ClientName,req.body.PrimaryContact,req.body.Email,req.body.Phone)
 
 --Insert New Ticket
-INSERT INTO Tickets (`Description`, `ClientID`, `CategoryID`, `Status`, `SubmitDate`) VALUES (?,?,?,?,?)
+INSERT INTO Tickets (`Title`, `Description`, `ClientID`, `CategoryID`, `Status`, `SubmitDate`) VALUES (req.body.Title,req.body.Description,req.body.ClientID,req.body.CategoryID,req.body.Status,req.body.SubmitDate)
 
 --Insert New Employee
-INSERT INTO Employees (`FirstName`, `LastName`, `Email`, `AccessLevel`) VALUES (?,?,?,?)
+INSERT INTO Employees (`FirstName`, `LastName`, `Email`, `AccessLevel`) VALUES (req.body.FirstName,req.body.LastName,req.body.Email,req.body.AccessLevel)
 
 --Insert New BusinessType
-INSERT INTO BusinessTypes (`Name`, `CreatedDate`) VALUES (?,?)
+INSERT INTO BusinessTypes (`Name`, `CreatedDate`) VALUES (req.body.Name,req.body.CreatedDate)
 
 --Assign Ticket/Insert New Assignment
-INSERT INTO Assignments (`EmployeeID`, `TicketID`) VALUES (?,?)
+INSERT INTO Assignments (`EmployeeID`, `TicketID`) VALUES (req.body.EmployeeID,req.body.TicketID)
 
 --Assign Business to Clients/Insert New ClientType
-INSERT INTO ClientTypes (`ClientID`, `TypeID`) VALUES (?,?)
+INSERT INTO ClientTypes (`ClientID`, `TypeID`) VALUES (req.body.ClientID,req.body.TypeID)
 
 --Select Specified Ticket for ticket_details page
 SELECT Tickets.Title, Tickets.Description, Clients.ClientName as Client, Categories.Name AS Category, Tickets.Status, 
