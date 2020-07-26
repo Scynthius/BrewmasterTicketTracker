@@ -43,7 +43,7 @@ label {
 
 input, select, textarea {
   margin-bottom: 12px;
-  padding: 2.5px 5px;
+  padding: 3px 5px;
   width: 100%; }
 
 button {
@@ -62,6 +62,18 @@ button {
   button.text {
     background-color: transparent;
     font-weight: bold; }
+
+.global-navigation {
+  display: inline-block;
+  margin: 0 48px; }
+  .global-navigation a {
+    background-color: transparent;
+    border-radius: 5px;
+    color: #0D0D0D;
+    padding: 8px;
+    text-decoration: none; }
+  .global-navigation a:hover {
+    background-color: #F2B705; }
 
 .navigation-container, .search-container {
   padding: 16px; }
@@ -116,9 +128,10 @@ h1, h2, h3, h4, h5 {
 
 .ticket-search, .client-search {
   float: left;
-  margin-right: 24px; }
+  margin-right: 24px;
+  width: 100%; }
   .ticket-search input, .ticket-search select, .ticket-search textarea, .client-search input, .client-search select, .client-search textarea {
-    width: auto; }
+    width: calc(100% - 70px); }
 
 .ticket {
   border: 1px solid #D9D9D9;
@@ -136,8 +149,15 @@ h1, h2, h3, h4, h5 {
       top: 25%; }
     .ticket .ticket-show-details.active::before {
       content: '−'; }
-  .ticket .ticket-title {
-    display: block; }
+  .ticket .ticket-status {
+    background: #D9D9D9;
+    border-radius: 2.5px;
+    display: inline-block;
+    font-size: 0.75em;
+    padding: 2px 4px; }
+    .ticket .ticket-status::after {
+      content: '';
+      display: block; }
   .ticket .ticket-category {
     font-size: 0.75em;
     line-height: 1em; }
@@ -147,3 +167,6 @@ h1, h2, h3, h4, h5 {
     display: none; }
   .ticket .ticket-details.shown {
     display: block; }
+
+.modal-body button {
+  margin-bottom: 12px; }

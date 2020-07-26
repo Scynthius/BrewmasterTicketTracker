@@ -31,6 +31,23 @@ button {
 
 // Containers
 
+.global-navigation {
+    display: inline-block;
+    margin: 0 48px;
+    
+    a {
+        background-color: transparent;
+        border-radius: 5px;
+        color: $black;
+        padding: 8px;
+        text-decoration: none;
+    }
+
+    a:hover {
+        background-color: $yellow;
+    }
+}
+
 .navigation-container, .search-container {
     padding: 16px;
     @include clearfix;

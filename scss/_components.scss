@@ -60,9 +60,10 @@
 .ticket-search, .client-search {
     float: left;
     margin-right: 24px;
+    width: 100%;
     
     input, select, textarea {
-        width: auto;
+        width: calc(100% - 70px);
     }
 }
 
@@ -90,7 +91,19 @@
     }
 
     .ticket-title {
-        display: block;
+    }
+
+    .ticket-status {
+        background: $light-gray;
+        border-radius: 2.5px;
+        display: inline-block;
+        font-size: 0.75em;
+        padding: 2px 4px;
+
+        &::after {
+            content: '';
+            display: block;
+        }
     }
 
     .ticket-category {
@@ -108,5 +121,11 @@
 
     .ticket-details.shown {
         display: block;
+    }
+}
+
+.modal-body {
+    button {
+        margin-bottom: 12px;
     }
 }

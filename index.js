@@ -31,7 +31,12 @@ app.get('/',function(req,res){
   globalQueries(context)
   .then(() => {
     return getQuery(SELECT_ASSIGNEMPLOYEES);
-  }).then((rows) => {
+  })
+  .then((rows) => {
+    context.employees = rows;
+    return getQuery(SELECT_UNASSIGNED);
+  })
+  .then((rows) => {
     context.unassigned = rows;
     return getQuery(SELECT_ASSIGNED);
   })
@@ -104,6 +109,18 @@ app.get('/employee_details',function(req,res){
 
 app.get('/ticket_details',function(req,res){
   res.render('tickets');
+});
+
+app.get('/tickets',function(req,res){
+  context = {};
+
+  globalQueries(context)
+  .then(() => {
+    return getQuery('SELECT Tickets.TicketID, Tickets.Title, Tickets.Description, Categories.Name as Category, Tickets.Status, Clients.ClientId, Clients.ClientName, DATE_FORMAT(Tickets.SubmitDate, "%m/%d/%Y") AS Submitted, DATE_FORMAT(Tickets.ModifiedDate, "%m/%d/%Y") AS LastUpdated, DATE_FORMAT(Tickets.CloseDate, "%m/%d/%Y") AS Closed FROM Tickets JOIN Categories ON Tickets.CategoryID = Categories.CategoryID JOIN Clients ON Tickets.ClientID = Clients.ClientID LIMIT 10 OFFSET 0');
+  }).then((rows) => {
+    context.tickets = rows;
+    res.render('allTickets', context);
+  });
 });
 
 app.get('/client_details',function(req,res){

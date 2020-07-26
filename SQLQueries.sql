@@ -40,15 +40,38 @@ JOIN Clients ON Tickets.ClientID = Clients.ClientID
 --Select Search by Ticket Number
 SELECT Tickets.TicketID, Tickets.Title, Tickets.Description, Categories.Name as Category, Tickets.Status,
 Clients.ClientId, Clients.ClientName, Tickets.Resolution
-GROUP_CONCAT(CONCAT(Employees.EmployeeID, ":", Employees.FirstName, " ", Employees.LastName) SEPARATOR ",") AS AssignedEmployees,
-DATE_FORMAT(Tickets.SubmitDate, "%m/%d/%Y") AS Submitted, DATE_FORMAT(Tickets.ModifiedDate, "%m/%d/%Y") AS LastUpdated,
-DATE_FORMAT(Tickets.CloseDate, "%m/%d/%Y") AS Closed, 
 FROM Tickets
-JOIN Assignments ON Tickets.TicketID = Assignments.TicketID
-JOIN Employees ON Assignments.EmployeeID = Employees.EmployeeID
 JOIN Categories ON Tickets.CategoryID = Categories.CategoryID
 JOIN Clients ON Tickets.ClientID = Clients.ClientID
 WHERE Tickets.Status = "req.query.TicketID"
+GROUP BY Tickets.TicketID
+
+-- Select Ticket Search by Client Name
+SELECT Tickets.TicketID, Tickets.Title, Tickets.Description, Categories.Name as Category, Tickets.Status,
+Clients.ClientId, Clients.ClientName
+FROM Tickets
+JOIN Categories ON Tickets.CategoryID = Categories.CategoryID
+JOIN Clients ON Tickets.ClientID = Clients.ClientID
+WHERE Clients.ClientName = "req.query.ClientName"
+GROUP BY Tickets.TicketID
+
+--Select Client Search by Client Name
+SELECT Clients.ClientID, Clients.ClientName, Clients.PrimaryContact, Clients.Email, Clients.Phone, 
+GROUP_CONCAT(BusinessTypes.Name SEPARATOR ", ") AS BusinessType
+FROM ClientTypes
+JOIN Clients ON ClientTypes.ClientID = Clients.ClientID
+JOIN BusinessTypes ON ClientTypes.TypeID = BusinessTypes.TypeID
+WHERE Clients.ClientName = "req.query.ClientName"
+GROUP BY Clients.ClientID
+
+--Select All Tickets
+SELECT Tickets.TicketID, Tickets.Title, Tickets.Description, Categories.Name as Category, Tickets.Status, 
+Clients.ClientId, Clients.ClientName, DATE_FORMAT(Tickets.SubmitDate, "%m/%d/%Y") AS Submitted,
+DATE_FORMAT(Tickets.ModifiedDate, "%m/%d/%Y") AS LastUpdated, DATE_FORMAT(Tickets.CloseDate, "%m/%d/%Y") AS Closed
+FROM Tickets 
+JOIN Categories ON Tickets.CategoryID = Categories.CategoryID 
+JOIN Clients ON Tickets.ClientID = Clients.ClientID
+LIMIT 10 OFFSET (req.query.page * 10)
 
 --Insert New Category
 INSERT INTO Categories (`Name`, `CreatedDate`) VALUES (req.body.name, req.body.date)
