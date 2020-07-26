@@ -4,6 +4,9 @@ SELECT Clients.ClientId, Clients.ClientName as Client FROM Clients
 --Select Category Names and IDs for Create Ticket
 SELECT Categories.CategoryId, Categories.Name as Category FROM Categories
 
+--Select Employee Names and IDs for Assign Ticket
+SELECT Employees.EmployeeID, CONCAT(Employees.FirstName, " ", Employees.LastName) as EmployeeName FROM Employees
+
 --Select Unassigned Tickets for Dashboard
 SELECT Tickets.TicketID, Tickets.Title, Tickets.Description, Tickets.Status,
 Tickets.ClientID, Clients.ClientName, Categories.Name as Category,
