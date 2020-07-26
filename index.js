@@ -107,6 +107,10 @@ app.get('/employee_details',function(req,res){
   res.render('employees');
 });
 
+app.get('/employees', function(req, res) {
+  res.render('allEmployees');
+})
+
 app.get('/ticket_details',function(req,res){
   res.render('tickets');
 });

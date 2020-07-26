@@ -73,6 +73,16 @@ JOIN Categories ON Tickets.CategoryID = Categories.CategoryID
 JOIN Clients ON Tickets.ClientID = Clients.ClientID
 LIMIT 10 OFFSET (req.query.page * 10)
 
+--Select All Clients
+SELECT Clients.ClientID, Clients.ClientName
+FROM Clients
+LIMIT 10 OFFSET (req.query.page * 10)
+
+--Select All Employees
+SELECT Employees.EmployeeID, CONCAT(FirstName, " ", LastName) as EmployeeName
+FROM Employees
+LIMIT 10 OFFSET (req.query.page * 10)
+
 --Insert New Category
 INSERT INTO Categories (`Name`, `CreatedDate`) VALUES (req.body.name, req.body.date)
 
