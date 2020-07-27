@@ -20,7 +20,6 @@
                 console.log('Error');
             }
         });
-
         request.send(JSON.stringify(data));
     };
 
@@ -190,16 +189,15 @@ function showDetails(elem) {
         var employeeFN = document.getElementById("updateFirstName").value;
         var employeeLN = document.getElementById("updateLastName").value;
         var employeeMail = document.getElementById("updateEmpEmail").value;
-        var access = document.getElementById("updateAccessLevel");
-        var employeeAccess = access.options[access.SelectedIndex].value;
+        var access = document.getElementById("updateAccessLevel").value;
         var data = {
             "EmployeeID"        : employeeID,
             "FirstName"         : employeeFN,
             "LastName"          : employeeLN,
             "Email"             : employeeMail,
-            "AccessLevel"       : employeeAccess
+            "AccessLevel"       : access
         };
-
+        console.log(data)
         var request = new XMLHttpRequest();
         request.open('PUT', '/employee_details', true);
         request.setRequestHeader('Content-Type', 'application/json');
@@ -215,7 +213,7 @@ function showDetails(elem) {
 
     var createEmployeeButton = document.getElementById('updateEmployee');
     createEmployeeButton.addEventListener('click', function (event) {
-        event.preventDefault;
+        event.preventDefault();
         updateEmployee();
     });
 })();

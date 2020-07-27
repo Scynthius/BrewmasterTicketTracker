@@ -131,8 +131,8 @@ app.get('/employee_details/:employeeid',function(req,res){
   });
 });
 
-app.put("/employee_details", function(req,req){
-  mysql.pool.query('UPDATE Employees SET FirstName=(?), LastName=(?), Email=(?), AccessLevel=(?) WHERE EmployeeID=(?)',
+app.put("/employee_details", function(req, res, next){
+  mysql.pool.query('UPDATE Employees SET FirstName=(?), LastName=(?), Email=(?), AccessLevel=CAST((?) AS int) WHERE EmployeeID=CAST((?) AS int)',
       [req.body.FirstName, req.body.LastName, req.body.Email, req.body.AccessLevel, req.body.EmployeeID], function (err, result) {
         if (err) {
           next(err);
