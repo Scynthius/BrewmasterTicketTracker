@@ -131,7 +131,7 @@ app.get('/employee_details/:employeeid',function(req,res){
   });
 });
 
-app.post("/employee_details", function(req,req){
+app.put("/employee_details", function(req,req){
   mysql.pool.query('UPDATE Employees SET FirstName=(?), LastName=(?), Email=(?), AccessLevel=(?) WHERE EmployeeID=(?)',
       [req.body.FirstName, req.body.LastName, req.body.Email, req.body.AccessLevel, req.body.EmployeeID], function (err, result) {
         if (err) {

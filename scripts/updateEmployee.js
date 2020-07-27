@@ -15,7 +15,7 @@
         };
 
         var request = new XMLHttpRequest();
-        request.open('POST', '/employee_details', true);
+        request.open('PUT', '/employee_details', true);
         request.setRequestHeader('Content-Type', 'application/json');
         request.addEventListener('load', function () {
             if (request.status >= 200 && request.status < 400) {
@@ -28,7 +28,8 @@
     };
 
     var createEmployeeButton = document.getElementById('updateEmployee');
-    createEmployeeButton.addEventListener('click', function () {
+    createEmployeeButton.addEventListener('click', function (event) {
+        event.preventDefault;
         updateEmployee();
     });
 })();
