@@ -1,0 +1,118 @@
+
+<div class="w-25 p-3"><h1>Page Navigation</h1></div>
+<div class="list-group">
+  <a href="/" class="list-group-item list-group-item-action flex-column align-items-start">
+    <div class="d-flex w-100 justify-content-between">
+      <h5 class="mb-1">Create new Items</h5>
+    </div>
+    <ul>
+        <li>Create (INSERT) new entries for the Employees, Tickets, Clients, Categories, and Business Types tables.</li>
+        <li>View (SELECT) filtered data from the Tickets table.</li>
+    </ul>
+  </a>
+  <a href="/tickets" class="list-group-item list-group-item-action flex-column align-items-start">
+    <div class="d-flex w-100 justify-content-between">
+      <h5 class="mb-1">All Tickets</h5>
+    </div>
+    <ul>
+        <li>View (SELECT) all existing tickets.</li>
+        <li>Navigate to the Ticket Details page for the selected ticket.</li>
+    </ul>
+  </a>
+  <a href="/ticket_details" class="list-group-item list-group-item-action flex-column align-items-start">
+    <div class="d-flex w-100 justify-content-between">
+      <h5 class="mb-1">Ticket Details</h5>
+    </div>
+    <ul>
+        <li>Modify (UPDATE) existing tickets.</li>
+        <li>Create (INSERT) a new ticket. Utilizes a search for FK entries based on dropdown selections.</li>
+        <li>Remove (DELETE) a ticket. Also removes any Assignment table entries related to the ticket (M:M relationship).</li>
+        <li>Assigning employees adds (INSERTs) to the Assignments M:M table.</li>
+    </ul>
+  </a>
+  <a href="/employees" class="list-group-item list-group-item-action flex-column align-items-start">
+    <div class="d-flex w-100 justify-content-between">
+      <h5 class="mb-1">All Employees</h5>
+    </div>
+    <ul>
+        <li>View (SELECT) all existing employees.</li>
+        <li>Navigate to the Employee Details page for the selected ticket.</li>
+    </ul>
+  </a>
+  <a href="/employee_details" class="list-group-item list-group-item-action flex-column align-items-start">
+    <div class="d-flex w-100 justify-content-between">
+      <h5 class="mb-1">Employee Details</h5>
+    </div>
+    <ul>
+        <li>Modify (UPDATE) existing employees.</li>
+        <li>Create (INSERT) a new employee.</li>
+        <li>Remove (DELETE) an employee. Also removes any Assignment table entries related to the employee (M:M relationship).</li>
+    </ul>
+  </a>
+  <a href="/clients" class="list-group-item list-group-item-action flex-column align-items-start">
+    <div class="d-flex w-100 justify-content-between">
+      <h5 class="mb-1">All Clients</h5>
+    </div>
+    <ul>
+        <li>View (SELECT) all existing clients.</li>
+        <li>Navigate to the Client Details page for the selected ticket.</li>
+    </ul>
+  </a>
+  <a href="/client_details" class="list-group-item list-group-item-action flex-column align-items-start">
+    <div class="d-flex w-100 justify-content-between">
+      <h5 class="mb-1">Client Details</h5>
+    </div>
+    <ul>
+        <li>Modify (UPDATE) existing clients.</li>
+        <li>Create (INSERT) a new client.</li>
+        <li>Remove (DELETE) a client. Also removes any Tickets and Client Types (M:M Relationship table) entries related to the client.</li>
+    </ul>
+  </a>
+  <a href="/categories" class="list-group-item list-group-item-action flex-column align-items-start">
+    <div class="d-flex w-100 justify-content-between">
+      <h5 class="mb-1">All Categories</h5>
+    </div>
+    <ul>
+        <li>View (SELECT) all existing categories.</li>
+        <li>Navigate to the Category Details page for the selected ticket.</li>
+    </ul>
+  </a>
+  <a href="/category_details" class="list-group-item list-group-item-action flex-column align-items-start">
+    <div class="d-flex w-100 justify-content-between">
+      <h5 class="mb-1">Category Details</h5>
+    </div>
+    <ul>
+        <li>Modify (UPDATE) existing categories.</li>
+        <li>Create (INSERT) a new category.</li>
+        <li>Remove (DELETE) a category. Can only be deleted if no Tickets are assigned to that category.</li>
+    </ul>
+  </a>
+  <a href="/business-types" class="list-group-item list-group-item-action flex-column align-items-start">
+    <div class="d-flex w-100 justify-content-between">
+      <h5 class="mb-1">All Business Types</h5>
+    </div>
+    <ul>
+        <li>View (SELECT) all existing business types.</li>
+        <li>Navigate to the Business Type Details page for the selected ticket.</li>
+    </ul>
+  </a>
+  <a href="/business-type_details" class="list-group-item list-group-item-action flex-column align-items-start">
+    <div class="d-flex w-100 justify-content-between">
+      <h5 class="mb-1">Business Type Details</h5>
+    </div>
+    <ul>
+        <li>Modify (UPDATE) existing business types.</li>
+        <li>Create (INSERT) a new business type.</li>
+        <li>Remove (DELETE) a business type. Also removes any ClientTypes (M:M Relationship table) entries related to the business type.</li>
+    </ul>
+  </a>
+</div>
+<div class="w-25 p-3"><h1>Application Stack</h1></div>
+<ul class="list-group">
+  <li class="list-group-item">Bootstrap</li>
+  <li class="list-group-item">Sass</li>
+  <li class="list-group-item">Node.js</li>
+  <li class="list-group-item">Express</li>
+  <li class="list-group-item">Express Handlebars</li>
+  <li class="list-group-item">MySQL Server</li>
+</ul>

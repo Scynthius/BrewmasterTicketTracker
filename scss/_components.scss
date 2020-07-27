@@ -67,13 +67,13 @@
     }
 }
 
-.ticket {
+.ticket, .client {
     border: 1px solid $light-gray;
     margin-bottom: 8px;
     padding: 8px;
     width: 100%;
 
-    .ticket-show-details {
+    .ticket-show-details, .client-show-details {
         position: relative;
         height: 100%;
         width: 100%;
@@ -90,7 +90,7 @@
         }
     }
 
-    .ticket-title {
+    .ticket-title, .client-title {
     }
 
     .ticket-status {

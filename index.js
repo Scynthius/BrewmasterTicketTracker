@@ -99,6 +99,10 @@ app.post('/', function (req, res, next) {
   }
 });
 
+app.get('/navigation',function(req,res){
+  res.render('navigation');
+});
+
 app.get('/login',function(req,res){
   res.render('login', {layout:'login.handlebars'});
 });
@@ -129,6 +133,26 @@ app.get('/tickets',function(req,res){
 
 app.get('/client_details',function(req,res){
   res.render('clients');
+});
+
+app.get('/clients',function(req,res){
+  context = {};
+
+  globalQueries(context)
+  .then(() => {
+    return getQuery('SELECT ClientID, ClientName, PrimaryContact, Email, Phone FROM Clients LIMIT 10 OFFSET 0');
+  }).then((rows) => {
+    context.clients = rows;
+    res.render('allClients', context);
+  });
+});
+
+app.get('/business-type_details',function(req,res){
+  res.render('business-types');
+});
+
+app.get('/business-types',function(req,res){
+  res.render('allBusiness-types');
 });
 
 app.use(function(req,res){
