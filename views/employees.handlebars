@@ -1,29 +1,38 @@
 <div class="container-xl">
     <div class="row">
+        {{#if failMessage}}
+            <div class="alert alert-warning" role="alert">
+            {{failMessage}}
+            </div>
+        {{/if}}
+        {{#each employee as |emp|}}
         <div class="col-12">
             <h2>Edit Employee Information</h2>
             <form>
                 <div class="form-row">
+                    <input type="text" class="form-control" id="updateEmployeeID" value={{{emp.EmployeeID}}} hidden>
                     <div class="form-group col-md-6">
-                    <label for="firstName">First Name</label>
-                    <input type="text" class="form-control" id="firstName" placeholder="First Name">
+                    <label for="updateFirstName">First Name</label>
+                    <input type="text" class="form-control" id="updateFirstName" value={{{emp.FirstName}}}>
                     </div>
                     <div class="form-group col-md-6">
-                    <label for="lastName">Last Name</label>
-                    <input type="text" class="form-control" id="lastName" placeholder="Last Name">
+                    <label for="updateLastName">Last Name</label>
+                    <input type="text" class="form-control" id="updateLastName" value={{{emp.LastName}}}>
                     </div>
                 </div>
                 <div class="form-row">
                     <div class="form-group col-md-8">
-                        <label for="email">Email</label>
-                        <input type="email" class="form-control" id="email" placeholder="john.doe@brewmaster.com">
+                        <label for="updateEmpEmail">Email</label>
+                        <input type="email" class="form-control" id="updateEmpEmail" value={{{emp.Email}}}>
                     </div>
                     <div class="form-group col-md-4">
-                        <label for="accessLevel">Access Level</label>
-                        <select id="accessLevel" class="form-control">
-                            <option selected>1</option>
-                            <option>2</option>
-                            <option>3</option>
+                        <label for="updateAccessLevel">Access Level</label>
+                        <select id="updateAccessLevel" class="form-control">
+                            {{#select emp.AccessLevel}}
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            {{/select}}
                         </select>
                     </div>
                 </div>
@@ -38,16 +47,31 @@
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                                <a class="btn btn-danger btn-ok">Delete</a>
+                                <a class="btn btn-danger btn-ok" href="" method="POST">Delete</a>
                             </div>
                         </div>
                     </div>
                 </div>
-                
-                <button type="submit" class="primary">Save Changes</button>
-                <button type="button" class="default">Discard Changes</button>
+                <div class="modal fade" id="confirm-update" tabindex="-1" role="dialog" aria-labelledby="updateEmployee" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                Update Complete
+                            </div>
+                            <div class="modal-body">
+                                Employee record has been updated successfully.
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">OK</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <button type="submit" class="primary" id="updateEmployee">Save Changes</button>
+                <button type="button" class="default" onclick="window.location.reload()">Discard Changes</button>
                 <a href="#" data-toggle="modal" data-target="#confirm-delete">Delete</a>
             </form>
         </div>
+        {{/each}}
     </div>
 </div>

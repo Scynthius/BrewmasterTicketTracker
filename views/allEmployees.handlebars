@@ -1,0 +1,19 @@
+<div class="container-fluid">
+    <div class="row">
+        {{#each employees}}
+        <div class="col-12">
+            <div class="client search-result">
+                <div class="row">
+                    <div class="col-12">
+                        <a class="client-name" href="/employee_details/{{this.EmployeeID}}">{{this.FirstName}} {{this.LastName}}</a>
+                    </div>
+                    <div class="col-12">
+                        <span><p>Access Level: {{this.AccessLevel}}</p></span>
+                        <span><p>Email: {{this.Email}}</p></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {{/each}}
+    </div>
+</div>

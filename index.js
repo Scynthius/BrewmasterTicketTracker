@@ -4,6 +4,7 @@ var path = require('path');
 
 var app = express();
 var handlebars = require('express-handlebars').create({defaultLayout:'main'});
+var Handlebars = require('handlebars');
 var bodyParser = require('body-parser');
 const { resolve } = require('path');
 
@@ -22,6 +23,12 @@ app.use(express.static(path.join(__dirname, '/public')));
 
 app.engine('handlebars', handlebars.engine);
 app.set('view engine', 'handlebars');
+Handlebars.registerHelper('select', function(selected, options) {
+  return options.fn(this).replace(
+      new RegExp(' value=\"' + selected + '\"'),
+      '$& selected="selected"');
+});
+
 
 app.set('port', process.argv[2]);
 
@@ -107,15 +114,47 @@ app.get('/login',function(req,res){
   res.render('login', {layout:'login.handlebars'});
 });
 
-app.get('/employee_details',function(req,res){
-  res.render('employees');
+app.get('/employee_details/:employeeid',function(req,res){
+  context = {};
+
+  globalQueries(context)
+  .then(() => {
+    return getQuery('SELECT EmployeeID, FirstName, LastName, Email, AccessLevel FROM Employees WHERE EmployeeID=\'' + req.params.employeeid + '\'');
+  }).then((rows) => {
+    if(!rows.length){
+      context.failMessage = "We had trouble locating that employee. Check their employee ID number and try again.";
+    } else {
+      context.failMessage = null;
+    }
+      context.employee = rows;
+      res.render('employees', context);
+  });
+});
+
+app.post("/employee_details", function(req,req){
+  mysql.pool.query('UPDATE Employees SET FirstName=(?), LastName=(?), Email=(?), AccessLevel=(?) WHERE EmployeeID=(?)',
+      [req.body.FirstName, req.body.LastName, req.body.Email, req.body.AccessLevel, req.body.EmployeeID], function (err, result) {
+        if (err) {
+          next(err);
+          return;
+        }
+        res.sendStatus(200);
+  });
 });
 
 app.get('/employees', function(req, res) {
-  res.render('allEmployees');
+  context = {};
+
+  globalQueries(context)
+  .then(() => {
+    return getQuery('SELECT EmployeeID, FirstName, LastName, AccessLevel, Email FROM `Employees` LIMIT 10 OFFSET 0');
+  }).then((rows) => {
+    context.employees = rows;
+    res.render('allEmployees', context);
+  });
 })
 
-app.get('/ticket_details',function(req,res){
+app.get('/ticket_details/:ticketid',function(req,res){
   res.render('tickets');
 });
 
@@ -131,7 +170,7 @@ app.get('/tickets',function(req,res){
   });
 });
 
-app.get('/client_details',function(req,res){
+app.get('/client_details/:clientid',function(req,res){
   res.render('clients');
 });
 
@@ -140,19 +179,51 @@ app.get('/clients',function(req,res){
 
   globalQueries(context)
   .then(() => {
-    return getQuery('SELECT ClientID, ClientName, PrimaryContact, Email, Phone FROM Clients LIMIT 10 OFFSET 0');
+    return getQuery('SELECT Clients.ClientID, Clients.ClientName, Clients.PrimaryContact, Clients.Email, Clients.Phone, COUNT(Tickets.TicketID) AS ticketCount FROM Clients LEFT JOIN (SELECT * FROM Tickets WHERE Status != \'Closed\') AS Tickets ON Tickets.ClientID = Clients.ClientID GROUP BY Clients.ClientID LIMIT 10 OFFSET 0');
   }).then((rows) => {
     context.clients = rows;
     res.render('allClients', context);
   });
 });
 
-app.get('/business-type_details',function(req,res){
+app.get('/business-type_details/:typeid',function(req,res){
   res.render('business-types');
 });
 
 app.get('/business-types',function(req,res){
-  res.render('allBusiness-types');
+  context = {};
+
+  globalQueries(context)
+  .then(() => {
+    return getQuery('SELECT TypeID, Name, DATE_FORMAT(CreatedDate, "%m/%d/%Y") AS CreatedDate FROM BusinessTypes LIMIT 10 OFFSET 0');
+  }).then((rows) => {
+    context.businesstypes = rows;
+    res.render('allBusiness-types', context);
+  });
+});
+
+app.get('/category_details/:categoryid',function(req,res){
+  context = {};
+
+  globalQueries(context)
+  .then(() => {
+    return getQuery('SELECT CategoryID, Name, DATE_FORMAT(CreatedDate, "%m/%d/%Y") AS CreatedDate FROM Categories WHERE CategoryID=\'' + req.params.categoryid + '\' LIMIT 10 OFFSET 0');
+  }).then((rows) => {
+    context.category = rows;
+    res.render('categories', context);
+  });
+});
+
+app.get('/categories',function(req,res){
+  context = {};
+
+  globalQueries(context)
+  .then(() => {
+    return getQuery('SELECT CategoryID, Name, DATE_FORMAT(CreatedDate, "%m/%d/%Y") AS CreatedDate FROM Categories LIMIT 10 OFFSET 0');
+  }).then((rows) => {
+    context.categories = rows;
+    res.render('allCategories', context);
+  });
 });
 
 app.use(function(req,res){

@@ -1,11 +1,11 @@
 <div class="container-fluid">
     <div class="row">
-        {{#each businesstypes}}
+        {{#each categories}}
         <div class="col-12">
             <div class="client search-result">
                 <div class="row">
                     <div class="col-12">
-                        <a class="client-name" href="/category_details/{{this.TypeID}}">{{this.Name}}</a>
+                        <a class="client-name" href="/category_details/{{this.CategoryID}}">{{this.Name}}</a>
                     </div>
                     <div class="col-12">
                         <span><p>Created: {{this.CreatedDate}}</p></span>

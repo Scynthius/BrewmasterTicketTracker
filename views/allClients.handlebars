@@ -1,0 +1,21 @@
+<div class="container-fluid">
+    <div class="row">
+        {{#each clients}}
+        <div class="col-12">
+            <div class="client search-result">
+                <div class="row">
+                    <div class="col-12">
+                        <a class="client-name" href="/client_details/{{this.ClientID}}">{{this.ClientName}}</a>
+                        <span class="client-status">{{this.ticketCount}} Open Tickets</span>
+                    </div>
+                    <div class="col-12">
+                        <span><p>Primary Contact: {{this.PrimaryContact}}</p></span>
+                        <span><p>Phone Number: {{this.Phone}}</p></span>
+                        <span><p>Email: {{this.Email}}</p></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {{/each}}
+    </div>
+</div>

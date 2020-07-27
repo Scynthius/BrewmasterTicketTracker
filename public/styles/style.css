@@ -133,11 +133,12 @@ h1, h2, h3, h4, h5 {
   .ticket-search input, .ticket-search select, .ticket-search textarea, .client-search input, .client-search select, .client-search textarea {
     width: calc(100% - 70px); }
 
-.ticket {
+.ticket{
   border: 1px solid #D9D9D9;
   margin-bottom: 8px;
   padding: 8px;
-  width: 100%; }
+  width: 100%;
+  background-color: #b8b7b7; }
   .ticket .ticket-show-details {
     position: relative;
     height: 100%;
@@ -166,6 +167,42 @@ h1, h2, h3, h4, h5 {
   .ticket .ticket-details {
     display: none; }
   .ticket .ticket-details.shown {
+    display: block; }
+
+.client{
+  border: 1px solid #D9D9D9;
+  margin-bottom: 8px;
+  padding: 8px;
+  width: 100%;
+  background-color: #b8b7b7; }
+  .client .client-show-details {
+    position: relative;
+    height: 100%;
+    width: 100%; }
+    .client .client-show-details::before {
+      content: '+';
+      position: absolute;
+      left: 25%;
+      top: 25%; }
+    .client .client-show-details.active::before {
+      content: '−'; }
+  .client .client-status {
+    background: #D9D9D9;
+    border-radius: 2.5px;
+    display: inline-block;
+    font-size: 0.75em;
+    padding: 2px 4px; }
+    .client .client-status::after {
+      content: '';
+      display: block; }
+  .client .client-category {
+    font-size: 0.75em;
+    line-height: 1em; }
+  .client .client-submitted {
+    font-size: 0.75em; }
+  .client .client-details {
+    display: none; }
+  .client .client-details.shown {
     display: block; }
 
 .modal-body button {

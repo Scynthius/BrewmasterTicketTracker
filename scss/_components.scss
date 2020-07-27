@@ -72,6 +72,7 @@
     margin-bottom: 8px;
     padding: 8px;
     width: 100%;
+    background-color: rgb(92, 92, 94);
 
     .ticket-show-details, .client-show-details {
         position: relative;
@@ -90,10 +91,10 @@
         }
     }
 
-    .ticket-title, .client-title {
+    .ticket-title, .client-name {
     }
 
-    .ticket-status {
+    .ticket-status, .client-status {
         background: $light-gray;
         border-radius: 2.5px;
         display: inline-block;
