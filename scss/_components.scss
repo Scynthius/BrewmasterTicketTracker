@@ -67,14 +67,14 @@
     }
 }
 
-.ticket, .client {
+.card {
+    background-color: $white;
     border: 1px solid $light-gray;
     margin-bottom: 8px;
     padding: 8px;
     width: 100%;
-    background-color: rgb(92, 92, 94);
 
-    .ticket-show-details, .client-show-details {
+    .card-show-details {
         position: relative;
         height: 100%;
         width: 100%;
@@ -91,10 +91,11 @@
         }
     }
 
-    .ticket-title, .client-name {
+    .card-title {
+        display: block;
     }
 
-    .ticket-status, .client-status {
+    .card-status {
         background: $light-gray;
         border-radius: 2.5px;
         display: inline-block;
@@ -107,20 +108,20 @@
         }
     }
 
-    .ticket-category {
+    .card-category {
         font-size: 0.75em;
         line-height: 1em;
     }
 
-    .ticket-submitted {
+    .card-small-text {
         font-size: 0.75em;
     }
 
-    .ticket-details {
+    .card-details {
         display: none;
     }
 
-    .ticket-details.shown {
+    .card-details.shown {
         display: block;
     }
 }

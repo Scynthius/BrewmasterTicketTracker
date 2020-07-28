@@ -2,16 +2,16 @@
     <div class="row">
         {{#each clients}}
         <div class="col-12">
-            <div class="client search-result">
+            <div class="card search-result">
                 <div class="row">
                     <div class="col-12">
-                        <a class="client-name" href="/client_details/{{this.ClientID}}">{{this.ClientName}}</a>
-                        <span class="client-status">{{this.ticketCount}} Open Tickets</span>
+                        <a class="card-title" href="/client_details/{{this.ClientID}}">{{this.ClientName}}</a>
+                        <span class="card-status">{{this.ticketCount}} Open Tickets</span>
                     </div>
                     <div class="col-12">
-                        <span><p>Primary Contact: {{this.PrimaryContact}}</p></span>
-                        <span><p>Phone Number: {{this.Phone}}</p></span>
-                        <span><p>Email: {{this.Email}}</p></span>
+                        <span class="card-small-text">Primary Contact: {{this.PrimaryContact}}</span> &bull;
+                        <span class="card-small-text">Phone Number: {{this.Phone}}</span> &bull;
+                        <span class="card-small-text">Email: {{this.Email}}</span>
                     </div>
                 </div>
             </div>

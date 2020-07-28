@@ -91,7 +91,7 @@
               <div class="col-12">
                 <label for="ticket_client">Client</label>
                 <select name="ticket_client" id="ticket_client">
-                  {{#each clients}}
+                  {{#each globalClients}}
                     <option value="{{this.CID}}">{{this.Client}}</option>
                   {{/each}}
                 </select>
@@ -99,7 +99,7 @@
               <div class="col-12">
                 <label for="ticket_category">Category</label>
                 <select name="ticket_category" id="ticket_category">
-                  {{#each categories}}
+                  {{#each globalCategories}}
                   <option value="{{this.CatID}}">{{this.Category}}</option>
                   {{/each}}
                 </select>
@@ -134,7 +134,7 @@
               <div class="col-12">
                 <label for="client_type">Client Type</label>
                 <select name="client_type" id="client_type">
-                  {{#each types}}
+                  {{#each globalTypes}}
                   <option value="{{this.TypeID}}">{{this.BusinessType}}</option>
                   {{/each}}
                 </select>

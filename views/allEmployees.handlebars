@@ -2,14 +2,14 @@
     <div class="row">
         {{#each employees}}
         <div class="col-12">
-            <div class="client search-result">
+            <div class="card search-result">
                 <div class="row">
                     <div class="col-12">
-                        <a class="client-name" href="/employee_details/{{this.EmployeeID}}">{{this.FirstName}} {{this.LastName}}</a>
+                        <a class="card-title" href="/employee_details/{{this.EmployeeID}}">{{this.FirstName}} {{this.LastName}}</a>
                     </div>
                     <div class="col-12">
-                        <span><p>Access Level: {{this.AccessLevel}}</p></span>
-                        <span><p>Email: {{this.Email}}</p></span>
+                        <span class="card-small-text">{{this.Email}}</span> &bull;
+                        <span class="card-small-text">Access Level: {{this.AccessLevel}}</span>
                     </div>
                 </div>
             </div>
