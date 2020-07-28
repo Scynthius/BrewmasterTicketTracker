@@ -143,6 +143,17 @@ app.put("/employee_details", function(req, res, next){
   });
 });
 
+app.delete("/employee_details", function(req, res, next){
+  mysql.pool.query('DELETE FROM Assignments WHERE EmployeeID=(?); DELETE FROM Employees WHERE EmployeeID=(?);',
+      [req.body.EmployeeID, req.body.EmployeeID], function (err, result) {
+        if (err) {
+          next(err);
+          return;
+        }
+        res.sendStatus(200);
+  });
+});
+
 app.get('/employees', function(req, res) {
   context = {};
 
@@ -157,41 +168,55 @@ app.get('/employees', function(req, res) {
 
 app.get('/ticket_details/:ticketid',function(req,res){
   context = {};
-  getQuery('SELECT Tickets.TicketID, Tickets.Title, Tickets.Description, Categories.Name as Category, Tickets.Status, Clients.ClientId, Clients.ClientName, Tickets.Resolution FROM Tickets JOIN Categories ON Tickets.CategoryID = Categories.CategoryID JOIN Clients ON Tickets.ClientID = Clients.ClientID WHERE Tickets.TicketID = ' + req.params.ticketid + ' GROUP BY Tickets.TicketID')
-  .then((rows) => {
-    console.log("Tickets:")
-    console.log(rows)
+  globalQueries(context)
+  .then(() => {
+    return getQuery('SELECT Tickets.TicketID, Tickets.Title, Tickets.Description, Tickets.CategoryID, Tickets.Status, Tickets.ClientID, Clients.ClientName, Tickets.Resolution, Tickets.SubmitDate, Tickets.ModifiedDate, Tickets.CloseDate FROM Tickets JOIN Clients ON Tickets.ClientID = Clients.ClientID WHERE Tickets.TicketID = ' + req.params.ticketid + ' GROUP BY Tickets.TicketID')
+  }).then((rows) => {
     context.tickets = rows;
   }).then(() => {
-    return getQuery('SELECT CategoryID, Name FROM Categories');
+    return getQuery('SELECT CONCAT(Employees.FirstName, \' \', Employees.LastName) AS FullName, Employees.EmployeeID FROM Assignments INNER JOIN Employees ON Employees.EmployeeID = Assignments.EmployeeID WHERE Assignments.TicketID=' + req.params.ticketid );
   }).then((rows) => {
-    console.log("Categories:")
-    console.log(rows)
-    context.tickets.categories = rows;
-  }).then(() => {
-    return getQuery('SELECT CONCAT(Employees.FirstName, \' \', Employees.LastName) AS FullName, Employees.EmployeeID FROM Assignments INNER JOIN Employees ON Employees.EmployeeID = Assignments.EmployeeID WHERE Assignments.TicketID=\'' + req.body.ticketid + '\'');
-  }).then((rows) => {
-    console.log("Assigned Employees:")
-    console.log(rows)
-    context.tickets.assignedemployees = rows;
-  }).then(() => {
-    return getQuery('SELECT ClientID, ClientName FROM Clients');
-  }).then((rows) => {
-    console.log("Clients:")
-    console.log(rows)
-    context.tickets.clients = rows;
+    context.assignedemployees = rows;
   }).then(() => {
     return getQuery('SELECT CONCAT(Employees.FirstName, \' \', Employees.LastName) AS FullName, Employees.EmployeeID FROM Employees');
   }).then((rows) => {
-    console.log("Employees:")
-    console.log(rows)
-    context.tickets.employees = rows;
-    console.log("Results:")
-    console.log(context)
+    context.employees = rows;
+  }).then(() => {
+    return getQuery('SELECT ClientID, ClientName, (CASE WHEN (ClientID=' + context.tickets[0]["ClientID"] + ') then (true) ELSE(false) End) AS Selected FROM Clients');
+  }).then((rows) => {
+    context.clients = rows;
+  }).then(() => {
+    return getQuery('SELECT CategoryID, Name, (CASE WHEN (CategoryID=' + context.tickets[0]["CategoryID"] + ') then (true) ELSE(false) End) AS Selected FROM Categories');
+  }).then((rows) => {
+    context.categories = rows;
     res.render('tickets', context);
   });
 });
 
+app.put("/ticket_details", function(req, res, next){
+  console.log(req.body.Assignments);
+  mysql.pool.query('UPDATE Tickets SET Title=(?), Description=(?), CategoryID=(?), ClientID=(?), Status=(?), ModifiedDate=(?), CloseDate=(?), Resolution=(?) WHERE TicketID=(?)',
+      [req.body.Title, req.body.Description, req.body.CategoryID, req.body.ClientID, req.body.Status, req.body.ModifiedDate, req.body.CloseDate, req.body.Resolution], function (err, result) {
+        if (err) {
+          next(err);
+          return;
+        }
+        res.sendStatus(200);
+      })/*.then(() => {
+          mysql.pool.query('DELETE FROM Assignments WHERE TicketID=(?)', [req.body.TicketID], function(err, result){
+            if (err) {
+              next(err);
+              return;
+            }
+          })
+      }).then(() => {
+        console.log(req.body.Assignments);
+        var queryString = "INSERT INTO Assignments (EmployeeID, TicketID) VALUES ";
+        for(let row in req.body.Assignments){
+          queryString = queryString.concat("(" + row.)
+        }
+      })  */
+});
 
 app.get('/tickets',function(req,res){
   context = {};

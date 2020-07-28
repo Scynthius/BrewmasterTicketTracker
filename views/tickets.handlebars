@@ -2,45 +2,51 @@
     <div class="row">
         <div class="col-12">
             <h2>Edit Ticket Information</h2>
-            {{#each tickets}}
+            
             <form>
                 <div class="form-row">
+                    <input type="text" class="form-control" id="updateTicketID" value={{{tickets.0.TicketID}}} hidden>
                     <div class="form-group col-md-6">
                         <label for="updateTitle">Title</label>
-                        <input type="text" class="form-control" id="updateTitle" value={{{tickets.Title}}}>
+                        <input type="text" class="form-control" id="updateTitle" value="{{{tickets.0.Title}}}">
                     </div>
                     <div class="form-group col-md-6">
-                        <label for="category">Category</label>
-                        <select id="category" class="form-control">
-                            {{#select tickets.CategoryID}}
-                            {{#each categories}}
-                            <option value={{{CategoryID}}}>{{{Name}}}</option>
+                        <label for="updateCategory">Category</label>
+                        <select id="updateCategory" class="form-control">
+                            {{#each categories as |cat|}}
+                            {{#if cat.Selected}}
+                            <option value={{{cat.CategoryID}}} selected>{{{cat.Name}}}</option>
+                            {{else}}
+                            <option value={{{cat.CategoryID}}}>{{{cat.Name}}}</option>
+                            {{/if}}
                             {{/each}}
-                            {{/select}}
                         </select>
                     </div>
                 </div>
                 <div class="form-row">
                     <div class="form-group col-md-12">
-                        <label for="description">Description</label>
-                        <textarea class="form-control" id="description" rows="10">{{{tickets.Description}}}</textarea>
+                        <label for="updateDescription">Description</label>
+                        <textarea class="form-control" id="updateDescription" rows="10">{{{tickets.0.Description}}}</textarea>
                     </div>
                 </div>
                 <div class="form-row">
                     <div class="form-group col-md-6">
-                        <label for="client">Client</label>
-                        <select id="client" class="form-control">
-                            {{#select tickets.ClientID}}
-                            {{#each clients}}
-                            <option value={{{ClientID}}}>{{{ClientName}}}</option>
+                        <label for="updateClientList">Client</label>
+                        <select id="updateClientList" class="form-control">
+                            {{#each clients as |c|}}
+                            {{#if c.Selected}}
+                            <option value={{{c.ClientID}}} selected>{{{c.ClientName}}}</option>
+                            {{else}}
+                            <option value={{{c.ClientID}}}>{{{c.ClientName}}}</option>
+                            {{/if}}
                             {{/each}}
-                            {{/select}}
                         </select>
                     </div>
                     <div class="form-group col-md-6">
-                        <label for="status">Status</label>
-                        <select id="status" class="form-control">
-                            {{#select tickets.Status}}
+                        <input type="text" class="form-control" id="updateTicketOldStatus" value={{{tickets.0.Status}}} hidden>
+                        <label for="updateStatus">Status</label>
+                        <select id="updateStatus" class="form-control">
+                            {{#select tickets.0.Status}}
                             <option value="Unassigned">Unassigned</option>
                             <option value="Assigned">Assigned</option>
                             <option value="Closed">Closed</option>
@@ -52,33 +58,35 @@
                     <div class="form-group col-md-6">
                         <div class="row">
                             <div class="col align-items-center">
-                                <label for="assignedEmployees">Assign an Employee</label>
+                                <label for="updateAssignedEmployees">Assign an Employee</label>
                                 <div class="form-group">
-                                    <select id="assignedEmployees">
-                                        {{#each employees}}
-                                        <option value={{{EmployeeID}}}>{{{FullName}}}</option>
+                                    <select id="updateAssignedEmployees">
+                                        {{#each employees as |emp|}}
+                                        <option value={{{emp.EmployeeID}}}>{{{emp.FullName}}}</option>
                                         {{/each}}
                                     </select>
-                                    <button type="submit" class="primary">Add Employee</button>
+                                    <button type="submit" class="primary" id="addNewAssignment">Add Employee</button>
                                 </div>
                             </div>
                             
                         </div>
                     </div>
                     <div class="form-group col-md-6">
-                        <table class="mx-auto" id="dataTable">
+                        <table class="mx-auto" id="assignedEmployeesTable">
                             <tr class="text-center font-weight-bold">
-                                <td colspan='5'>Assigned Employees</td>
+                                <td colspan='3'>Assigned Employees</td>
                             </tr>
                             
-                            <tr id="headerRow">
+                            <tr id="assignedRow">
+                                <th style="display: none;">EmployeeID</th>
                                 <th style="display: none;">EmployeeName</th>
                                 <th style="display: none;">Delete</th>
                             </tr>
-                            {{#each assignedemployees}}
+                            {{#each assignedemployees as |assemp|}}
                             <tr>
-                                <td>{{{FullName}}}</td>
-                                <td><button class="btn btn-warning btn-sm">Delete</button></td>
+                                <td style="display: none;">{{{assemp.EmployeeID}}}</td>
+                                <td>{{{assemp.FullName}}}</td>
+                                <td><button class="btn btn-warning btn-sm remAssignment">Delete</button></td>
                             </tr>
                             {{/each}}
                         </table>
@@ -86,8 +94,8 @@
                 </div>
                 <div class="form-row">
                     <div class="form-group col-md-12">
-                        <label for="resolution">Resolution</label>
-                        <textarea class="form-control" id="resolution" rows="10">{{{tickets.Resolution}}}</textarea>
+                        <label for="updateResolution">Resolution</label>
+                        <textarea class="form-control" id="updateResolution" rows="10">{{{tickets.Resolution}}}</textarea>
                     </div>
                 </div>
                 <div class="modal fade" id="confirm-delete" tabindex="-1" role="dialog" aria-labelledby="deleteEmployee" aria-hidden="true">
@@ -101,7 +109,7 @@
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                                <a class="btn btn-danger btn-ok">Delete</a>
+                                <a class="btn btn-danger btn-ok" id="deleteTicket">Delete</a>
                             </div>
                         </div>
                     </div>
@@ -121,11 +129,26 @@
                         </div>
                     </div>
                 </div>
+                <div class="modal fade" id="completed-delete" tabindex="-1" role="dialog" aria-labelledby="deleteEmployee" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                Delete Complete
+                            </div>
+                            <div class="modal-body">
+                                Ticket record has been deleted. 
+                            </div>
+                            <div class="modal-footer">
+                                <a href="/tickets">Return to Ticket List</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 <button type="submit" class="primary" id="updateTicket">Save Changes</button>
                 <button type="button" class="default" onclick="window.location.reload()">Discard Changes</button>
                 <a href="#" data-toggle="modal" data-target="#confirm-delete">Delete</a>
             </form>
-            {{/each}}
+            
         </div>
     </div>
 </div>
