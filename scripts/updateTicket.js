@@ -1,5 +1,5 @@
 (function () {
-    function updateEmployee() {
+    function updateTicket() {
         var employeeID = document.getElementById("updateEmployeeID").value;
         var employeeFN = document.getElementById("updateFirstName").value;
         var employeeLN = document.getElementById("updateLastName").value;
@@ -25,9 +25,9 @@
         request.send(JSON.stringify(data));
     };
 
-    var createEmployeeButton = document.getElementById('updateEmployee');
+    var createEmployeeButton = document.getElementById('updateTicket');
     createEmployeeButton.addEventListener('click', function (event) {
         event.preventDefault();
-        updateEmployee();
+        updateTicket();
     });
 })();

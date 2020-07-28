@@ -2,42 +2,49 @@
     <div class="row">
         <div class="col-12">
             <h2>Edit Ticket Information</h2>
+            {{#each tickets}}
             <form>
                 <div class="form-row">
                     <div class="form-group col-md-6">
-                        <label for="title">Title</label>
-                        <input type="text" class="form-control" id="title" placeholder="Ticket Title">
+                        <label for="updateTitle">Title</label>
+                        <input type="text" class="form-control" id="updateTitle" value={{{tickets.Title}}}>
                     </div>
                     <div class="form-group col-md-6">
                         <label for="category">Category</label>
                         <select id="category" class="form-control">
-                            <option selected>Test ticket</option>
-                            <option>Order Issue</option>
-                            <option>Request for New Services</option>
+                            {{#select tickets.CategoryID}}
+                            {{#each categories}}
+                            <option value={{{CategoryID}}}>{{{Name}}}</option>
+                            {{/each}}
+                            {{/select}}
                         </select>
                     </div>
                 </div>
                 <div class="form-row">
                     <div class="form-group col-md-12">
                         <label for="description">Description</label>
-                        <textarea class="form-control" id="description" rows="10">Add as much detailed information as possible.</textarea>
+                        <textarea class="form-control" id="description" rows="10">{{{tickets.Description}}}</textarea>
                     </div>
                 </div>
                 <div class="form-row">
                     <div class="form-group col-md-6">
                         <label for="client">Client</label>
                         <select id="client" class="form-control">
-                            <option selected>Steel Works Brewery</option>
-                            <option>Bertie Botts Every Flavor Beer</option>
-                            <option>Canvas Distributors</option>
+                            {{#select tickets.ClientID}}
+                            {{#each clients}}
+                            <option value={{{ClientID}}}>{{{ClientName}}}</option>
+                            {{/each}}
+                            {{/select}}
                         </select>
                     </div>
                     <div class="form-group col-md-6">
                         <label for="status">Status</label>
                         <select id="status" class="form-control">
-                            <option selected>Unassigned</option>
-                            <option>Assigned</option>
-                            <option>Closed</option>
+                            {{#select tickets.Status}}
+                            <option value="Unassigned">Unassigned</option>
+                            <option value="Assigned">Assigned</option>
+                            <option value="Closed">Closed</option>
+                            {{/select}}
                         </select>
                     </div>
                 </div>
@@ -48,9 +55,9 @@
                                 <label for="assignedEmployees">Assign an Employee</label>
                                 <div class="form-group">
                                     <select id="assignedEmployees">
-                                        <option value="default" selected>Employees</option>
-                                        <option value="JohnDoe">John Doe</option>
-                                        <option value="JaneDoe">Jane Doe</option>
+                                        {{#each employees}}
+                                        <option value={{{EmployeeID}}}>{{{FullName}}}</option>
+                                        {{/each}}
                                     </select>
                                     <button type="submit" class="primary">Add Employee</button>
                                 </div>
@@ -63,21 +70,24 @@
                             <tr class="text-center font-weight-bold">
                                 <td colspan='5'>Assigned Employees</td>
                             </tr>
+                            
                             <tr id="headerRow">
                                 <th style="display: none;">EmployeeName</th>
                                 <th style="display: none;">Delete</th>
                             </tr>
+                            {{#each assignedemployees}}
                             <tr>
-                                <td>John Doe</td>
+                                <td>{{{FullName}}}</td>
                                 <td><button class="btn btn-warning btn-sm">Delete</button></td>
                             </tr>
+                            {{/each}}
                         </table>
                     </div>
                 </div>
                 <div class="form-row">
                     <div class="form-group col-md-12">
                         <label for="resolution">Resolution</label>
-                        <textarea class="form-control" id="resolution" rows="10">Closing remarks on how the ticket was closed.</textarea>
+                        <textarea class="form-control" id="resolution" rows="10">{{{tickets.Resolution}}}</textarea>
                     </div>
                 </div>
                 <div class="modal fade" id="confirm-delete" tabindex="-1" role="dialog" aria-labelledby="deleteEmployee" aria-hidden="true">
@@ -96,11 +106,26 @@
                         </div>
                     </div>
                 </div>
-                
-                <button type="submit" class="primary">Save Changes</button>
-                <button type="button" class="default">Discard Changes</button>
+                <div class="modal fade" id="confirm-update" tabindex="-1" role="dialog" aria-labelledby="updateEmployee" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                Update Complete
+                            </div>
+                            <div class="modal-body">
+                                Ticket has been updated successfully.
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">OK</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <button type="submit" class="primary" id="updateTicket">Save Changes</button>
+                <button type="button" class="default" onclick="window.location.reload()">Discard Changes</button>
                 <a href="#" data-toggle="modal" data-target="#confirm-delete">Delete</a>
             </form>
+            {{/each}}
         </div>
     </div>
 </div>

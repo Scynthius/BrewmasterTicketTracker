@@ -155,8 +155,42 @@ app.get('/employees', function(req, res) {
 })
 
 app.get('/ticket_details/:ticketid',function(req,res){
-  res.render('tickets');
+  context = {};
+  getQuery('SELECT Tickets.TicketID, Tickets.Title, Tickets.Description, Categories.Name as Category, Tickets.Status, Clients.ClientId, Clients.ClientName, Tickets.Resolution FROM Tickets JOIN Categories ON Tickets.CategoryID = Categories.CategoryID JOIN Clients ON Tickets.ClientID = Clients.ClientID WHERE Tickets.TicketID = ' + req.params.ticketid + ' GROUP BY Tickets.TicketID')
+  .then((rows) => {
+    console.log("Tickets:")
+    console.log(rows)
+    context.tickets = rows;
+  }).then(() => {
+    return getQuery('SELECT CategoryID, Name FROM Categories');
+  }).then((rows) => {
+    console.log("Categories:")
+    console.log(rows)
+    context.tickets.categories = rows;
+  }).then(() => {
+    return getQuery('SELECT CONCAT(Employees.FirstName, \' \', Employees.LastName) AS FullName, Employees.EmployeeID FROM Assignments INNER JOIN Employees ON Employees.EmployeeID = Assignments.EmployeeID WHERE Assignments.TicketID=\'' + req.body.ticketid + '\'');
+  }).then((rows) => {
+    console.log("Assigned Employees:")
+    console.log(rows)
+    context.tickets.assignedemployees = rows;
+  }).then(() => {
+    return getQuery('SELECT ClientID, ClientName FROM Clients');
+  }).then((rows) => {
+    console.log("Clients:")
+    console.log(rows)
+    context.tickets.clients = rows;
+  }).then(() => {
+    return getQuery('SELECT CONCAT(Employees.FirstName, \' \', Employees.LastName) AS FullName, Employees.EmployeeID FROM Employees');
+  }).then((rows) => {
+    console.log("Employees:")
+    console.log(rows)
+    context.tickets.employees = rows;
+    console.log("Results:")
+    console.log(context)
+    res.render('tickets', context);
+  });
 });
+
 
 app.get('/tickets',function(req,res){
   context = {};
@@ -166,8 +200,8 @@ app.get('/tickets',function(req,res){
     return getQuery('SELECT Tickets.TicketID, Tickets.Title, Tickets.Description, Categories.Name as Category, Tickets.Status, Clients.ClientId, Clients.ClientName, DATE_FORMAT(Tickets.SubmitDate, "%m/%d/%Y") AS Submitted, DATE_FORMAT(Tickets.ModifiedDate, "%m/%d/%Y") AS LastUpdated, DATE_FORMAT(Tickets.CloseDate, "%m/%d/%Y") AS Closed FROM Tickets JOIN Categories ON Tickets.CategoryID = Categories.CategoryID JOIN Clients ON Tickets.ClientID = Clients.ClientID LIMIT 10 OFFSET 0');
   }).then((rows) => {
     context.tickets = rows;
-    res.render('allTickets', context);
-  });
+    res.render('allTickets', context)
+  })
 });
 
 app.get('/client_details/:clientid',function(req,res){

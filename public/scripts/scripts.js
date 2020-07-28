@@ -210,10 +210,14 @@ function showDetails(elem) {
         });
         request.send(JSON.stringify(data));
     };
-
-    var createEmployeeButton = document.getElementById('updateEmployee');
+    try {
+        var createEmployeeButton = document.getElementById('updateEmployee');
     createEmployeeButton.addEventListener('click', function (event) {
         event.preventDefault();
         updateEmployee();
     });
+    } catch(error) {
+        return;
+    }
+    
 })();
