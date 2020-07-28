@@ -183,6 +183,7 @@ function showDetails(elem) {
     elem.classList.toggle('active');
     cardDetails.classList.toggle('shown');
 }
+
 (function () {
     function updateEmployee() {
         var employeeID = document.getElementById("updateEmployeeID").value;
@@ -250,9 +251,9 @@ function showDetails(elem) {
         var ticketClient = document.getElementById("updateClientList").value;
         var ticketStatus = document.getElementById("updateStatus").value;
         var ticketRes = document.getElementById("updateResolution").value;
-        var assignments = document.getElementById("assignedEmployeesTable").rows;
+        var assignments = document.getElementById("assignedEmployeesTable").value;
         var modDate = getCurrentDate();
-        var closeDate = null;
+        var closeDate = "null";
         if (document.getElementById("updateTicketOldStatus").value !== "Closed" && ticketStatus === "Closed"){
             closeDate = getCurrentDate();
         }

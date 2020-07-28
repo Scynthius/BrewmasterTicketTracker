@@ -195,8 +195,8 @@ app.get('/ticket_details/:ticketid',function(req,res){
 
 app.put("/ticket_details", function(req, res, next){
   console.log(req.body.Assignments);
-  mysql.pool.query('UPDATE Tickets SET Title=(?), Description=(?), CategoryID=(?), ClientID=(?), Status=(?), ModifiedDate=(?), CloseDate=(?), Resolution=(?) WHERE TicketID=(?)',
-      [req.body.Title, req.body.Description, req.body.CategoryID, req.body.ClientID, req.body.Status, req.body.ModifiedDate, req.body.CloseDate, req.body.Resolution], function (err, result) {
+  mysql.pool.query('UPDATE Tickets SET Title=(?), Description=(?), CategoryID=CAST((?) AS int), ClientID=CAST((?) AS int), Status=(?), ModifiedDate=(?), CloseDate=(?), Resolution=(?) WHERE TicketID=CAST((?) AS int)',
+      [req.body.Title, req.body.Description, req.body.CategoryID, req.body.ClientID, req.body.Status, req.body.ModifiedDate, req.body.CloseDate, req.body.Resolution, req.body.TicketID], function (err, result) {
         if (err) {
           next(err);
           return;
