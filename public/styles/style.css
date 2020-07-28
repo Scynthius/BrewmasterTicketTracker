@@ -1,6 +1,6 @@
 @charset "UTF-8";
 html, body {
-  background-color: #F8F8F8; }
+  background-color: #eeeeee; }
 
 main {
   margin-bottom: 24px; }
@@ -133,40 +133,42 @@ h1, h2, h3, h4, h5 {
   .ticket-search input, .ticket-search select, .ticket-search textarea, .client-search input, .client-search select, .client-search textarea {
     width: calc(100% - 70px); }
 
-.ticket, .client {
+.card {
+  background-color: #F8F8F8;
   border: 1px solid #D9D9D9;
   margin-bottom: 8px;
   padding: 8px;
-  width: 100%;
-  background-color: #5c5c5e; }
-  .ticket .ticket-show-details, .ticket .client-show-details, .client .ticket-show-details, .client .client-show-details {
+  width: 100%; }
+  .card .card-show-details {
     position: relative;
     height: 100%;
     width: 100%; }
-    .ticket .ticket-show-details::before, .ticket .client-show-details::before, .client .ticket-show-details::before, .client .client-show-details::before {
+    .card .card-show-details::before {
       content: '+';
       position: absolute;
       left: 25%;
       top: 25%; }
-    .ticket .ticket-show-details.active::before, .ticket .client-show-details.active::before, .client .ticket-show-details.active::before, .client .client-show-details.active::before {
+    .card .card-show-details.active::before {
       content: '−'; }
-  .ticket .ticket-status, .ticket .client-status, .client .ticket-status, .client .client-status {
+  .card .card-title {
+    display: block; }
+  .card .card-status {
     background: #D9D9D9;
     border-radius: 2.5px;
     display: inline-block;
     font-size: 0.75em;
     padding: 2px 4px; }
-    .ticket .ticket-status::after, .ticket .client-status::after, .client .ticket-status::after, .client .client-status::after {
+    .card .card-status::after {
       content: '';
       display: block; }
-  .ticket .ticket-category, .client .ticket-category {
+  .card .card-category {
     font-size: 0.75em;
     line-height: 1em; }
-  .ticket .ticket-submitted, .client .ticket-submitted {
+  .card .card-small-text {
     font-size: 0.75em; }
-  .ticket .ticket-details, .client .ticket-details {
+  .card .card-details {
     display: none; }
-  .ticket .ticket-details.shown, .client .ticket-details.shown {
+  .card .card-details.shown {
     display: block; }
 
 .modal-body button {

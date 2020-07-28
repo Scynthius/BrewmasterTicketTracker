@@ -169,19 +169,19 @@ function resetForm(formElement) {
     }
 }
 (function () {
-    var ticketDetailButtons = document.getElementsByClassName('ticket-show-details');
+    var cardDetailButtons = document.getElementsByClassName('card-show-details');
 
-    for (var i = 0; i < ticketDetailButtons.length; i++) {
-        ticketDetailButtons[i].addEventListener('click', function () {
+    for (var i = 0; i < cardDetailButtons.length; i++) {
+        cardDetailButtons[i].addEventListener('click', function () {
             showDetails(this);
         })
     }
 })();
 
 function showDetails(elem) {
-    var ticketDetails = elem.closest('.row').nextElementSibling;
+    var cardDetails = elem.closest('.row').nextElementSibling;
     elem.classList.toggle('active');
-    ticketDetails.classList.toggle('shown');
+    cardDetails.classList.toggle('shown');
 }
 (function () {
     function updateEmployee() {

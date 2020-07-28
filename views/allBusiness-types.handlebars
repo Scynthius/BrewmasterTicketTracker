@@ -2,13 +2,13 @@
     <div class="row">
         {{#each businesstypes}}
         <div class="col-12">
-            <div class="client search-result">
+            <div class="card search-result">
                 <div class="row">
                     <div class="col-12">
-                        <a class="client-name" href="/category_details/{{this.TypeID}}">{{this.Name}}</a>
+                        <a class="card-title" href="/category_details/{{this.TypeID}}">{{this.Name}}</a>
                     </div>
                     <div class="col-12">
-                        <span><p>Created: {{this.CreatedDate}}</p></span>
+                        <span class="card-small-text">Created: {{this.CreatedDate}}</span>
                     </div>
                 </div>
             </div>

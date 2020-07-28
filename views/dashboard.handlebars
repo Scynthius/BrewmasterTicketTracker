@@ -3,24 +3,24 @@
         <div class="col-4">
             <h2>New Tickets</h2>
             {{#each unassigned}}
-            <div class="ticket">
+            <div class="card">
                 <div class="row">
                     <div class="col-1">
-                        <button class="ticket-show-details text"></button>
+                        <button class="card-show-details text"></button>
                     </div>
                     <div class="col-9">
-                        <a class="ticket-title" href="/ticket_details/{{this.TicketID}}">{{this.Title}}  (#{{this.TicketID}})</a>
-                        <a class="ticket-category" href="/category/{{this.CategoryID}}">{{this.Category}}</a>
+                        <a class="card-title" href="/ticket_details/{{this.TicketID}}">{{this.Title}}  (#{{this.TicketID}})</a>
+                        <a class="card-category" href="/category/{{this.CategoryID}}">{{this.Category}}</a>
                         &bull;
-                        <span class="ticket-submitted">Submitted: {{this.Submitted}}</span>
+                        <span class="card-small-text">Submitted: {{this.Submitted}}</span>
                     </div>
                     <div class="col-2"><button class="default" data-toggle="modal" data-target="#assignModal">Assign</button></div>
                 </div>
-                <div class="ticket-details">
+                <div class="card-details">
                     <div class="row">
                         <div class="col-12">
                             <h5>Client</h5>
-                            <p><a href="/client_details/{{this.ClientId}}">{{this.ClientName}}</a></p>
+                            <p><a href="/client_details/{{this.ClientID}}">{{this.ClientName}}</a></p>
                         </div>
                     </div>
                     <div class="row">
@@ -36,21 +36,22 @@
         <div class="col-4">
             <h2>Assigned Tickets</h2>
             {{#each assigned}}
-            <div class="ticket">
+            <div class="card">
                 <div class="row">
                     <div class="col-1">
-                        <button class="ticket-show-details text"></button>
+                        <button class="card-show-details text"></button>
                     </div>
-                    <div class="col-11">
-                        <a class="ticket-title" href="/ticket_details/{{this.TicketId}}">{{this.Title}}  (#{{this.TicketID}})</a>
-                        <a class="ticket-category" href="/category/{{this.CategoryID}}">{{this.Category}}</a>
+                    <div class="col-9">
+                        <a class="card-title" href="/ticket_details/{{this.TicketID}}">{{this.Title}}  (#{{this.TicketID}})</a>
+                        <a class="card-category" href="/category/{{this.CategoryID}}">{{this.Category}}</a>
                         &bull;
-                        <span class="ticket-submitted">Submitted: {{this.Submitted}}</span>
+                        <span class="card-small-text">Submitted: {{this.Submitted}}</span>
                         &bull;
-                        <span class="ticket-submitted">Last Updated: {{this.LastUpdated}}</span>
+                        <span class="card-small-text">Last Updated: {{this.LastUpdated}}</span>
                     </div>
+                    <div class="col-2"><button class="default" onclick="window.location.href='/ticket_details/{{this.TicketID}}';">Update</button></div>
                 </div>
-                <div class="ticket-details">
+                <div class="card-details">
                     <div class="row">
                         <div class="col-12">
                             <h5>Client</h5>
@@ -78,19 +79,19 @@
         <div class="col-4">
             <h2>Closed Tickets</h2>
             {{#each closed}}
-            <div class="ticket">
+            <div class="card">
                 <div class="row">
                     <div class="col-1">
-                        <button class="ticket-show-details text"></button>
+                        <button class="card-show-details text"></button>
                     </div>
                     <div class="col-11">
-                        <a class="ticket-title" href="/ticket_details/{{this.TicketId}}">{{this.Title}}  (#{{this.TicketID}})</a>
-                        <a class="ticket-category" href="/category/{{this.CategoryID}}">{{this.Category}}</a>
+                        <a class="card-title" href="/ticket_details/{{this.TicketId}}">{{this.Title}}  (#{{this.TicketID}})</a>
+                        <a class="card-category" href="/category/{{this.CategoryID}}">{{this.Category}}</a>
                         &bull;
-                        <span class="ticket-submitted">Closed: {{this.Closed}}</span>
+                        <span class="card-small-text">Closed: {{this.Closed}}</span>
                     </div>
                 </div>
-                <div class="ticket-details">
+                <div class="card-details">
                     <div class="row">
                         <div class="col-12">
                             <h5>Client</h5>

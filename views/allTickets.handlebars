@@ -2,23 +2,23 @@
     <div class="row">
         {{#each tickets}}
         <div class="col-12">
-            <div class="ticket search-result">
+            <div class="card search-result">
                 <div class="row">
                     <div class="col-12">
-                        <a class="ticket-title" href="/ticket_details/{{this.TicketID}}">{{this.Title}}  (#{{this.TicketID}})</a>
-                        <span class="ticket-status">{{this.Status}}</span>
+                        <a class="card-title" href="/ticket_details/{{this.TicketID}}">{{this.Title}}  (#{{this.TicketID}})</a>
+                        <span class="card-status">{{this.Status}}</span>
                     </div>
                     <div class="col-12">
-                        <a class="ticket-category" href="/category/{{this.CategoryID}}">{{this.Category}}</a>
+                        <a class="card-category" href="/category/{{this.CategoryID}}">{{this.Category}}</a>
                         &bull;
-                        <span class="ticket-submitted">Submitted: {{this.Submitted}}</span>
+                        <span class="card-small-text">Submitted: {{this.Submitted}}</span>
                         {{#if this.LastUpdated}}
                         &bull;
-                        <span class="ticket-submitted">Last Updated: {{this.LastUpdated}}</span>
+                        <span class="card-small-text">Last Updated: {{this.LastUpdated}}</span>
                         {{/if}}
                         {{#if this.Closed}}
                         &bull;
-                        <span class="ticket-submitted">Resolved: {{this.Closed}}</span>
+                        <span class="card-small-text">Resolved: {{this.Closed}}</span>
                         {{/if}}
                         <p><a href="/client_details/{{this.ClientId}}">{{this.ClientName}}</a></p>
                         <p>{{this.Description}}</p>
