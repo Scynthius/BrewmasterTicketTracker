@@ -39,3 +39,8 @@ input, select, textarea {
     padding: 2.5px 5px;
     width: 100%;
 }
+
+input[type="checkbox"], input[type="radio"] {
+    margin-right: 8px;
+    width: auto;
+}

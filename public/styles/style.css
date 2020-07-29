@@ -29,20 +29,38 @@ input, select, textarea {
   padding: 2.5px 5px;
   width: 100%; }
 
-button.primary {
-  background-color: #49A669;
-  color: #FFFFFF;
-  transition: all 200ms ease; }
+input[type="checkbox"], input[type="radio"] {
+  margin-right: 8px;
+  width: auto; }
 
-button.primary:hover, button.primary:active {
-  background-color: #2B633F; }
+button {
+  color: #262626; }
+  button.primary {
+    background: linear-gradient(#f7c569, #F29F05);
+    border: 1px solid #da8f05;
+    transition: all 200ms ease; }
+  button.primary:hover, button.primary:active {
+    background: linear-gradient(#F29F05, #F29F05); }
+  button.default {
+    background: linear-gradient(#F8F8F8, #D9D9D9);
+    border: 1px solid #c3c3c3; }
+  button.default:hover, button.default:active {
+    background: linear-gradient(#D9D9D9, #D9D9D9); }
+  button.text {
+    background-color: transparent;
+    font-weight: bold; }
 
-button.default {
-  background-color: #FBFBFB;
-  border: 1px solid #d6d6d6; }
-
-button.default:hover, button.default:active {
-  background-color: #d6d6d6; }
+.global-navigation {
+  display: inline-block;
+  margin: 0 48px; }
+  .global-navigation a {
+    background-color: transparent;
+    border-radius: 5px;
+    color: #0D0D0D;
+    padding: 8px;
+    text-decoration: none; }
+  .global-navigation a:hover {
+    background-color: #F2B705; }
 
 .navigation-container, .search-container {
   border-bottom: 1px solid #d6d6d6;
@@ -96,25 +114,49 @@ h1, h2, h3, h4, h5 {
   float: left;
   margin-right: 24px; }
   .ticket-search input, .ticket-search select, .ticket-search textarea, .client-search input, .client-search select, .client-search textarea {
-    width: auto; }
+    width: calc(100% - 70px); }
 
-.ticket-table {
-  table-layout: fixed; }
-  .ticket-table td {
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap; }
-  .ticket-table .ticket-title, .ticket-table .ticket-description {
-    width: 350px; }
-  .ticket-table .ticket-category {
-    width: 150px; }
-  .ticket-table .ticket-status {
-    width: 150px; }
-  .ticket-table .ticket-client {
-    width: 350px; }
-  .ticket-table .ticket-employee {
-    width: 350px; }
-  .ticket-table .ticket-date {
-    width: 110px; }
-  .ticket-table .ticket-assign {
-    width: 70px; }
+.card {
+  background-color: #F8F8F8;
+  border: 1px solid #D9D9D9;
+  margin-bottom: 8px;
+  padding: 8px;
+  width: 100%; }
+  .card .card-show-details {
+    position: relative;
+    height: 100%;
+    width: 100%; }
+    .card .card-show-details::before {
+      content: '+';
+      position: absolute;
+      left: 25%;
+      top: 25%; }
+    .card .card-show-details.active::before {
+      content: '−'; }
+  .card .card-title {
+    display: block; }
+  .card .card-status {
+    background: #D9D9D9;
+    border-radius: 2.5px;
+    display: inline-block;
+    font-size: 0.75em;
+    padding: 2px 4px; }
+    .card .card-status::after {
+      content: '';
+      display: block; }
+  .card .card-category {
+    font-size: 0.75em;
+    line-height: 1em; }
+  .card .card-small-text {
+    font-size: 0.75em; }
+  .card .card-details {
+    display: none; }
+  .card .card-details.shown {
+    display: block; }
+
+.modal-body button {
+  margin-bottom: 12px; }
+
+.label-checkbox {
+  display: inline-block;
+  margin-right: 16px; }

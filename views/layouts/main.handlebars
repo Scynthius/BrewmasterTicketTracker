@@ -73,16 +73,16 @@
               <div class="col-12">
                 <label for="ticket_client">Client</label>
                 <select name="ticket_client" id="ticket_client">
-                  {{#each clients}}
-                    <option value="{{this.CID}}">{{this.Client}}</option>
+                  {{#each globalClients}}
+                    <option value="{{this.ClientID}}">{{this.Client}}</option>
                   {{/each}}
                 </select>
               </div>
               <div class="col-12">
                 <label for="ticket_category">Category</label>
-                <select name="ticket_client" id="ticket_client">
-                  {{#each categories}}
-                  <option value="{{this.CatID}}">{{this.Category}}</option>
+                <select name="ticket_category" id="ticket_category">
+                  {{#each globalCategories}}
+                  <option value="{{this.CategoryID}}">{{this.Category}}</option>
                   {{/each}}
                 </select>
               </div>
@@ -114,14 +114,10 @@
                 <input type="text" name="client_name" id="client_name">
               </div>
               <div class="col-12">
-                <!-- TODO: Add functionality for multiple client types -->
-                <label for="client_type">Client Type</label>
-                <select name="client_type" id="client_type">
-                  <option value="1">Brewery</option>
-                  <option value="2">Bar</option>
-                  <option value="2">Restaurant</option>
-                  <option value="3">Distributor</option>
-                </select>
+                <label>Client Type</label>
+                {{#each globalTypes}}
+                  <label class="label-checkbox"><input type="checkbox" name="client_type" value="{{this.TypeID}}">{{this.BusinessType}}</label>
+                {{/each}}
               </div>
               <div class="col-12">
                 <label for="client_contact">Primary Contact</label>
