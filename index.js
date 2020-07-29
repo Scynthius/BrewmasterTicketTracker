@@ -8,8 +8,8 @@ var Handlebars = require('handlebars');
 var bodyParser = require('body-parser');
 const { resolve } = require('path');
 
-const SELECT_CLIENTS = 'SELECT Clients.ClientId, Clients.ClientName as Client FROM Clients';
-const SELECT_CATEGORIES = 'SELECT Categories.CategoryId, Categories.Name as Category FROM Categories';
+const SELECT_CLIENTS = 'SELECT Clients.ClientID, Clients.ClientName as Client FROM Clients';
+const SELECT_CATEGORIES = 'SELECT Categories.CategoryID, Categories.Name as Category FROM Categories';
 const SELECT_BUSINESSTYPES = 'SELECT TypeID, Name AS BusinessType FROM BusinessTypes';
 const SELECT_ASSIGNEMPLOYEES = 'SELECT EmployeeID, CONCAT(FirstName, " ", LastName) as EmployeeName FROM Employees';
 const SELECT_UNASSIGNED = 'SELECT Tickets.TicketID, Tickets.Title, Tickets.Description, Tickets.Status, Tickets.ClientID, Clients.ClientName, Categories.CategoryID, Categories.Name as Category, DATE_FORMAT(Tickets.SubmitDate, "%m/%d/%Y") AS Submitted FROM Tickets JOIN Clients as Clients ON Tickets.ClientID = Clients.ClientID JOIN Categories as Categories ON Tickets.CategoryID = Categories.CategoryID WHERE Tickets.Status = "Unassigned"';
@@ -44,7 +44,6 @@ app.get('/',function(req,res){
     return getQuery(SELECT_UNASSIGNED);
   })
   .then((rows) => {
-    console.log(rows);
     context.unassigned = rows;
     return getQuery(SELECT_ASSIGNED);
   })
@@ -74,6 +73,19 @@ app.post('/', function (req, res, next) {
   var requestType = req.body.requestType;
   
   switch (requestType) {
+    case "Assign Ticket":
+      for (var i = 1; i < req.body.AssignedNum; i++) {
+        postQuery('INSERT INTO Assignments (`EmployeeID`, `TicketID`) VALUES (?,?)',
+        [req.body.Assigned[i], req.body.TicketID]);
+      }
+      postQuery('INSERT INTO Assignments (`EmployeeID`, `TicketID`) VALUES (?,?)',
+      [req.body.Assigned[0], req.body.TicketID])
+      .then(() => {
+        postQuery('UPDATE Tickets SET Status="Assigned" WHERE TicketID=CAST((?) AS int)',
+        [req.body.TicketID]);
+        res.sendStatus(200);
+      });
+      break;
     case "New Category":
       postQuery('INSERT INTO Categories (`Name`, `CreatedDate`) VALUES (?, ?)', [req.body.name, req.body.date])
       .then(() => {
@@ -88,7 +100,7 @@ app.post('/', function (req, res, next) {
           postQuery('INSERT INTO ClientTypes (`ClientID`, `TypeID`) VALUES (?,?)',
           [results.insertId, req.body.ClientType[i]]);
         }
-       return postQuery('INSERT INTO ClientTypes (`ClientID`, `TypeID`) VALUES (?,?)',
+        return postQuery('INSERT INTO ClientTypes (`ClientID`, `TypeID`) VALUES (?,?)',
           [results.insertId, req.body.ClientType[0]]);
       })
       .then(() => {
@@ -192,7 +204,6 @@ app.get('/ticket_details/:ticketid',function(req,res){
 });
 
 app.put("/ticket_details", function(req, res, next){
-  console.log(req.body.Assignments);
   let status = 200;
   postQuery('UPDATE Tickets SET Title=(?), Description=(?), CategoryID=CAST((?) AS int), ClientID=CAST((?) AS int), Status=(?), ModifiedDate=(?), CloseDate=(?), Resolution=(?) WHERE TicketID=CAST((?) AS int)',
       [req.body.Title, req.body.Description, req.body.CategoryID, req.body.ClientID, req.body.Status, req.body.ModifiedDate, req.body.CloseDate, req.body.Resolution, req.body.TicketID])
@@ -209,7 +220,6 @@ app.put("/ticket_details", function(req, res, next){
         queryString = queryString.concat("(CAST(" + req.body.Assignments[emp] + " AS int), CAST(" + req.body.TicketID + " AS int)),")
       }
       queryString = queryString.slice(0, -1);
-      console.log(queryString)
       return getQuery(queryString)
     }
     return 200;

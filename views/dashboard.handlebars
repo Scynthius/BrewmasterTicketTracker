@@ -3,7 +3,7 @@
         <div class="col-4">
             <h2>New Tickets</h2>
             {{#each unassigned}}
-            <div class="card">
+            <div class="card" data-ticketId="{{this.TicketID}}">
                 <div class="row">
                     <div class="col-1">
                         <button class="card-show-details text"></button>
@@ -14,7 +14,7 @@
                         &bull;
                         <span class="card-small-text">Submitted: {{this.Submitted}}</span>
                     </div>
-                    <div class="col-2"><button class="default" data-toggle="modal" data-target="#assignModal">Assign</button></div>
+                    <div class="col-2"><button class="default button-assign">Assign</button></div>
                 </div>
                 <div class="card-details">
                     <div class="row">
@@ -120,27 +120,29 @@
     <div class="modal-dialog">
         <div class="modal-content">
         <div class="modal-header">
-            <h5 class="modal-title">Assign Employee to Ticket</h5>
+            <h5 class="modal-title">Assign Employee(s) to Ticket</h5>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
             </button>
         </div>
         <div id="assignModalBody" class="modal-body">
             <div class="row">
-                <div class="col-12">
-                    <label for="assign_employee_name">Name</label>
-                    <select name="assign_employee_name" id="assign_employee_name">
+                <div class="col-12" id="assign_employees">
+                    <p>Employee(s)</p>
+                    <select class="employee-names" name="assign_employee_name">
                         {{#each employees}}
                         <option value="{{this.EmployeeID}}">{{this.EmployeeName}}</option>
                         {{/each}}
                     </select>
-                    <button href="javacript:void(0)" class="default">Add another employee</button>
+                </div>
+                <div class="col-12">
+                    <button href="javacript:void(0)" class="default" id="addAnotherEmployee">Add another employee</button>
                 </div>
             </div>
         </div>
         <div class="modal-footer">
             <button type="button" class="default" data-dismiss="modal">Cancel</button>
-            <button type="button" class="primary">Save</button>
+            <button type="button" class="primary" id="assignTicket">Save</button>
         </div>
         </div>
     </div>

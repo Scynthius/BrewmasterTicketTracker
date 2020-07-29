@@ -92,7 +92,7 @@
                 <label for="ticket_client">Client</label>
                 <select name="ticket_client" id="ticket_client">
                   {{#each globalClients}}
-                    <option value="{{this.CID}}">{{this.Client}}</option>
+                    <option value="{{this.ClientID}}">{{this.Client}}</option>
                   {{/each}}
                 </select>
               </div>
@@ -100,7 +100,7 @@
                 <label for="ticket_category">Category</label>
                 <select name="ticket_category" id="ticket_category">
                   {{#each globalCategories}}
-                  <option value="{{this.CatID}}">{{this.Category}}</option>
+                  <option value="{{this.CategoryID}}">{{this.Category}}</option>
                   {{/each}}
                 </select>
               </div>
