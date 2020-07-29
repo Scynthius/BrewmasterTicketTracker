@@ -36,13 +36,25 @@
 })();
 
 function createClient() {
+    var clientTypes = document.getElementsByName('client_type');
+    var typeCount = clientTypes.length;
     var clientFormFields = document.getElementById('add_client').children;
+    var clientType = [];
+
+    for (var i = 0; i < typeCount; i++) {
+        if (clientTypes[i].checked) {
+            clientType.push(clientTypes[i].value);
+        }
+    }
+
     var data = {
         "requestType"       : "New Client",
+        "ClientTypeCount"   : typeCount,
         "ClientName"        : clientFormFields[0].children[1].value,
-        "PrimaryContact"    : clientFormFields[1].children[1].value,
-        "Email"             : clientFormFields[2].children[1].value,
-        "Phone"             : clientFormFields[3].children[1].value
+        "ClientType"        : clientType,
+        "PrimaryContact"    : clientFormFields[2].children[1].value,
+        "Email"             : clientFormFields[3].children[1].value,
+        "Phone"             : clientFormFields[4].children[1].value,
     }
 
     var request = new XMLHttpRequest();
@@ -183,7 +195,108 @@ function showDetails(elem) {
     elem.classList.toggle('active');
     cardDetails.classList.toggle('shown');
 }
-
+(function () {
+    function updateClient() {
+        var clientID = document.getElementById("updateClientID").value;
+        var clientName = document.getElementById("updateName").value;
+        var clientContact = document.getElementById("updateContact").value;
+        var clientEmail = document.getElementById("updateEmail").value;
+        var clientPhone = document.getElementById("updatePhone").value;
+        var types = [];
+        var table = document.getElementById("assignedTypesTable");
+        try{
+            for (var i = 2, row; row = table.rows[i]; i++) {
+                var col = row.cells[0].innerText;
+                types.push(col);
+                }
+        } catch {
+            
+        }
+        var data = {
+            "ClientID"          : clientID,
+            "ClientName"        : clientName,
+            "Contact"           : clientContact,
+            "Email"             : clientEmail,
+            "Phone"             : clientPhone,
+            "Types"             : types
+        };
+        var request = new XMLHttpRequest();
+        request.open('PUT', '/client_details', true);
+        request.setRequestHeader('Content-Type', 'application/json');
+        request.addEventListener('load', function () {
+            if (request.status >= 200 && request.status < 400) {
+                $('#confirm-update').modal('show');
+            } else {
+                console.log('Error');
+            }
+        });
+        request.send(JSON.stringify(data));
+    };
+    function deleteClient(){
+        var clientID = document.getElementById("updateClientID").value;
+        var data = {
+            "ClientID"        : clientID
+        };
+        var request = new XMLHttpRequest();
+        request.open('DELETE', '/client_details', true);
+        request.setRequestHeader('Content-Type', 'application/json');
+        request.addEventListener('load', function () {
+            if (request.status >= 200 && request.status < 400) {
+                $('#completed-delete').modal({backdrop: 'static', keyboard: false})  
+                $('#completed-delete').modal('show');
+            } else {
+                console.log('Error');
+            }
+        });
+        request.send(JSON.stringify(data));
+    }
+    try {
+        var updateButton = document.getElementById('updateClient');
+        updateTicketButton.addEventListener('click', function (event) {
+            event.preventDefault();
+            updateClient();
+        });
+        var deleteButton = document.getElementById('deleteClient');
+        deleteTicketButton.addEventListener('click', function (event) {
+            event.preventDefault();
+            deleteClient();
+        });
+        var addTypeBtn = document.getElementById('addNewType');
+        addTypeBtn.addEventListener('click', function (event) {
+            event.preventDefault();
+            var typeID = document.getElementById("updateAssignedTypes").value;
+            var typeList = document.getElementById("updateAssignedEmployees");
+            var typeName = typeList[typeList.selectedIndex].innerHTML;
+            var table = document.getElementById("assignedTypesTable");
+            for (var i = 0, row; row = table.rows[i]; i++) {
+                var col = row.cells[0].innerText;
+                if(col === typeID){
+                    return;
+                }
+             }
+            var row = document.getElementById("assignedTypesTable").insertRow(-1);
+            var cell1 = row.insertCell(0);
+            var cell2 = row.insertCell(1);
+            var cell3 = row.insertCell(2);
+            cell1.innerHTML = typeID;
+            cell1.setAttribute("style", "display: none;")
+            cell2.innerHTML = typeName;
+            cell3.innerHTML = "<button class=\"btn btn-warning btn-sm remType\">Delete</button>"
+        });
+        var types = document.getElementById('assignedTypesTable');
+        assignmentTable.addEventListener('click', function (event) {
+            event.preventDefault();
+            var target = event.target;
+            if (target.tagName == "BUTTON"){
+                var row = target.parentElement.parentElement;
+                target.parentElement.parentElement.parentElement.removeChild(row);
+            }
+        });
+    } catch(e) {
+        return;
+    };
+    
+})();
 (function () {
     function updateEmployee() {
         var employeeID = document.getElementById("updateEmployeeID").value;
@@ -340,28 +453,6 @@ function showDetails(elem) {
             cell1.setAttribute("style", "display: none;")
             cell2.innerHTML = empName;
             cell3.innerHTML = "<button class=\"btn btn-warning btn-sm remAssignment\">Delete</button>"
-        });
-        var addAssignmentBtn = document.getElementById('addNewAssignment');
-        addAssignmentBtn.addEventListener('click', function (event) {
-            event.preventDefault();
-            var employeeID = document.getElementById("updateAssignedEmployees").value;
-            var empList = document.getElementById("updateAssignedEmployees");
-            var empName = empList[empList.selectedIndex].innerHTML;
-            var table = document.getElementById("assignedEmployeesTable");
-            for (var i = 0, row; row = table.rows[i]; i++) {
-                var col = row.cells[0].innerText;
-                if(col === employeeID){
-                    return;
-                }
-             }
-            var row = document.getElementById("assignedEmployeesTable").insertRow(-1);
-            var cell1 = row.insertCell(0);
-            var cell2 = row.insertCell(1);
-            var cell3 = row.insertCell(2);
-            cell1.innerHTML = employeeID;
-            cell1.setAttribute("style", "display: none;")
-            cell2.innerHTML = empName;
-            cell3.innerHTML = "<button class=\"btn btn-warning btn-sm\">Delete</button>"
         });
         var assignmentTable = document.getElementById('assignedEmployeesTable');
         assignmentTable.addEventListener('click', function (event) {

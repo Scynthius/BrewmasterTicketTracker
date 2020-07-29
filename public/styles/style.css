@@ -46,6 +46,10 @@ input, select, textarea {
   padding: 3px 5px;
   width: 100%; }
 
+input[type="checkbox"], input[type="radio"] {
+  margin-right: 8px;
+  width: auto; }
+
 button {
   color: #262626; }
   button.primary {
@@ -173,3 +177,7 @@ h1, h2, h3, h4, h5 {
 
 .modal-body button {
   margin-bottom: 12px; }
+
+.label-checkbox {
+  display: inline-block;
+  margin-right: 16px; }

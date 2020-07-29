@@ -132,13 +132,10 @@
                 <input type="text" name="client_name" id="client_name">
               </div>
               <div class="col-12">
-                <label for="client_type">Client Type</label>
-                <select name="client_type" id="client_type">
-                  {{#each globalTypes}}
-                  <option value="{{this.TypeID}}">{{this.BusinessType}}</option>
-                  {{/each}}
-                </select>
-                <button href="javacript:void(0)" class="default">Add another type</button>
+                <label>Client Type</label>
+                {{#each globalTypes}}
+                  <label class="label-checkbox"><input type="checkbox" name="client_type" value="{{this.TypeID}}">{{this.BusinessType}}</label>
+                {{/each}}
               </div>
               <div class="col-12">
                 <label for="client_contact">Primary Contact</label>

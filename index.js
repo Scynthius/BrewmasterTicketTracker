@@ -72,35 +72,33 @@ app.get('/',function(req,res){
 
 app.post('/', function (req, res, next) {
   var requestType = req.body.requestType;
-  var sqlPool = mysql.pool;
+  
   switch (requestType) {
     case "New Category":
-      sqlPool.query('INSERT INTO Categories (`Name`, `CreatedDate`) VALUES (?, ?)',
-      [req.body.name, req.body.date], function (err, result) {
-        if (err) {
-          next(err);
-          return;
-        }
+      postQuery('INSERT INTO Categories (`Name`, `CreatedDate`) VALUES (?, ?)', [req.body.name, req.body.date])
+      .then(() => {
         res.sendStatus(200);
       });
       break;
     case "New Client":
-      sqlPool.query('INSERT INTO Clients (`ClientName`, `PrimaryContact`, `Email`, `Phone`) VALUES (?,?,?,?)',
-      [req.body.ClientName, req.body.PrimaryContact, req.body.Email, req.body.Phone], function (err, result) {
-        if (err) {
-          next(err);
-          return;
+      postQuery('INSERT INTO Clients (`ClientName`, `PrimaryContact`, `Email`, `Phone`) VALUES (?,?,?,?)',
+      [req.body.ClientName, req.body.PrimaryContact, req.body.Email, req.body.Phone])
+      .then((results) => {
+        for (var i = 1; i < req.body.ClientTypeCount; i++) {
+          postQuery('INSERT INTO ClientTypes (`ClientID`, `TypeID`) VALUES (?,?)',
+          [results.insertId, req.body.ClientType[i]]);
         }
+       return postQuery('INSERT INTO ClientTypes (`ClientID`, `TypeID`) VALUES (?,?)',
+          [results.insertId, req.body.ClientType[0]]);
+      })
+      .then(() => {
         res.sendStatus(200);
       });
       break;
     case "New Ticket":
-      sqlPool.query('INSERT INTO Tickets (`Title`, `Description`, `ClientID`, `CategoryID`, `Status`, `SubmitDate`) VALUES (?,?,?,?,?,?)',
-      [req.body.Title, req.body.Description, req.body.ClientID, req.body.CategoryID, req.body.Status, req.body.SubmitDate], function (err, result) {
-        if (err) {
-          next(err);
-          return;
-        }
+      postQuery('INSERT INTO Tickets (`Title`, `Description`, `ClientID`, `CategoryID`, `Status`, `SubmitDate`) VALUES (?,?,?,?,?,?)',
+      [req.body.Title, req.body.Description, req.body.ClientID, req.body.CategoryID, req.body.Status, req.body.SubmitDate])
+      .then(() => {
         res.sendStatus(200);
       });
       break;
