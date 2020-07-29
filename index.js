@@ -195,28 +195,44 @@ app.get('/ticket_details/:ticketid',function(req,res){
 
 app.put("/ticket_details", function(req, res, next){
   console.log(req.body.Assignments);
-  mysql.pool.query('UPDATE Tickets SET Title=(?), Description=(?), CategoryID=CAST((?) AS int), ClientID=CAST((?) AS int), Status=(?), ModifiedDate=(?), CloseDate=(?), Resolution=(?) WHERE TicketID=CAST((?) AS int)',
-      [req.body.Title, req.body.Description, req.body.CategoryID, req.body.ClientID, req.body.Status, req.body.ModifiedDate, req.body.CloseDate, req.body.Resolution, req.body.TicketID], function (err, result) {
-        if (err) {
-          next(err);
-          return;
-        }
-        res.sendStatus(200);
-      })/*.then(() => {
-          mysql.pool.query('DELETE FROM Assignments WHERE TicketID=(?)', [req.body.TicketID], function(err, result){
-            if (err) {
-              next(err);
-              return;
-            }
-          })
-      }).then(() => {
-        console.log(req.body.Assignments);
-        var queryString = "INSERT INTO Assignments (EmployeeID, TicketID) VALUES ";
-        for(let row in req.body.Assignments){
-          queryString = queryString.concat("(" + row.)
-        }
-      })  */
+  let status = 200;
+  postQuery('UPDATE Tickets SET Title=(?), Description=(?), CategoryID=CAST((?) AS int), ClientID=CAST((?) AS int), Status=(?), ModifiedDate=(?), CloseDate=(?), Resolution=(?) WHERE TicketID=CAST((?) AS int)',
+      [req.body.Title, req.body.Description, req.body.CategoryID, req.body.ClientID, req.body.Status, req.body.ModifiedDate, req.body.CloseDate, req.body.Resolution, req.body.TicketID])
+  .then((res) => {
+    status = res;
+  }).then(() => {
+    return postQuery('DELETE FROM Assignments WHERE TicketID=(?)', [req.body.TicketID])
+  }).then((res) => {
+    status = res;
+  }).then(() => {
+    if (req.body.Assignments.length > 0) {
+      var queryString = "INSERT INTO Assignments (EmployeeID, TicketID) VALUES ";
+      for(let emp in req.body.Assignments){
+        queryString = queryString.concat("(CAST(" + req.body.Assignments[emp] + " AS int), CAST(" + req.body.TicketID + " AS int)),")
+      }
+      queryString = queryString.slice(0, -1);
+      console.log(queryString)
+      return getQuery(queryString)
+    }
+    return 200;
+  }).then((rows) => {
+    res.sendStatus(status);
+  })
 });
+
+app.delete("/ticket_details", function(req, res, next){
+  let status = 200;
+  postQuery('DELETE FROM Assignments WHERE TicketID=(?)', [req.body.TicketID])
+  .then((result) => {
+    status = 200;
+  }).then(() => {
+    return postQuery('DELETE FROM Tickets WHERE TicketID=(?)', [req.body.TicketID])
+  }).then((result) => {
+    status = 200;
+    res.sendStatus(status);
+  })
+});
+
 
 app.get('/tickets',function(req,res){
   context = {};
@@ -231,7 +247,22 @@ app.get('/tickets',function(req,res){
 });
 
 app.get('/client_details/:clientid',function(req,res){
-  res.render('clients');
+  context = {};
+  globalQueries(context)
+  .then(() => {
+    return getQuery('SELECT Clients.ClientID, Clients.ClientName, Clients.PrimaryContact, Clients.Email, Clients.Phone FROM Clients WHERE Clients.ClientID = ' + req.params.clientid)
+  }).then((rows) => {
+    context.clients = rows;
+  }).then(() => {
+    return getQuery('SELECT BusinessTypes.TypeID, BusinessTypes.Name FROM BusinessTypes JOIN ClientTypes on ClientTypes.TypeID = BusinessTypes.TypeID WHERE ClientTypes.ClientID=' + req.params.clientid );
+  }).then((rows) => {
+    context.assignedtypes = rows;
+  }).then(() => {
+    return getQuery('SELECT BusinessTypes.TypeID, BusinessTypes.Name FROM BusinessTypes');
+  }).then((rows) => {
+    context.types = rows;
+    res.render('clients', context);
+  });
 });
 
 app.get('/clients',function(req,res){
@@ -309,6 +340,17 @@ function getQuery(query) {
         return reject(err);
       }
       resolve(rows);
+    })
+  })
+}
+
+function postQuery(query, params) {
+  return new Promise((resolve, reject) => {
+    mysql.pool.query(query, params, function (err, rows, fields) {
+      if (err) {
+        return reject(err);
+      }
+      resolve(200);
     })
   })
 }

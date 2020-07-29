@@ -8,11 +8,18 @@
         var ticketStatus = document.getElementById("updateStatus").value;
         var ticketRes = document.getElementById("updateResolution").value;
         var assignments = [];
-        for (let row in document.getElementById("assignedEmployeesTable").rows){
-            assignments.push(row)
+        var table = document.getElementById("assignedEmployeesTable");
+        try{
+            for (var i = 2, row; row = table.rows[i]; i++) {
+                var col = row.cells[0].innerText;
+                assignments.push(col);
+                }
+        } catch {
+            
         }
+        
         var modDate = getCurrentDate();
-        var closeDate = "null";
+        var closeDate = null;
         if (document.getElementById("updateTicketOldStatus").value !== "Closed" && ticketStatus === "Closed"){
             closeDate = getCurrentDate();
         }
@@ -89,28 +96,6 @@
             cell1.setAttribute("style", "display: none;")
             cell2.innerHTML = empName;
             cell3.innerHTML = "<button class=\"btn btn-warning btn-sm remAssignment\">Delete</button>"
-        });
-        var addAssignmentBtn = document.getElementById('addNewAssignment');
-        addAssignmentBtn.addEventListener('click', function (event) {
-            event.preventDefault();
-            var employeeID = document.getElementById("updateAssignedEmployees").value;
-            var empList = document.getElementById("updateAssignedEmployees");
-            var empName = empList[empList.selectedIndex].innerHTML;
-            var table = document.getElementById("assignedEmployeesTable");
-            for (var i = 0, row; row = table.rows[i]; i++) {
-                var col = row.cells[0].innerText;
-                if(col === employeeID){
-                    return;
-                }
-             }
-            var row = document.getElementById("assignedEmployeesTable").insertRow(-1);
-            var cell1 = row.insertCell(0);
-            var cell2 = row.insertCell(1);
-            var cell3 = row.insertCell(2);
-            cell1.innerHTML = employeeID;
-            cell1.setAttribute("style", "display: none;")
-            cell2.innerHTML = empName;
-            cell3.innerHTML = "<button class=\"btn btn-warning btn-sm\">Delete</button>"
         });
         var assignmentTable = document.getElementById('assignedEmployeesTable');
         assignmentTable.addEventListener('click', function (event) {

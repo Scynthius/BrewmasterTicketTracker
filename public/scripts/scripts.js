@@ -251,9 +251,19 @@ function showDetails(elem) {
         var ticketClient = document.getElementById("updateClientList").value;
         var ticketStatus = document.getElementById("updateStatus").value;
         var ticketRes = document.getElementById("updateResolution").value;
-        var assignments = document.getElementById("assignedEmployeesTable").value;
+        var assignments = [];
+        var table = document.getElementById("assignedEmployeesTable");
+        try{
+            for (var i = 2, row; row = table.rows[i]; i++) {
+                var col = row.cells[0].innerText;
+                assignments.push(col);
+                }
+        } catch {
+            
+        }
+        
         var modDate = getCurrentDate();
-        var closeDate = "null";
+        var closeDate = null;
         if (document.getElementById("updateTicketOldStatus").value !== "Closed" && ticketStatus === "Closed"){
             closeDate = getCurrentDate();
         }

@@ -5,22 +5,62 @@
             <form>
                 <div class="form-row">
                     <div class="form-group col-md-6">
+                        <input type="text" class="form-control" id="updateClientID" value={{{clients.0.ClientID}}} hidden>
                         <label for="name">Client Name</label>
-                        <input type="text" class="form-control" id="name" placeholder="John Doe Brewery">
+                        <input type="text" class="form-control" id="updateName" value={{{clients.0.ClientName}}}>
                     </div>
                     <div class="form-group col-md-6">
                         <label for="contact">Primary Contact</label>
-                        <input type="text" class="form-control" id="contact" placeholder="Jane Doe">
+                        <input type="text" class="form-control" id="updateContact" value={{{clients.0.PrimaryContact}}}>
                     </div>
                 </div>
                 <div class="form-row">
                     <div class="form-group col-md-6">
                         <label for="email">Email</label>
-                        <input type="email" class="form-control" id="email" placeholder="customersupport@johndoebrewery.com">
+                        <input type="email" class="form-control" id="updateEmail" value={{{clients.0.Email}}}>
                     </div>
                     <div class="form-group col-md-6">
                         <label for="phone">Phone</label>
-                        <input type="tel" class="form-control" id="phone" placeholder="1-(555)-123-4567">
+                        <input type="tel" class="form-control" id="updatePhone" value={{{clients.0.Phone}}}>
+                    </div>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <div class="row">
+                            <div class="col align-items-center">
+                                <label for="updateAssignedTypes">Add Client Categories</label>
+                                <div class="form-group">
+                                    <select id="updateAssignedTypes">
+                                        {{#each types as |t|}}
+                                        <option value={{{t.TypeID}}}>{{{t.Name}}}</option>
+                                        {{/each}}
+                                    </select>
+                                    <button type="submit" class="primary" id="addNewType">Add Category</button>
+                                </div>
+                            </div>
+                            
+                        </div>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <table class="mx-auto" id="assignedTypesTable">
+                            <tr class="text-center font-weight-bold">
+                                <td colspan='3'>Client Categories</td>
+                            </tr>
+                            
+                            <tr id="assignedRow">
+                                <th style="display: none;">TypeID</th>
+                                <th style="display: none;">TypeName</th>
+                                <th style="display: none;">Delete</th>
+                            </tr>
+                            {{#each assignedtypes as |type|}}
+                            <tr>
+                                <td style="display: none;">{{{type.TypeID}}}</td>
+                                <td>{{{type.Name}}}</td>
+                                <td><button class="btn btn-warning btn-sm remType">Delete</button></td>
+                            </tr>
+                            {{/each}}
+                        </table>
                     </div>
                 </div>
                 <div class="modal fade" id="confirm-delete" tabindex="-1" role="dialog" aria-labelledby="deleteEmployee" aria-hidden="true">
@@ -34,46 +74,43 @@
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                                <a class="btn btn-danger btn-ok">Delete</a>
+                                <a class="btn btn-danger btn-ok" id="deleteClient" data-dismiss="modal">Delete</a>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="form-row">
-                    <div class="form-group col-md-6">
-                        <div class="row">
-                            <div class="col align-items-center">
-                                <label for="assignedEmployees">Select Client Categories</label>
-                                <div class="form-group">
-                                    <select id="assignedEmployees">
-                                        <option value="default" selected>Retailer</option>
-                                        <option value="JohnDoe">Brewery</option>
-                                        <option value="JaneDoe">Distributor</option>
-                                    </select>
-                                    <button type="submit" class="primary">Add Category</button>
-                                </div>
+                <div class="modal fade" id="confirm-update" tabindex="-1" role="dialog" aria-labelledby="updateEmployee" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                Update Complete
                             </div>
-                            
+                            <div class="modal-body">
+                                Ticket has been updated successfully.
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">OK</button>
+                            </div>
                         </div>
                     </div>
-                    <div class="form-group col-md-6">
-                        <table class="mx-auto" id="dataTable">
-                            <tr class="text-center font-weight-bold">
-                                <td colspan='5'>Client Categories</td>
-                            </tr>
-                            <tr id="headerRow">
-                                <th style="display: none;">Category</th>
-                                <th style="display: none;">Delete</th>
-                            </tr>
-                            <tr>
-                                <td>Brewery</td>
-                                <td><button class="btn btn-warning btn-sm">Delete</button></td>
-                            </tr>
-                        </table>
+                </div>
+                <div class="modal fade" id="completed-delete" tabindex="-1" role="dialog" aria-labelledby="deleteEmployee" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                Delete Complete
+                            </div>
+                            <div class="modal-body">
+                                Client record has been deleted. 
+                            </div>
+                            <div class="modal-footer">
+                                <a href="/clients">Return to Client List</a>
+                            </div>
+                        </div>
                     </div>
                 </div>
-                <button type="submit" class="primary">Save Changes</button>
-                <button type="button" class="default">Discard Changes</button>
+                <button type="submit" class="primary" id="updateClient">Save Changes</button>
+                <button type="button" class="default" onclick="window.location.reload()">Discard Changes</button>
                 <a href="#" data-toggle="modal" data-target="#confirm-delete">Delete</a>
             </form>
         </div>
