@@ -86,8 +86,21 @@ app.post('/', function (req, res, next) {
         res.sendStatus(200);
       });
       break;
+    case "New Business Type":
+      postQuery('INSERT INTO BusinessTypes (`Name`, `CreatedDate`) VALUES (?, ?)', [req.body.name, req.body.date])
+      .then(() => {
+        res.sendStatus(200);
+      });
+      break;
     case "New Category":
       postQuery('INSERT INTO Categories (`Name`, `CreatedDate`) VALUES (?, ?)', [req.body.name, req.body.date])
+      .then(() => {
+        res.sendStatus(200);
+      });
+      break;
+    case "New Employee":
+      postQuery('INSERT INTO Employees (`FirstName`, `LastName`, `Email`, `AccessLevel`) VALUES (?,?,?,?)',
+      [req.body.FirstName, req.body.LastName, req.body.Email, req.body.AccessLevel])
       .then(() => {
         res.sendStatus(200);
       });
