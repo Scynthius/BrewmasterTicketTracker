@@ -299,7 +299,15 @@ app.get('/clients',function(req,res){
 });
 
 app.get('/business-type_details/:typeid',function(req,res){
-  res.render('business-types');
+  context = {};
+
+  globalQueries(context)
+  .then(() => {
+    return getQuery('SELECT TypeID, Name FROM BusinessTypes');
+  }).then((rows) => {
+    context.clients = rows;
+    res.render('businesses', context);
+  });
 });
 
 app.get('/business-types',function(req,res){
