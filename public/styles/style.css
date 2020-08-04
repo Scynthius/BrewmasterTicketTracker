@@ -51,11 +51,11 @@ input[type="checkbox"], input[type="radio"] {
   width: auto; }
 
 button {
-  color: #262626; }
+  color: #262626;
+  transition: all 200ms ease; }
   button.primary {
     background: linear-gradient(#f7c569, #F29F05);
-    border: 1px solid #da8f05;
-    transition: all 200ms ease; }
+    border: 1px solid #da8f05; }
   button.primary:hover, button.primary:active {
     background: linear-gradient(#F29F05, #F29F05); }
   button.default {
@@ -66,6 +66,13 @@ button {
   button.text {
     background-color: transparent;
     font-weight: bold; }
+  button.delete {
+    background: linear-gradient(#d98668, #BF3604);
+    border: 1px solid #ac3104;
+    color: #F8F8F8;
+    float: right; }
+  button.delete:hover, button.delete:active {
+    background: linear-gradient(#BF3604, #BF3604); }
 
 .global-navigation {
   display: inline-block;
@@ -174,6 +181,8 @@ h1, h2, h3, h4, h5 {
     display: none; }
   .card .card-details.shown {
     display: block; }
+  .card .button-assign, .card .button-update {
+    float: right; }
 
 .modal-body button {
   margin-bottom: 12px; }

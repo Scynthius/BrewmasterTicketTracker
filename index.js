@@ -69,7 +69,7 @@ app.get('/',function(req,res){
   });
 });
 
-app.post('/', function (req, res, next) {
+app.post('/create', function (req, res, next) {
   var requestType = req.body.requestType;
   
   switch (requestType) {
