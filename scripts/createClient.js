@@ -28,7 +28,7 @@ function createClient() {
     }
 
     var request = new XMLHttpRequest();
-    request.open('POST', '/', true);
+    request.open('POST', '/create', true);
     request.setRequestHeader('Content-Type', 'application/json');
     request.addEventListener('load', function () {
         if (request.status >= 200 && request.status < 400) {
