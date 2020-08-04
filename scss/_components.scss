@@ -124,6 +124,11 @@
     .card-details.shown {
         display: block;
     }
+
+    .button-assign, .button-update {
+        float: right;
+    }
+    
 }
 
 .modal-body {
