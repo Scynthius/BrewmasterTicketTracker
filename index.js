@@ -303,12 +303,37 @@ app.get('/business-type_details/:typeid',function(req,res){
 
   globalQueries(context)
   .then(() => {
-    return getQuery('SELECT TypeID, Name FROM BusinessTypes');
+    return getQuery('SELECT TypeID, Name, CreatedDate FROM BusinessTypes WHERE TypeID= ' + req.params.typeid);
   }).then((rows) => {
-    context.clients = rows;
+    context.types = rows;
     res.render('businesses', context);
   });
 });
+
+app.put("/business-type_details", function(req, res, next){
+  let status = 200;
+  postQuery('UPDATE BusinessTypes SET Name=(?) WHERE TypeID=CAST((?) AS int)',
+      [req.body.Name, req.body.TypeID])
+  .then((result) => {
+    status = 200;
+    res.sendStatus(status);
+  })
+});
+
+app.delete("/business-type_details", function(req, res, next){
+  let status = 200;
+  postQuery('DELETE FROM ClientTypes WHERE TypeID=(?)', [req.body.TypeID])
+  .then((result) => {
+    status = 200;
+  }).then(() => {
+    return postQuery('DELETE FROM BusinessTypes WHERE TypeID=(?)', [req.body.TypeID])
+  }).then((result) => {
+    status = 200;
+    res.sendStatus(status);
+  })
+});
+
+
 
 app.get('/business-types',function(req,res){
   context = {};
@@ -322,6 +347,7 @@ app.get('/business-types',function(req,res){
   });
 });
 
+
 app.get('/category_details/:categoryid',function(req,res){
   context = {};
 
@@ -330,9 +356,38 @@ app.get('/category_details/:categoryid',function(req,res){
     return getQuery('SELECT CategoryID, Name, DATE_FORMAT(CreatedDate, "%m/%d/%Y") AS CreatedDate FROM Categories WHERE CategoryID=\'' + req.params.categoryid + '\' LIMIT 10 OFFSET 0');
   }).then((rows) => {
     context.category = rows;
+  }).then(() => {
+    return getQuery('SELECT * FROM Tickets WHERE CategoryID='+req.params.categoryid);
+  }).then((rows) => {
+    if(rows.length > 0){
+      context.tickets = rows;
+      context.ticketsFound = true;
+    } else {
+      context.tickets = [];
+      context.ticketsFound = false;
+    }
     res.render('categories', context);
-  });
+  })
 });
+
+app.put("/category_details", function(req, res, next){
+  let status = 200;
+  postQuery('UPDATE Categories SET Name=(?) WHERE CategoryID=CAST((?) AS int)', [req.body.Name, req.body.CategoryID])
+  .then((result) => {
+    status = 200;
+    res.sendStatus(status);
+  })
+});
+
+app.delete("/category_details", function(req, res, next){
+  let status = 200;
+  postQuery('DELETE FROM Categories WHERE CategoryID=CAST((?) AS int)', [req.body.CategoryID])
+  .then((result) => {
+    status = 200;
+    res.sendStatus(status);
+  })
+});
+
 
 app.get('/categories',function(req,res){
   context = {};

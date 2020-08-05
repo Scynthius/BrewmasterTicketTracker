@@ -1,0 +1,95 @@
+<div class="container-xl">
+    <div class="row">
+        <div class="col-12">
+            <h2>Edit Ticket Category Information</h2>
+            
+            <form>
+                <div class="form-row">
+                    <input type="text" class="form-control" id="updateCatID" value={{{category.0.CategoryID}}} hidden>
+                    <div class="form-group col-md-6">
+                        <label for="updateCatName">Category Name</label>
+                        <input type="text" class="form-control" id="updateCatName" value="{{{category.0.Name}}}">
+                    </div>
+                </div>
+                <div class="modal fade" id="confirm-delete" tabindex="-1" role="dialog" aria-labelledby="deleteCategory" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            {{#if ticketsFound}}
+                            <div class="modal-header">
+                                Cannot Delete Category
+                            </div>
+                            <div class="modal-body">
+                                <p>Please reassign these tickets to a different category.</p>
+                                <table class="mx-auto" id="assignedTicketsList">
+                                    <tr class="text-center font-weight-bold">
+                                        <td colspan='3'>Tickets in this category</td>
+                                    </tr>
+                                    
+                                    <tr>
+                                        <th >Ticket ID</th>
+                                        <th >Ticket Name</th>
+                                    </tr>
+                                    {{#each tickets as |t|}}
+                                    <tr>
+                                        <td>{{{t.TicketID}}}</td>
+                                        <td>{{{t.Title}}}</td>
+                                    </tr>
+                                    {{/each}}
+                                </table>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                            </div>
+                            {{else}}
+                            <div class="modal-header">
+                                Confirm Deletion
+                            </div>
+                            <div class="modal-body">
+                                Are you sure you want to delete this record?
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                                <a class="btn btn-danger btn-ok" id="deleteCat">Delete</a>
+                            </div>  
+                            {{/if}}
+                        </div>
+                    </div>
+                </div>
+                <div class="modal fade" id="confirm-update" tabindex="-1" role="dialog" aria-labelledby="updateCat" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                Update Complete
+                            </div>
+                            <div class="modal-body">
+                                Category has been updated successfully.
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">OK</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal fade" id="completed-delete" tabindex="-1" role="dialog" aria-labelledby="deleteCat" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                Delete Complete
+                            </div>
+                            <div class="modal-body">
+                                Category has been deleted. 
+                            </div>
+                            <div class="modal-footer">
+                                <a href="/categories">Return to Categories List</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <button type="submit" class="primary" id="updateCat">Save Changes</button>
+                <button type="button" class="default" onclick="window.location.reload()">Discard Changes</button>
+                <a href="#" class="btn btn-warning"data-toggle="modal" data-target="#confirm-delete">Delete</a>
+            </form>
+            
+        </div>
+    </div>
+</div>
