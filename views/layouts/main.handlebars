@@ -55,8 +55,8 @@
             </div>
             <div class="col-12 col-sm-6">  
               <div class="client-search">
-                <form id="client_search">
-                  <input type="text" placeholder="Search Tickets by Client Name">
+                <form id="client_search" action="/client-search" method="GET">
+                  <input type="text" placeholder="Search Tickets by Client Name" name="clientName">
                   <button class="default">Search</button>
                 </form>
               </div>

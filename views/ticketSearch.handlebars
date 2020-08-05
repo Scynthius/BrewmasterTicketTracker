@@ -1,4 +1,8 @@
 <div class="container">
+    <h1>Search Results for Ticket ID #{{TicketID}}</h1>
+    {{#unless tickets}}
+    <p>No tickets found with that ID.</p>
+    {{/unless}}
     <div class="row">
         {{#each tickets}}
         <div class="col-12">
