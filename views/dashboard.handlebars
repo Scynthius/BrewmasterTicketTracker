@@ -65,8 +65,10 @@
                                 <a class="card-category" href="/category/{{this.CategoryID}}">{{this.Category}}</a>
                                 &bull;
                                 <span class="card-small-text">Submitted:&nbsp;{{this.Submitted}}</span>
+                                {{#if this.LastUpdated}}
                                 &bull;
                                 <span class="card-small-text">Last&nbsp;Updated:&nbsp;{{this.LastUpdated}}</span>
+                                {{/if}}
                             </div>
                         </div>
                     </div>

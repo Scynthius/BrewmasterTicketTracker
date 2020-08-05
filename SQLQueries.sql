@@ -102,7 +102,7 @@ Clients.ClientId, Clients.ClientName, Tickets.Resolution
 FROM Tickets
 JOIN Categories ON Tickets.CategoryID = Categories.CategoryID
 JOIN Clients ON Tickets.ClientID = Clients.ClientID
-WHERE Tickets.Status = "req.query.TicketID"
+WHERE Tickets.TicketID = "req.query.TicketID"
 GROUP BY Tickets.TicketID
 
 -- Select Ticket Search by Client Name

@@ -1,0 +1,35 @@
+<div class="container">
+    <h1>Tickets for {{ClientName}}</h1>
+    {{#unless tickets}}
+    <p>No tickets found for {{ClientName}}</p>
+    {{/unless}}
+    <div class="row">
+        {{#each tickets}}
+        <div class="col-12">
+            <div class="card search-result">
+                <div class="row">
+                    <div class="col-12">
+                        <a class="card-title" href="/ticket_details/{{this.TicketID}}">{{this.Title}}  (#{{this.TicketID}})</a>
+                        <span class="card-status">{{this.Status}}</span>
+                    </div>
+                    <div class="col-12">
+                        <a class="card-category" href="/category/{{this.CategoryID}}">{{this.Category}}</a>
+                        &bull;
+                        <span class="card-small-text">Submitted: {{this.Submitted}}</span>
+                        {{#if this.LastUpdated}}
+                        &bull;
+                        <span class="card-small-text">Last Updated: {{this.LastUpdated}}</span>
+                        {{/if}}
+                        {{#if this.Closed}}
+                        &bull;
+                        <span class="card-small-text">Resolved: {{this.Closed}}</span>
+                        {{/if}}
+                        <p><a href="/client_details/{{this.ClientId}}">{{this.ClientName}}</a></p>
+                        <p>{{this.Description}}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {{/each}}
+    </div>
+</div>
