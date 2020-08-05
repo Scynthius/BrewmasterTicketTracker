@@ -130,6 +130,16 @@ app.post('/create', function (req, res, next) {
   }
 });
 
+app.get('/ticket-search*', function (req, res) {
+  var context = {};
+  getQuery('SELECT Tickets.TicketID, Tickets.Title, Tickets.Description, Categories.Name as Category, Tickets.Status, Clients.ClientId, Clients.ClientName, Tickets.Resolution, DATE_FORMAT(Tickets.SubmitDate, "%m/%d/%Y") AS Submitted, DATE_FORMAT(Tickets.ModifiedDate, "%m/%d/%Y") AS LastUpdated, DATE_FORMAT(Tickets.CloseDate, "%m/%d/%Y") AS Closed FROM Tickets JOIN Categories ON Tickets.CategoryID = Categories.CategoryID JOIN Clients ON Tickets.ClientID = Clients.ClientID WHERE Tickets.TicketID =\'' + req.query.ticketNumber + '\'GROUP BY Tickets.TicketID')
+  .then((rows) => {
+    context.tickets = rows;
+    console.log(context);
+    res.render('ticketSearch', context);
+  });
+});
+
 app.get('/navigation',function(req,res){
   res.render('navigation');
 });

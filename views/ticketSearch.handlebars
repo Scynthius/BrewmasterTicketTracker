@@ -1,42 +1,37 @@
-<div class="container-fluid">
+<div class="container">
     <div class="row">
         {{#each tickets}}
         <div class="col-12">
-            <div class="ticket">
+            <div class="card search-result">
                 <div class="row">
-                    <div class="col-1">
-                        <button class="ticket-show-details text"></button>
-                    </div>
                     <div class="col-11">
-                        <a class="ticket-title" href="/ticket_details/{{this.TicketId}}">{{this.Title}}  (#{{this.TicketID}})</a>
-                        <a class="ticket-category" href="/category/{{this.CategoryID}}">{{this.Category}}</a>
-                        <span class="ticket-status">{{this.Status}}</span>
-                        &bull;
-                        <span class="ticket-submitted">Submitted: {{this.Submitted}}</span>
-                        &bull;
-                        <span class="ticket-submitted">Last Updated: {{this.LastUpdated}}</span>
+                        <a class="card-title" href="/ticket_details/{{this.TicketID}}">{{this.Title}}  (#{{this.TicketID}})</a>
+                    </div>
+                    <div class="col-1">
+                        <span class="card-status">{{this.Status}}</span>
                     </div>
                 </div>
-                <div class="ticket-details">
-                    <div class="row">
-                        <div class="col-12">
-                            <h5>Client</h5>
-                            <p><a href="/client_details/{{this.ClientId}}">{{this.ClientName}}</a></p>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-12">
-                            <h5>Problem Description:</h5>
-                            <p>{{this.Description}}</p>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-12">
-                            <h5>Assigned Employee(s):</h5>
-                            {{#each this.AssignedEmployees}}
-                            <a href="/employee_details/{{this.id}}">{{this.name}}</a>
-                            {{/each}}
-                        </div>
+                <div class="row">
+                    <div class="col-12">
+                        <a class="card-category" href="/category/{{this.CategoryID}}">{{this.Category}}</a>
+                        &bull;
+                        <span class="card-small-text">Submitted: {{this.Submitted}}</span>
+                        {{#if this.LastUpdated}}
+                        &bull;
+                        <span class="card-small-text">Last Updated: {{this.LastUpdated}}</span>
+                        {{/if}}
+                        {{#if this.Closed}}
+                        &bull;
+                        <span class="card-small-text">Resolved: {{this.Closed}}</span>
+                        {{/if}}
+                        <h4>Client</h4>
+                        <p><a href="/client_details/{{this.ClientId}}">{{this.ClientName}}</a></p>
+                        <h4>Issue</h4>
+                        <p>{{this.Description}}</p>
+                        {{#if this.Resolution}}
+                        <h4>Resolution</h4>
+                        <p>{{this.Resolution}}</p>
+                        {{/if}}
                     </div>
                 </div>
             </div>
