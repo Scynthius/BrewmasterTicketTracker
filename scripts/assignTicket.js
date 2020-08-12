@@ -18,13 +18,29 @@
                 "Assigned"    : assigned
             }
 
+            var successAlert = `<div class="alert alert-success" role="alert">
+                                    Ticket has been assigned.
+                                </div>`;
+
+            var errorAlert =   `<div class="alert alert-danger" role="alert" id="errorAlert">
+                                    Something went wrong.
+                                </div>`;
+
             var request = new XMLHttpRequest();
             request.open('POST', '/create', true);
             request.setRequestHeader('Content-Type', 'application/json');
             request.addEventListener('load', function () {
                 if (request.status >= 200 && request.status < 400) {
-                    $('#assignModal').modal('hide');
+                    document.getElementById('assignModalBody').nextElementSibling.remove();
+                    document.getElementById('assignModalBody').innerHTML = successAlert;
+                    setTimeout(function () {
+                        location.reload();
+                    }, 1000);
                 } else {
+                    document.getElementById('assignModalBody').prepend(errorAlert);
+                    setTimeout(function () {
+                        document.getElementById(errorAlert).remove();
+                    }, 1000);
                     console.log('Error');
                 }
             });

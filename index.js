@@ -202,7 +202,7 @@ app.get('/employees', function(req, res) {
 
   globalQueries(context)
   .then(() => {
-    return getQuery('SELECT EmployeeID, FirstName, LastName, AccessLevel, Email FROM `Employees` LIMIT 10 OFFSET 0');
+    return getQuery('SELECT EmployeeID, FirstName, LastName, AccessLevel, Email FROM `Employees`');
   }).then((rows) => {
     context.employees = rows;
     res.render('allEmployees', context);
@@ -280,7 +280,7 @@ app.get('/tickets',function(req,res){
 
   globalQueries(context)
   .then(() => {
-    return getQuery('SELECT Tickets.TicketID, Tickets.Title, Tickets.Description, Categories.Name as Category, Tickets.Status, Clients.ClientId, Clients.ClientName, DATE_FORMAT(Tickets.SubmitDate, "%m/%d/%Y") AS Submitted, DATE_FORMAT(Tickets.ModifiedDate, "%m/%d/%Y") AS LastUpdated, DATE_FORMAT(Tickets.CloseDate, "%m/%d/%Y") AS Closed FROM Tickets JOIN Categories ON Tickets.CategoryID = Categories.CategoryID JOIN Clients ON Tickets.ClientID = Clients.ClientID LIMIT 10 OFFSET 0');
+    return getQuery('SELECT Tickets.TicketID, Tickets.Title, Tickets.Description, Categories.Name as Category, Tickets.Status, Clients.ClientId, Clients.ClientName, DATE_FORMAT(Tickets.SubmitDate, "%m/%d/%Y") AS Submitted, DATE_FORMAT(Tickets.ModifiedDate, "%m/%d/%Y") AS LastUpdated, DATE_FORMAT(Tickets.CloseDate, "%m/%d/%Y") AS Closed FROM Tickets JOIN Categories ON Tickets.CategoryID = Categories.CategoryID JOIN Clients ON Tickets.ClientID = Clients.ClientID');
   }).then((rows) => {
     context.tickets = rows;
     res.render('allTickets', context)
@@ -311,7 +311,7 @@ app.get('/clients',function(req,res){
 
   globalQueries(context)
   .then(() => {
-    return getQuery('SELECT Clients.ClientID, Clients.ClientName, Clients.PrimaryContact, Clients.Email, Clients.Phone, COUNT(Tickets.TicketID) AS ticketCount FROM Clients LEFT JOIN (SELECT * FROM Tickets WHERE Status != \'Closed\') AS Tickets ON Tickets.ClientID = Clients.ClientID GROUP BY Clients.ClientID LIMIT 10 OFFSET 0');
+    return getQuery('SELECT Clients.ClientID, Clients.ClientName, Clients.PrimaryContact, Clients.Email, Clients.Phone, COUNT(Tickets.TicketID) AS ticketCount FROM Clients LEFT JOIN (SELECT * FROM Tickets WHERE Status != \'Closed\') AS Tickets ON Tickets.ClientID = Clients.ClientID GROUP BY Clients.ClientID');
   }).then((rows) => {
     context.clients = rows;
     res.render('allClients', context);
@@ -360,7 +360,7 @@ app.get('/business-types',function(req,res){
 
   globalQueries(context)
   .then(() => {
-    return getQuery('SELECT TypeID, Name, DATE_FORMAT(CreatedDate, "%m/%d/%Y") AS CreatedDate FROM BusinessTypes LIMIT 10 OFFSET 0');
+    return getQuery('SELECT TypeID, Name, DATE_FORMAT(CreatedDate, "%m/%d/%Y") AS CreatedDate FROM BusinessTypes');
   }).then((rows) => {
     context.businesstypes = rows;
     res.render('allBusiness-types', context);
@@ -373,7 +373,7 @@ app.get('/category_details/:categoryid',function(req,res){
 
   globalQueries(context)
   .then(() => {
-    return getQuery('SELECT CategoryID, Name, DATE_FORMAT(CreatedDate, "%m/%d/%Y") AS CreatedDate FROM Categories WHERE CategoryID=\'' + req.params.categoryid + '\' LIMIT 10 OFFSET 0');
+    return getQuery('SELECT CategoryID, Name, DATE_FORMAT(CreatedDate, "%m/%d/%Y") AS CreatedDate FROM Categories WHERE CategoryID=\'' + req.params.categoryid + '\'');
   }).then((rows) => {
     context.category = rows;
   }).then(() => {
@@ -414,7 +414,7 @@ app.get('/categories',function(req,res){
 
   globalQueries(context)
   .then(() => {
-    return getQuery('SELECT CategoryID, Name, DATE_FORMAT(CreatedDate, "%m/%d/%Y") AS CreatedDate FROM Categories LIMIT 10 OFFSET 0');
+    return getQuery('SELECT CategoryID, Name, DATE_FORMAT(CreatedDate, "%m/%d/%Y") AS CreatedDate FROM Categories');
   }).then((rows) => {
     context.categories = rows;
     res.render('allCategories', context);
@@ -454,7 +454,7 @@ function postQuery(query, params) {
       if (err) {
         return reject(err);
       }
-      resolve(200);
+      resolve(rows);
     })
   })
 }

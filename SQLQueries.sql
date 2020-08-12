@@ -98,7 +98,8 @@ JOIN Clients ON Tickets.ClientID = Clients.ClientID
 
 --Select Search by Ticket Number
 SELECT Tickets.TicketID, Tickets.Title, Tickets.Description, Categories.Name as Category, Tickets.Status,
-Clients.ClientId, Clients.ClientName, Tickets.Resolution
+Clients.ClientId, Clients.ClientName, Tickets.Resolution, DATE_FORMAT(Tickets.SubmitDate, "%m/%d/%Y") AS Submitted,
+DATE_FORMAT(Tickets.ModifiedDate, "%m/%d/%Y") AS LastUpdated, DATE_FORMAT(Tickets.CloseDate, "%m/%d/%Y") AS Closed
 FROM Tickets
 JOIN Categories ON Tickets.CategoryID = Categories.CategoryID
 JOIN Clients ON Tickets.ClientID = Clients.ClientID
@@ -107,7 +108,8 @@ GROUP BY Tickets.TicketID
 
 -- Select Ticket Search by Client Name
 SELECT Tickets.TicketID, Tickets.Title, Tickets.Description, Categories.Name as Category, Tickets.Status,
-Clients.ClientId, Clients.ClientName
+Clients.ClientId, Clients.ClientName, DATE_FORMAT(Tickets.SubmitDate, "%m/%d/%Y") AS Submitted,
+DATE_FORMAT(Tickets.ModifiedDate, "%m/%d/%Y") AS LastUpdated, DATE_FORMAT(Tickets.CloseDate, "%m/%d/%Y") AS Closed
 FROM Tickets
 JOIN Categories ON Tickets.CategoryID = Categories.CategoryID
 JOIN Clients ON Tickets.ClientID = Clients.ClientID
