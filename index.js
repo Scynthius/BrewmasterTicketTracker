@@ -254,10 +254,11 @@ app.put("/ticket_details", function(req, res, next){
       }
       queryString = queryString.slice(0, -1);
       return getQuery(queryString)
+    } else {
+      res.sendStatus(200);
     }
-    return 200;
   }).then((rows) => {
-    res.sendStatus(status);
+    res.sendStatus(200);
   })
 });
 
