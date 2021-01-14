@@ -30,7 +30,7 @@ Handlebars.registerHelper('select', function(selected, options) {
 });
 
 
-app.set('port', process.argv[2]);
+app.set('port', process.env.PORT || 8080);
 
 app.get('/',function(req,res){
   var context = {};
